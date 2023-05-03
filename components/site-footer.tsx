@@ -9,7 +9,24 @@ import * as React from "react"
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
     return (
         <footer className={cn(className)}>
-            <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
+            <div className="container flex flex-col items-center justify-between gap-8 lg:gap-4 py-10 lg:h-24 lg:flex-row lg:py-0">
+                <div>
+                    <a
+                        href="https://www.producthunt.com/posts/pixelfy?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-pixelfy"
+                        target="_blank"
+                    >
+                        <img
+                            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=392459&theme=neutral"
+                            alt="Pixelfy - Generate&#0032;stunning&#0032;pixel&#0032;art&#0032;with&#0032;AI | Product Hunt"
+                            style={{
+                                width: "250px",
+                                height: "54px",
+                            }}
+                            width="250"
+                            height="54"
+                        />
+                    </a>
+                </div>
                 <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
                     <Icons.logo />
                     <p className="text-center text-sm leading-loose md:text-left">
@@ -20,18 +37,9 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                             rel="noreferrer"
                             className="font-medium underline underline-offset-4"
                         >
-                            David Parks
-                        </a>
-                        . Powered by{" "}
-                        <a
-                            href="https://www.scenario.com/"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="font-medium underline underline-offset-4"
-                        >
-                            Scenario
-                        </a>
-                        . The source code is available on{" "}
+                            David Parks.
+                        </a>{" "}
+                        The source code is available on{" "}
                         <a
                             href={siteConfig.links.github}
                             target="_blank"
@@ -43,7 +51,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                         .
                     </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 whitespace-nowrap">
                     <Link href="/privacy-policy">
                         <Button variant="link">Privacy policy</Button>
                     </Link>
