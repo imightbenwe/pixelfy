@@ -274,14 +274,14 @@ export function GenerationForm({
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="grid  gap-8">
+                                    <div className="grid gap-8">
                                         <div>
-                                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                                <div>
+                                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
+                                                <div className="w-full lg:col-span-2">
                                                     <Label htmlFor="name">
                                                         Style
                                                     </Label>
-                                                    <div className="flex items-baseline gap-4 mt-1">
+                                                    <div className="flex items-baseline gap-4 mt-1 w-full">
                                                         <Select
                                                             value={modelId}
                                                             onValueChange={
@@ -291,7 +291,7 @@ export function GenerationForm({
                                                                 scenarioGenerators.fantasyRpg
                                                             }
                                                         >
-                                                            <SelectTrigger className="w-[180px]">
+                                                            <SelectTrigger className="w-full lg:w-[256px]">
                                                                 <SelectValue placeholder="Select a generator" />
                                                             </SelectTrigger>
                                                             <SelectContent>
@@ -341,7 +341,7 @@ export function GenerationForm({
                                                             }
                                                             defaultValue={"4"}
                                                         >
-                                                            <SelectTrigger className="w-[180px]">
+                                                            <SelectTrigger className="w-full lg:w-[84px]">
                                                                 <SelectValue placeholder="Select a generator" />
                                                             </SelectTrigger>
                                                             <SelectContent>
@@ -373,6 +373,56 @@ export function GenerationForm({
                                                                         }
                                                                     >
                                                                         16
+                                                                    </SelectItem>
+                                                                </SelectGroup>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <Label htmlFor="name">
+                                                        Grid size
+                                                    </Label>
+                                                    <div className="flex items-baseline gap-4 mt-1">
+                                                        <Select
+                                                            value={gridSize}
+                                                            onValueChange={
+                                                                setGridSize
+                                                            }
+                                                            defaultValue={"8"}
+                                                        >
+                                                            <SelectTrigger className="w-full lg:w-[114px]">
+                                                                <SelectValue placeholder="Select a generator" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectGroup>
+                                                                    <SelectItem
+                                                                        value={
+                                                                            "32"
+                                                                        }
+                                                                    >
+                                                                        16x16
+                                                                    </SelectItem>
+                                                                    <SelectItem
+                                                                        value={
+                                                                            "16"
+                                                                        }
+                                                                    >
+                                                                        32x32
+                                                                    </SelectItem>
+                                                                    <SelectItem
+                                                                        value={
+                                                                            "8"
+                                                                        }
+                                                                    >
+                                                                        64x64
+                                                                    </SelectItem>
+                                                                    <SelectItem
+                                                                        value={
+                                                                            "4"
+                                                                        }
+                                                                    >
+                                                                        128x128
                                                                     </SelectItem>
                                                                 </SelectGroup>
                                                             </SelectContent>
@@ -493,58 +543,6 @@ export function GenerationForm({
                                                         }
                                                         defaultValue={[7]}
                                                     />
-                                                    <div>
-                                                        <Label htmlFor="name">
-                                                            Grid size
-                                                        </Label>
-                                                        <div className="flex items-baseline gap-4 mt-1">
-                                                            <Select
-                                                                value={gridSize}
-                                                                onValueChange={
-                                                                    setGridSize
-                                                                }
-                                                                defaultValue={
-                                                                    "8"
-                                                                }
-                                                            >
-                                                                <SelectTrigger className="w-[180px]">
-                                                                    <SelectValue placeholder="Select a generator" />
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    <SelectGroup>
-                                                                        <SelectItem
-                                                                            value={
-                                                                                "32"
-                                                                            }
-                                                                        >
-                                                                            16x16
-                                                                        </SelectItem>
-                                                                        <SelectItem
-                                                                            value={
-                                                                                "16"
-                                                                            }
-                                                                        >
-                                                                            32x32
-                                                                        </SelectItem>
-                                                                        <SelectItem
-                                                                            value={
-                                                                                "8"
-                                                                            }
-                                                                        >
-                                                                            64x64
-                                                                        </SelectItem>
-                                                                        <SelectItem
-                                                                            value={
-                                                                                "4"
-                                                                            }
-                                                                        >
-                                                                            128x128
-                                                                        </SelectItem>
-                                                                    </SelectGroup>
-                                                                </SelectContent>
-                                                            </Select>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </motion.div>
                                         )}
