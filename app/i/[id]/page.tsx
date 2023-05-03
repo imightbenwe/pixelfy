@@ -1,4 +1,5 @@
 import { DashboardShell } from "@/components/shell"
+import { Badge } from "@/components/ui/badge"
 import { db } from "@/lib/db"
 import type { Metadata } from "next"
 import Image from "next/image"
@@ -45,15 +46,17 @@ export default async function GenerationModal({ params: { id: imageId } }) {
         },
         include: {
             generation: {
-                include: {
-                    user: true,
+                select: {
+                    prompt: true,
+                    numInferenceSteps: true,
+                    guidance: true,
                 },
             },
         },
     })
     return (
         <DashboardShell>
-            <div className="container mx-auto w-full flex flex-col items-center justify-center dark:bg-transparent mt-8">
+            <div className="container mx-auto w-full flex flex-col items-center justify-center dark:bg-transparent mt-16">
                 {image && (
                     <div>
                         <Image
@@ -65,9 +68,18 @@ export default async function GenerationModal({ params: { id: imageId } }) {
                     </div>
                 )}
                 <div className="mx-auto flex w-full flex-col gap-4 md:max-w-[58rem] text-center mt-8 pb-24">
-                    <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
+                    <h1 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
                         {image?.generation.prompt}
-                    </h2>
+                    </h1>
+                    <div className="flex gap-2 flex-wrap justify-center w-full mt-6">
+                        <Badge variant="outline">
+                            {image?.generation?.numInferenceSteps} sampling
+                            steps
+                        </Badge>
+                        <Badge variant="outline">
+                            {image?.generation?.guidance} guidance
+                        </Badge>
+                    </div>
                 </div>
             </div>
         </DashboardShell>

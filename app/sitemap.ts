@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { examples, TExample } from "@/lib/examples"
 import { MetadataRoute } from "next"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -7,6 +8,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             id: true,
             updatedAt: true,
         },
+    })
+
+    const examplesSitemapEntry = Object.keys(examples).map((style) => {
+        return {
+            url: `https://pixelfy.ai/examples/${examples[style].slug}`,
+            lastModified: new Date(),
+        }
     })
 
     const imageSitemapEntry = images.map((image) => {
@@ -29,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: "https://pixelfy.ai/privacy-policy",
             lastModified: new Date(),
         },
+        ...examplesSitemapEntry,
         ...imageSitemapEntry,
     ]
 }

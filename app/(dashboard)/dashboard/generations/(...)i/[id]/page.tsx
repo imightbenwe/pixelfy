@@ -17,7 +17,13 @@ export default async function PhotoModal({ params: { id: photoId } }) {
             id: photoId,
         },
         include: {
-            generation: true,
+            generation: {
+                select: {
+                    prompt: true,
+                    numInferenceSteps: true,
+                    guidance: true,
+                },
+            },
         },
     })
 
