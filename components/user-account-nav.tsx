@@ -69,9 +69,6 @@ export function UserAccountNav({ user, credits }: UserAccountNavProps) {
                     <DropdownMenuItem asChild>
                         <Link href="/credits">Buy credits</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href="/dashboard/settings">Settings</Link>
-                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                         className="cursor-pointer"
