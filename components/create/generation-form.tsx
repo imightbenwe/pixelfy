@@ -431,7 +431,7 @@ export function GenerationForm({
                                                 </div>
                                             </div>
 
-                                            <div className="grid gap-1 mt-8 lg:mt-6 relative">
+                                            <div className="grid gap-1 mt-8 lg:mt-8 relative">
                                                 <Label htmlFor="name">
                                                     Prompt
                                                 </Label>
