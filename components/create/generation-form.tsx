@@ -14,6 +14,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import {
@@ -35,6 +36,7 @@ import { toast } from "@/components/ui/use-toast"
 import { downloadImage } from "@/lib/client-helpers"
 import { scenarioGenerators } from "@/lib/generators"
 import { cn } from "@/lib/utils"
+import { convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
 import {
     ScenarioImage,
@@ -94,6 +96,8 @@ export function GenerationForm({
 
     const [samplingSteps, setSamplingSteps] = React.useState<number[]>([50])
     const [guidance, setGuidance] = React.useState<number[]>([7])
+
+    const [referenceImage, setReferenceImage] = React.useState<any>(null)
 
     const generatePrompt = async (e: any) => {
         e.preventDefault()
@@ -166,6 +170,7 @@ export function GenerationForm({
                         samplingSteps: samplingSteps[0],
                         guidance: guidance[0],
                         numImages: parseInt(numImages),
+                        referenceImage,
                     },
                 }),
             }
@@ -529,6 +534,37 @@ export function GenerationForm({
                                                 }}
                                             >
                                                 <div className="grid gap-8 grid-cols-1 lg:grid-cols-2 w-full pb-8">
+                                                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                                                        <Label htmlFor="picture">
+                                                            Reference image
+                                                        </Label>
+                                                        <Input
+                                                            accept="image/*"
+                                                            onChange={async (
+                                                                e
+                                                            ) => {
+                                                                if (
+                                                                    e?.target
+                                                                        ?.files
+                                                                ) {
+                                                                    const file =
+                                                                        e.target
+                                                                            .files[0]
+
+                                                                    const base64 =
+                                                                        await convertBase64(
+                                                                            file
+                                                                        )
+
+                                                                    setReferenceImage(
+                                                                        base64
+                                                                    )
+                                                                }
+                                                            }}
+                                                            id="picture"
+                                                            type="file"
+                                                        />
+                                                    </div>
                                                     <SamplingStepSelector
                                                         value={samplingSteps}
                                                         onValueChange={

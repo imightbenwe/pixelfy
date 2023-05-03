@@ -14,6 +14,7 @@ const generateBody = z.object({
         guidance: z.number().min(0).max(20).default(7),
         numImages: z.number().optional().default(4),
         pixelSize: z.number().optional().default(8),
+        referenceImage: z.string().optional().nullable(),
     }),
 })
 
@@ -57,7 +58,9 @@ export async function POST(req: Request) {
                 body: JSON.stringify({
                     parameters: {
                         enableSafetyCheck: false,
-                        type: "txt2img",
+                        type: parameters?.referenceImage
+                            ? "img2img"
+                            : "txt2img",
                         prompt: parameters.prompt,
                         negativePrompt: "trading cards, cards",
                         numInferenceSteps: parameters.samplingSteps,
@@ -65,6 +68,7 @@ export async function POST(req: Request) {
                         width: 512,
                         height: 512,
                         numSamples: parameters.numImages,
+                        image: parameters?.referenceImage ?? undefined,
                         modality:
                             parameters.modelId ===
                             scenarioGenerators.landscapePortrait
