@@ -131,6 +131,7 @@ export default async function IndexPage() {
                             <CardContent className="grid gap-4 relative">
                                 {card?.image && (
                                     <Image
+                                        unoptimized
                                         height={512}
                                         width={512}
                                         src={card.image}

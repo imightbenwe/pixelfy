@@ -73,6 +73,7 @@ export default async function DocPage({ params }) {
                                 key={image.url}
                             >
                                 <Image
+                                    unoptimized
                                     alt={image.prompt}
                                     height={512}
                                     width={512}
