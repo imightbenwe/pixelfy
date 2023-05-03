@@ -37,6 +37,7 @@ export function SamplingStepSelector({
                         <Slider
                             id="temperature"
                             max={150}
+                            min={10}
                             defaultValue={defaultValue}
                             value={value}
                             step={1}
