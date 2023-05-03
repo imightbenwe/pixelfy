@@ -56,9 +56,6 @@ export default async function GenerationPage({
                 // placeholder="Search generations..."
                 />
             </DashboardHeader>
-            <Link href="/i/clh2t13jk0002ughqf4trf8jy">
-                TEst intercepted route
-            </Link>
             {generatedImages?.length ? (
                 <>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
