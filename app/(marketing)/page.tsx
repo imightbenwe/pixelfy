@@ -1,4 +1,5 @@
 import { Icons } from "@/components/icons"
+import { Testimonials } from "@/components/testimonials"
 import { Badge } from "@/components/ui/badge"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -257,6 +258,8 @@ export default async function IndexPage() {
                     </div>
                 </div>
             </section>
+
+            <Testimonials />
 
             <section
                 id="open-source"
