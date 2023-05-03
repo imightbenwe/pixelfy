@@ -12,7 +12,7 @@ import {
 import { siteConfig } from "@/config/site"
 import { db } from "@/lib/db"
 import { cn, pixelateImage } from "@/lib/utils"
-import { Code, FileImage, Save, SlidersHorizontal } from "lucide-react"
+import { FileImage, FileInput, Save, SlidersHorizontal } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -234,12 +234,14 @@ export default async function IndexPage() {
 
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                            <Code size={48} />
+                            <FileInput size={48} />
                             <div className="space-y-2">
-                                <h3 className="font-bold">Open-source</h3>
+                                <h3 className="font-bold">
+                                    Use reference images
+                                </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Pixelfy is open-source and built with React
-                                    and Next.js.
+                                    Upload your own reference images to
+                                    influence the generation.
                                 </p>
                             </div>
                         </div>
