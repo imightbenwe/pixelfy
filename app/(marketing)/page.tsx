@@ -192,16 +192,17 @@ export default async function IndexPage() {
                     </div>
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                            <Save size={48} />
+                            <Icons.grid size={48} />
                             <div className="space-y-2">
-                                <h3 className="font-bold">Save Generations</h3>
+                                <h3 className="font-bold">Control grid size</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Save all of your pixel art generations for
-                                    download later.
+                                    Choose from 16x16, 32x32, 64x64, or 128x128
+                                    grids.
                                 </p>
                             </div>
                         </div>
                     </div>
+
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
                             <SlidersHorizontal size={48} />
@@ -243,12 +244,12 @@ export default async function IndexPage() {
                     </div>
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                            <Icons.grid size={48} />
+                            <Save size={48} />
                             <div className="space-y-2">
-                                <h3 className="font-bold">Control grid size</h3>
+                                <h3 className="font-bold">Save Generations</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Choose from 16x16, 32x32, 64x64, or 128x128
-                                    grids.
+                                    Save all of your pixel art generations for
+                                    download later.
                                 </p>
                             </div>
                         </div>
