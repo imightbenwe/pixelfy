@@ -17,6 +17,7 @@ export const DownloadImageButton = ({ src, name }: IDownloadImageButton) => {
 
                 downloadImage(src, name)
             }}
+            size="sm"
             className="absolute top-4 right-4"
             variant="secondary"
         >
