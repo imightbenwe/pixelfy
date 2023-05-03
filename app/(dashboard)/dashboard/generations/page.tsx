@@ -2,6 +2,8 @@ import { DownloadImageButton } from "@/components/download-image-button"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { GenerationPagePagination } from "@/components/generations-pagination"
 import { DashboardHeader } from "@/components/header"
+import { ImageOptions } from "@/components/image-options"
+import { RemoveBackgroundButton } from "@/components/remove-background-button"
 import { SearchGenerationsInput } from "@/components/search-generations-input"
 import { DashboardShell } from "@/components/shell"
 import { Button } from "@/components/ui/button"
@@ -60,24 +62,34 @@ export default async function GenerationPage({
                         {generatedImages.map((generatedImage) => (
                             <HoverCard>
                                 <HoverCardTrigger asChild>
-                                    <Link
-                                        href={`/i/${generatedImage.id}`}
-                                        className={` rounded-lg  overflow-hidden relative`}
-                                        key={generatedImage.id}
-                                    >
-                                        <Image
-                                            alt={
-                                                generatedImage.generation.prompt
-                                            }
-                                            height={512}
-                                            width={512}
-                                            src={generatedImage.pixelatedImage}
-                                        />
-                                        <DownloadImageButton
-                                            src={generatedImage.pixelatedImage}
-                                            name={generatedImage.seed}
-                                        />
-                                    </Link>
+                                    <div className="relative rounded-lg overflow-hidden border">
+                                        <div className="absolute top-2 right-2 z-10">
+                                            <ImageOptions
+                                                name={generatedImage.seed}
+                                                imageId={generatedImage.id}
+                                                src={
+                                                    generatedImage.pixelatedImage
+                                                }
+                                            />
+                                        </div>
+                                        <Link
+                                            href={`/i/${generatedImage.id}`}
+                                            className={`rounded-lg  overflow-hidden`}
+                                            key={generatedImage.id}
+                                        >
+                                            <Image
+                                                alt={
+                                                    generatedImage.generation
+                                                        .prompt
+                                                }
+                                                height={512}
+                                                width={512}
+                                                src={
+                                                    generatedImage.pixelatedImage
+                                                }
+                                            />
+                                        </Link>
+                                    </div>
                                 </HoverCardTrigger>
                                 <HoverCardContent className="w-80">
                                     <p className="text-sm text-primary">

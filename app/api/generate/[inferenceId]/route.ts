@@ -14,7 +14,7 @@ const routeContextSchema = z.object({
     }),
 })
 
-const uploadImage = async (base64String: string) => {
+export const uploadImage = async (base64String: string) => {
     const base64FileData = base64String.split("base64,")?.[1]
 
     const uuid = uuidv4()

@@ -1,5 +1,6 @@
 "use client"
 
+import { Icons } from "./icons"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -21,12 +22,15 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAccountNav({ user, credits }: UserAccountNavProps) {
     return (
         <div className="flex items-center gap-4">
-            <span className="text-sm text-foreground hidden lg:block">
+            <span className="text-xs md:text-sm text-foreground block">
                 {" "}
                 {credits.toLocaleString()} credits remaining
             </span>
             <Link href="/credits">
-                <Button size="sm">Buy credits</Button>
+                <Button className="inline-flex gap-2" size="sm">
+                    <Icons.billing size={16} />
+                    <span className="hidden md:flex">Buy credits</span>
+                </Button>
             </Link>
 
             <DropdownMenu>

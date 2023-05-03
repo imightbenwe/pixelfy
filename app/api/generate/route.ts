@@ -89,6 +89,7 @@ export async function POST(req: Request) {
                     generation.inference.parameters.numInferenceSteps,
                 guidance: generation.inference.parameters.guidance,
                 pixelSize: parameters.pixelSize,
+                type: generation.inference.parameters.type,
                 user: {
                     connect: {
                         id: session.user.id,
@@ -98,7 +99,7 @@ export async function POST(req: Request) {
         })
 
         return new Response(JSON.stringify(generation), {
-            status: 200,
+            status: 201,
         })
     } catch (error) {
         console.log(error)

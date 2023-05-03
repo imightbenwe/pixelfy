@@ -1,56 +1,47 @@
+import { uploadImage } from "../../generate/[inferenceId]/route"
 import { authOptions } from "@/lib/auth"
+import { LOCALHOST_IP } from "@/lib/constants"
 import { db } from "@/lib/db"
-import { scenarioGenerators } from "@/lib/generators"
-import { scenarioAuthToken } from "@/lib/utils"
-import { userNameSchema } from "@/lib/validations/user"
-import { ScenarioInferenceResponse } from "@/types/scenario"
-import { Inference } from "@/types/scenario"
+import { ratelimit } from "@/lib/upstash"
+import { pixelateImage, scenarioAuthToken } from "@/lib/utils"
+import { ipAddress } from "@vercel/edge"
+import Jimp from "jimp"
 import { getServerSession } from "next-auth/next"
 import { z } from "zod"
 
 const removeBackgroundBody = z.object({
-    data: z.string(),
-    backgroundColor: z.string().optional().default("transparent"),
-    format: z.string().optional().default("png"),
+    imageId: z.string().cuid(),
 })
 
 export async function PUT(req: Request) {
     try {
+        const session = await getServerSession(authOptions)
+        if (!session?.user) {
+            return new Response(null, { status: 403 })
+        }
+
+        const ip = ipAddress(req) || LOCALHOST_IP
+        const { success } = await ratelimit().limit(ip)
+
+        if (!success) {
+            return new Response("Don't DDoS me pls 🥺", { status: 429 })
+        }
+
         const body = await req.json()
 
-        const { data, backgroundColor, format } =
-            removeBackgroundBody.parse(body)
+        const { imageId } = removeBackgroundBody.parse(body)
 
-        console.log(backgroundColor, format)
-
-        const session = await getServerSession(authOptions)
-
-        console.log(session)
-        // if (!session?.user) {
-        //     return new Response(null, { status: 403 })
-        // }
-
-        // const user = await db.user.findUniqueOrThrow({
-        //     where: {
-        //         id: session.user.id,
-        //     },
-        //     select: {
-        //         credits: true,
-        //     },
-        // })
-
-        // if (user.credits === 0) {
-        //     return new Response(
-        //         JSON.stringify({
-        //             message:
-        //                 "User is out of credits. Purchase more to continue generating images",
-        //         }),
-        //         { status: 402 }
-        //     )
-        // }
+        const image = await db.outputImage.findUniqueOrThrow({
+            where: {
+                id: imageId,
+            },
+            include: {
+                generation: true,
+            },
+        })
 
         const removeBackground = await fetch(
-            `https://api.cloud.scenario.com/v1/images/remove-background`,
+            `https://api.cloud.scenario.com/v1/images/erase-background`,
             {
                 method: "PUT",
                 headers: {
@@ -58,17 +49,44 @@ export async function PUT(req: Request) {
                     Authorization: `Basic ${scenarioAuthToken}`,
                 },
                 body: JSON.stringify({
-                    data: data,
-                    backgroundColor,
-                    format,
+                    // name: `bg-removed-${image.seed}`,
+                    assetId: image.scenarioImageId,
+                    backgroundColor: "#FFF",
+                    format: "png",
+                    returnImage: true,
                 }),
             }
-        ).then((res) => res.arrayBuffer())
+        ).then((res) => res.json())
 
-        console.log(removeBackground)
+        const { publicUrl: prePixelization } = await uploadImage(
+            removeBackground.image
+        )
 
-        return new Response(removeBackground, {
-            status: 200,
+        const pixelatedImage = await pixelateImage({
+            remoteUrl: prePixelization,
+            pixelSize: image.generation.pixelSize,
+        })
+
+        const { publicUrl: postPixelization } = await uploadImage(
+            pixelatedImage
+        )
+
+        const newOutputImage = await db.outputImage.create({
+            data: {
+                seed: image.seed,
+                pixelatedImage: postPixelization,
+                image: prePixelization,
+                scenarioImageId: removeBackground.asset.id,
+                generation: {
+                    connect: {
+                        id: image.generationId,
+                    },
+                },
+            },
+        })
+
+        return new Response(JSON.stringify(newOutputImage), {
+            status: 201,
         })
     } catch (error) {
         console.log(error)
