@@ -3,6 +3,7 @@ import { DashboardShell } from "@/components/shell"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { db } from "@/lib/db"
+import { normalizedGeneratorMap } from "@/lib/generators"
 import { formatDistanceToNow, formatDistanceToNowStrict } from "date-fns"
 import type { Metadata } from "next"
 import Image from "next/image"
@@ -53,6 +54,7 @@ export default async function GenerationModal({ params: { id: imageId } }) {
                     prompt: true,
                     numInferenceSteps: true,
                     guidance: true,
+                    modelId: true,
                 },
             },
         },
@@ -79,6 +81,9 @@ export default async function GenerationModal({ params: { id: imageId } }) {
                         {image?.generation.prompt}
                     </h1>
                     <div className="flex gap-2 flex-wrap justify-center w-full mt-6">
+                        <Badge variant="secondary">
+                            {normalizedGeneratorMap[image?.generation?.modelId]}
+                        </Badge>
                         <Badge variant="outline">
                             {image?.generation?.numInferenceSteps} sampling
                             steps
