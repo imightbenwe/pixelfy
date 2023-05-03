@@ -28,14 +28,14 @@ export async function generateMetadata({
     return {
         title:
             photo?.generation.prompt?.length > 55
-                ? photo?.generation.prompt?.slice(0, 60) + "..."
+                ? photo?.generation.prompt?.slice(0, 55) + "..."
                 : photo?.generation.prompt,
         description:
             "This pixel art image was generated using AI. If you want to generate your own, try Pixelfy.",
         openGraph: {
             title:
                 photo?.generation.prompt?.length > 55
-                    ? photo?.generation.prompt?.slice(0, 60) + "..."
+                    ? photo?.generation.prompt?.slice(0, 55) + "..."
                     : photo?.generation.prompt,
             description:
                 "This pixel art image was generated using AI. If you want to generate your own, try Pixelfy.",
@@ -45,7 +45,7 @@ export async function generateMetadata({
             card: "summary_large_image",
             title:
                 photo?.generation.prompt?.length > 55
-                    ? photo?.generation.prompt?.slice(0, 60) + "..."
+                    ? photo?.generation.prompt?.slice(0, 55) + "..."
                     : photo?.generation.prompt,
             description:
                 "This pixel art image was generated using AI. If you want to generate your own, try Pixelfy.",
