@@ -57,7 +57,7 @@ export default async function PhotoModal({ params: { id: photoId } }) {
                             </Badge>
                         </div>
 
-                        <p className="text-sm mt-4">
+                        <p className="text-sm my-4">
                             {photo?.generation.prompt}
                         </p>
                     </div>
