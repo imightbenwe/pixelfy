@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { db } from "@/lib/db"
 import { normalizedGeneratorMap } from "@/lib/generators"
-import { formatDistanceToNow, formatDistanceToNowStrict } from "date-fns"
+import { formatDistanceToNowStrict } from "date-fns"
 import type { Metadata } from "next"
 import Image from "next/image"
 

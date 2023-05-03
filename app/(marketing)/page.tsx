@@ -11,13 +11,7 @@ import {
 import { siteConfig } from "@/config/site"
 import { db } from "@/lib/db"
 import { cn, pixelateImage } from "@/lib/utils"
-import {
-    Code,
-    FileImage,
-    PartyPopper,
-    Save,
-    SlidersHorizontal,
-} from "lucide-react"
+import { Code, FileImage, Save, SlidersHorizontal } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
