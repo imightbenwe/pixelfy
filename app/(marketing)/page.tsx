@@ -33,11 +33,7 @@ async function getImageGenerations() {
 export default async function IndexPage() {
     const imageGenerations = await getImageGenerations()
 
-    const [character, popCulture] = await Promise.all([
-        pixelateImage({
-            remoteUrl:
-                "https://cdn.cloud.scenario.com/assets/HJVjD8xkSEKhk1lSTMExuw?p=100&Expires=1683504000&Key-Pair-Id=K36FIAB9LE2OLR&Signature=tLrmhwNKlG~KKiR4p2Z3FVls2XO2I1-h7-2rmkZiFEwHZjOb6xdxWX2xcohbpjvY-hor2HbUeVqKKJ5fV4Qilbtt~JyDos8HUeF3yfaNTJO~29q6ff1wKiEs4kMrtmHfK4CnInAgCdUCfwFlKffRyvXoe92HE0bqURnbl3~0rtjxcZHqp2FTNqutz0P9k1H-KoHm-uFq4GD9Ywh1NQDhtb8LRD8THIEdukZnq2Kw5Y5oQ3QqYV1d~3ANRJSmvFkCl01g7-5v0P~ZPD~KCXHN80Xn9kLzqqS3aOrH6M5qz9jvTpgd0aEw~u93aP1-noDYUUfO-Comt4X-n32Qb5Fpyg__",
-        }),
+    const [popCulture] = await Promise.all([
         pixelateImage({
             remoteUrl:
                 "https://cdn.cloud.scenario.com/assets/UmOYgxPoSi-phI3F1OAVtg?p=100&Expires=1683504000&Key-Pair-Id=K36FIAB9LE2OLR&Signature=LXEa8PtWJXuPUPVOiOFZeVceoS3~aHuPANnRfjcPgPYGh4a25cT5w58D8PRrOrf1j1CvLL-Ylc3ci6KhFHQpwxxn776qdw6iY5gMOnG6sBQIrhhHAF47gy-pl5ARJeBD8l8IVBGYsAEYmrS3U6SRyb76liOMoCn3EZa5c9gSfdVIaRyZ-yb3dMjSC~KBYu03zKo2sQvgNxrbX-xsuR2wlktYI0fdv6UpL8T8FUep8dfKLL0tu4TBcwnr1bbBWTTjbEOHsdtBSNFvurLkzENQ51LuwQyZCs2TJ6dBqX3KmyYfbyOjYCqi1JsCiNur4PJkg5dWP5LWllrnd0S5xrNXsw__",
@@ -57,18 +53,16 @@ export default async function IndexPage() {
                 "Image showing a cozy farmhouse in a grassy valley pixelated",
         },
         {
-            image: character,
+            image: "/warhammer.png",
             title: "Character Portraits",
-            prompts: ["Lizard man", "cyberpunk aesthetic", "retro furistism"],
-            imageAlt:
-                "image showing a lizard creature in a cyberpunk vaporwave background",
+            prompts: ["Warhammer 40k", "space marine", "galactic"],
+            imageAlt: "Image showing a warhammer character portrait pixelated",
         },
         {
-            image: "/anime.png",
+            image: "/anime-cyberpunk-girl.png",
             title: "Anime style",
-            prompts: ["Kitsune girl", "anime", "cyberpunk"],
-            imageAlt:
-                "Image showing a green dracula potion with devil wings pixelated",
+            prompts: ["Anime cyberpunk girl", "miyazaki"],
+            imageAlt: "Image showing a pixelated anime girl",
         },
         {
             image: popCulture,
