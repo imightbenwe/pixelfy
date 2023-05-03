@@ -77,6 +77,8 @@ export default async function GenerationModal({ params: { id: imageId } }) {
                 {image && (
                     <div>
                         <Image
+                            priority
+                            unoptimized
                             className="rounded-lg overflow-hidden"
                             height={512}
                             width={512}
