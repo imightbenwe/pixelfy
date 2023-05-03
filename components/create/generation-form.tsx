@@ -276,7 +276,7 @@ export function GenerationForm({
                                 <CardContent>
                                     <div className="grid gap-8">
                                         <div>
-                                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
+                                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4 w-full">
                                                 <div className="w-full lg:col-span-2">
                                                     <Label htmlFor="name">
                                                         Style
@@ -431,7 +431,7 @@ export function GenerationForm({
                                                 </div>
                                             </div>
 
-                                            <div className="grid gap-1 mt-6 relative">
+                                            <div className="grid gap-1 mt-8 lg:mt-6 relative">
                                                 <Label htmlFor="name">
                                                     Prompt
                                                 </Label>
