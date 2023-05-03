@@ -1,7 +1,5 @@
 "use client"
 
-import { Icons } from "./icons"
-import { Badge } from "./ui/badge"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -10,11 +8,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-} from "@/components/ui/hover-card"
 import { UserAvatar } from "@/components/user-avatar"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
