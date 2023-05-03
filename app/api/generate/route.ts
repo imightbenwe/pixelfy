@@ -13,6 +13,7 @@ const generateBody = z.object({
         samplingSteps: z.number().min(0).max(150).default(50),
         guidance: z.number().min(0).max(20).default(7),
         numImages: z.number().optional().default(4),
+        pixelSize: z.number().optional().default(8),
     }),
 })
 
@@ -83,6 +84,7 @@ export async function POST(req: Request) {
                 numInferenceSteps:
                     generation.inference.parameters.numInferenceSteps,
                 guidance: generation.inference.parameters.guidance,
+                pixelSize: parameters.pixelSize,
                 user: {
                     connect: {
                         id: session.user.id,

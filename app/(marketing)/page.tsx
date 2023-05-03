@@ -255,12 +255,12 @@ export default async function IndexPage() {
                     </div>
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                            <PartyPopper size={48} />
+                            <Icons.grid size={48} />
                             <div className="space-y-2">
-                                <h3 className="font-bold">Free to start</h3>
+                                <h3 className="font-bold">Control grid size</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    12 free generations when you sign up, no
-                                    strings attached. Pay as you go.
+                                    Choose from 16x16, 32x32, 64x64, or 128x128
+                                    grids.
                                 </p>
                             </div>
                         </div>

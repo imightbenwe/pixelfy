@@ -84,6 +84,7 @@ export async function GET(
                 inferenceProgress.inference.images.map(async (image) => {
                     const pixelatedImage = await pixelateImage({
                         remoteUrl: image.url,
+                        pixelSize: generation.pixelSize,
                     })
                     return uploadImage(pixelatedImage)
                 })

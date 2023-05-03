@@ -15,6 +15,7 @@ import {
     LucideProps,
     Moon,
     MoreVertical,
+    Grid,
     Download,
     Pizza,
     Plus,
@@ -35,6 +36,7 @@ export type Icon = LucideIcon
 
 export const Icons = {
     formInput: FormInput,
+    grid: Grid,
     logo: ({ ...props }: LucideProps) => (
         <svg
             width="24"

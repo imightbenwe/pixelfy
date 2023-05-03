@@ -82,6 +82,7 @@ model Generation {
   image             String?
   mask              String?
   numInferenceSteps Int              @default(50)
+  pixelSize         Int              @default(8)
   modality          String?
   seed              String?
   strength          Float?

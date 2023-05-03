@@ -89,7 +89,7 @@ export function GenerationForm({
     const [modelId, setModelId] = React.useState<string>(
         scenarioGenerators.fantasyRpg
     )
-
+    const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
 
     const [samplingSteps, setSamplingSteps] = React.useState<number[]>([50])
@@ -160,6 +160,7 @@ export function GenerationForm({
                 },
                 body: JSON.stringify({
                     parameters: {
+                        pixelSize: parseInt(gridSize),
                         modelId,
                         prompt: data.prompt,
                         samplingSteps: samplingSteps[0],
@@ -171,7 +172,6 @@ export function GenerationForm({
         )
 
         if (!response?.ok && response.status === 402) {
-            const errorResponse = await response.json()
             setIsSaving(false)
             return toast({
                 title: "You are out of credits",
@@ -180,6 +180,7 @@ export function GenerationForm({
                 variant: "destructive",
             })
         } else if (!response.ok) {
+            setIsSaving(false)
             return toast({
                 title: "Something went wrong",
                 description:
@@ -492,6 +493,58 @@ export function GenerationForm({
                                                         }
                                                         defaultValue={[7]}
                                                     />
+                                                    <div>
+                                                        <Label htmlFor="name">
+                                                            Grid size
+                                                        </Label>
+                                                        <div className="flex items-baseline gap-4 mt-1">
+                                                            <Select
+                                                                value={gridSize}
+                                                                onValueChange={
+                                                                    setGridSize
+                                                                }
+                                                                defaultValue={
+                                                                    "8"
+                                                                }
+                                                            >
+                                                                <SelectTrigger className="w-[180px]">
+                                                                    <SelectValue placeholder="Select a generator" />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectGroup>
+                                                                        <SelectItem
+                                                                            value={
+                                                                                "32"
+                                                                            }
+                                                                        >
+                                                                            16x16
+                                                                        </SelectItem>
+                                                                        <SelectItem
+                                                                            value={
+                                                                                "16"
+                                                                            }
+                                                                        >
+                                                                            32x32
+                                                                        </SelectItem>
+                                                                        <SelectItem
+                                                                            value={
+                                                                                "8"
+                                                                            }
+                                                                        >
+                                                                            64x64
+                                                                        </SelectItem>
+                                                                        <SelectItem
+                                                                            value={
+                                                                                "4"
+                                                                            }
+                                                                        >
+                                                                            128x128
+                                                                        </SelectItem>
+                                                                    </SelectGroup>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </motion.div>
                                         )}
