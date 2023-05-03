@@ -52,7 +52,7 @@ export default async function PhotoModal({ params: { id: photoId } }) {
                         alt={photo?.generation.prompt}
                         src={photo?.pixelatedImage}
                     />
-                    <div className="flex flex-col w-full mt-0">
+                    <div className="flex flex-col w-full mt-2">
                         <div className="flex gap-2 flex-wrap">
                             <Badge variant="outline">
                                 {photo?.generation?.numInferenceSteps} sampling
