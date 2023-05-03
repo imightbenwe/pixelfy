@@ -1,5 +1,5 @@
 const featuredTestimonial = {
-    body: `Pixelify is super easy to use, the "prompt builder" module works like a charm, and it's fast. Go give it a try today!`,
+    body: `Pixelfy is super easy to use, the "prompt builder" module works like a charm, and it's fast. Go give it a try today!`,
     author: {
         name: "Emm",
         handle: "emmanuel_2m",
