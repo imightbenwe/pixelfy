@@ -296,7 +296,7 @@ export function GenerationForm({
                                                                 scenarioGenerators.fantasyRpg
                                                             }
                                                         >
-                                                            <SelectTrigger className="w-full lg:w-[256px]">
+                                                            <SelectTrigger className="w-full lg:max-w-sm">
                                                                 <SelectValue placeholder="Select a generator" />
                                                             </SelectTrigger>
                                                             <SelectContent>
@@ -346,7 +346,7 @@ export function GenerationForm({
                                                             }
                                                             defaultValue={"4"}
                                                         >
-                                                            <SelectTrigger className="w-full lg:w-[84px]">
+                                                            <SelectTrigger className="w-full lg:w-[114px]">
                                                                 <SelectValue placeholder="Select a generator" />
                                                             </SelectTrigger>
                                                             <SelectContent>
@@ -435,7 +435,32 @@ export function GenerationForm({
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="grid w-full lg:max-w-sm items-center gap-1.5 mt-8">
+                                                <Label htmlFor="picture">
+                                                    Reference image (optional)
+                                                </Label>
+                                                <Input
+                                                    accept="image/*"
+                                                    onChange={async (e) => {
+                                                        if (e?.target?.files) {
+                                                            const file =
+                                                                e.target
+                                                                    .files[0]
 
+                                                            const base64 =
+                                                                await convertBase64(
+                                                                    file
+                                                                )
+
+                                                            setReferenceImage(
+                                                                base64
+                                                            )
+                                                        }
+                                                    }}
+                                                    id="picture"
+                                                    type="file"
+                                                />
+                                            </div>
                                             <div className="grid gap-1 mt-8 lg:mt-8 relative">
                                                 <Label htmlFor="name">
                                                     Prompt
@@ -534,37 +559,6 @@ export function GenerationForm({
                                                 }}
                                             >
                                                 <div className="grid gap-8 grid-cols-1 lg:grid-cols-2 w-full pb-8">
-                                                    <div className="grid w-full max-w-sm items-center gap-1.5">
-                                                        <Label htmlFor="picture">
-                                                            Reference image
-                                                        </Label>
-                                                        <Input
-                                                            accept="image/*"
-                                                            onChange={async (
-                                                                e
-                                                            ) => {
-                                                                if (
-                                                                    e?.target
-                                                                        ?.files
-                                                                ) {
-                                                                    const file =
-                                                                        e.target
-                                                                            .files[0]
-
-                                                                    const base64 =
-                                                                        await convertBase64(
-                                                                            file
-                                                                        )
-
-                                                                    setReferenceImage(
-                                                                        base64
-                                                                    )
-                                                                }
-                                                            }}
-                                                            id="picture"
-                                                            type="file"
-                                                        />
-                                                    </div>
                                                     <SamplingStepSelector
                                                         value={samplingSteps}
                                                         onValueChange={
