@@ -7,11 +7,14 @@
 Generate high-quality pixel art with AI
 </p>
 
-<!-- <p align="center">
-  <a href="https://github.com/davidtparks/vamp/blob/main/LICENSE.md">
-    <img src="https://img.shields.io/github/license/davidtparks/vamp?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
+<p align="center">
+  <a href="https://twitter.com/pixelfydotai">
+    <img src="https://img.shields.io/twitter/follow/pixelfydotai?style=flat&label=pixelfydotai&logo=twitter&color=0bf&logoColor=fff" alt="Twitter" />
   </a>
-</p> -->
+  <a href="https://github.com/davidtparks/pixelfy/blob/main/LICENSE.md">
+    <img src="https://img.shields.io/github/license/davidtparks/pixelfy?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
+  </a>
+</p>
 
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
