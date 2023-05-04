@@ -62,3 +62,7 @@ We love our contributors! Here's how you can contribute:
 ## Author
 
 -   David Parks([@dparksdev](https://twitter.com/dparksdev))
+
+## License
+
+Inspired by [Plausible](https://plausible.io/), and [Dub](https://dub.sh/), Pixelfy is open-source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version. You can [find it here](https://github.com/davidtparks/pixelfy/blob/main/LICENSE.md).
