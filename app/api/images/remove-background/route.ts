@@ -5,7 +5,6 @@ import { db } from "@/lib/db"
 import { ratelimit } from "@/lib/upstash"
 import { pixelateImage, scenarioAuthToken } from "@/lib/utils"
 import { ipAddress } from "@vercel/edge"
-import Jimp from "jimp"
 import { getServerSession } from "next-auth/next"
 import { z } from "zod"
 
