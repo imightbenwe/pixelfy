@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         return new Response(
             JSON.stringify({
                 message:
-                    "You are out of credits. The prompt builder is only available to users who have more than 0 credits. It does not cost credits to use the prompt builder. ",
+                    "You are out of credits. The prompt builder is only available to users who have more than 0 credits. It does not cost credits to use the prompt builder.",
             }),
             { status: 402 }
         )

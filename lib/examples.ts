@@ -258,6 +258,22 @@ export const examples: TScenarioExamples = {
                 url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/859e49fc-1978-4e70-8487-149163050871.png",
                 prompt: "Robot",
             },
+            {
+                url: "/energy.png",
+                prompt: "otherworldly avatar with glowing eyes, metallic armor, and flowing tendrils of neon energy surrounding their ethereal form",
+            },
+            {
+                url: "/examples/pixelPortrait/energy-2.png",
+                prompt: "otherworldly avatar with glowing eyes, metallic armor, and flowing tendrils of neon energy surrounding their ethereal form",
+            },
+            {
+                url: "/examples/pixelPortrait/energy-3.png",
+                prompt: "otherworldly avatar with glowing eyes, metallic armor, and flowing tendrils of neon energy surrounding their ethereal form",
+            },
+            {
+                url: "/examples/pixelPortrait/energy-4.png",
+                prompt: "otherworldly avatar with glowing eyes, metallic armor, and flowing tendrils of neon energy surrounding their ethereal form",
+            },
         ],
     },
 }

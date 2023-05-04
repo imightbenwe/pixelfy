@@ -60,9 +60,14 @@ export default async function IndexPage() {
             imageAlt: "Image showing a pixelated anime girl",
         },
         {
-            image: "/cyberpunk-robot.png",
+            image: "/energy.png",
             title: "16x16 Pixel Portraits",
-            prompts: ["cyberpunk robot"],
+            prompts: [
+                "otherworldly avatar",
+                "glowing eyes",
+                "neon energy",
+                "ethereal form",
+            ],
             imageAlt: "16 bit cyberpunk robot portrait",
         },
         {
