@@ -679,6 +679,7 @@ export function GenerationForm({
                                 {image?.pixelated && (
                                     <>
                                         <Image
+                                            unoptimized
                                             className="object-cover w-full h-auto"
                                             height={512}
                                             width={512}
