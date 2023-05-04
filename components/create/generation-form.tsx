@@ -34,7 +34,12 @@ import {
 } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
 import { downloadImage } from "@/lib/client-helpers"
-import { scenarioGenerators } from "@/lib/generators"
+import {
+    scenarioGenerators,
+    normalizedGeneratorMap,
+    sizeLockedGenerators,
+    sizeLockedGeneratorsSizeValue,
+} from "@/lib/generators"
 import { cn } from "@/lib/utils"
 import { convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
@@ -48,6 +53,7 @@ import { User } from "@prisma/client"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { normalize } from "path"
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -106,7 +112,11 @@ export function GenerationForm({
         const prompt = `
         Generate a comma-separated single sentence prompt that will be used to create an image. Include interesting visual descriptors and art styles. Make sure the prompt is less than 500 characters total, including spaces, newline characters punctuation. Do not include quotations in the prompt or the word "generate" or the word "ai". Do not use complete sentences. Please separate all descriptors with commas.
     
-        Base the entire prompt on this context: ${getValues("prompt")}`
+        Base the entire prompt on this context: ${getValues(
+            "prompt"
+        )} making sure to keep the style in mind which is: ${
+            normalizedGeneratorMap[modelId]
+        }`
 
         const response = await fetch("/api/generate/prompt-generate", {
             method: "POST",
@@ -244,6 +254,8 @@ export function GenerationForm({
         router.refresh()
     }
 
+    const sizeGridLocked = sizeLockedGenerators.includes(modelId)
+
     return (
         <>
             <AnimatePresence initial={false}>
@@ -289,9 +301,22 @@ export function GenerationForm({
                                                     <div className="flex items-baseline gap-4 mt-1 w-full">
                                                         <Select
                                                             value={modelId}
-                                                            onValueChange={
-                                                                setModelId
-                                                            }
+                                                            onValueChange={(
+                                                                e
+                                                            ) => {
+                                                                if (
+                                                                    sizeLockedGenerators.includes(
+                                                                        e
+                                                                    )
+                                                                ) {
+                                                                    setGridSize(
+                                                                        sizeLockedGeneratorsSizeValue[
+                                                                            e
+                                                                        ]?.toString()
+                                                                    )
+                                                                }
+                                                                setModelId(e)
+                                                            }}
                                                             defaultValue={
                                                                 scenarioGenerators.fantasyRpg
                                                             }
@@ -305,30 +330,34 @@ export function GenerationForm({
                                                                         Style
                                                                     </SelectLabel>
 
-                                                                    <SelectItem
-                                                                        value={
-                                                                            scenarioGenerators.fantasyRpg
+                                                                    {Object.keys(
+                                                                        scenarioGenerators
+                                                                    ).map(
+                                                                        (
+                                                                            key
+                                                                        ) => {
+                                                                            return (
+                                                                                <SelectItem
+                                                                                    key={
+                                                                                        key
+                                                                                    }
+                                                                                    value={
+                                                                                        scenarioGenerators[
+                                                                                            key as keyof typeof scenarioGenerators
+                                                                                        ]
+                                                                                    }
+                                                                                >
+                                                                                    {
+                                                                                        normalizedGeneratorMap[
+                                                                                            scenarioGenerators[
+                                                                                                key
+                                                                                            ]
+                                                                                        ]
+                                                                                    }
+                                                                                </SelectItem>
+                                                                            )
                                                                         }
-                                                                    >
-                                                                        Fantasy
-                                                                        RPG
-                                                                    </SelectItem>
-                                                                    <SelectItem
-                                                                        value={
-                                                                            scenarioGenerators.landscapePortrait
-                                                                        }
-                                                                    >
-                                                                        Landscape
-                                                                        Portrait
-                                                                    </SelectItem>
-                                                                    <SelectItem
-                                                                        value={
-                                                                            scenarioGenerators.animeStyle
-                                                                        }
-                                                                    >
-                                                                        Anime
-                                                                        Style
-                                                                    </SelectItem>
+                                                                    )}
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
@@ -390,6 +419,9 @@ export function GenerationForm({
                                                     </Label>
                                                     <div className="flex items-baseline gap-4 mt-1">
                                                         <Select
+                                                            disabled={
+                                                                sizeGridLocked
+                                                            }
                                                             value={gridSize}
                                                             onValueChange={
                                                                 setGridSize

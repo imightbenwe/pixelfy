@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { scenarioGenerators } from "@/lib/generators"
+import { supplementalPromptMap } from "@/lib/generators"
 import { scenarioAuthToken } from "@/lib/utils"
 import { ScenarioInferenceResponse } from "@/types/scenario"
 import { getServerSession } from "next-auth/next"
@@ -61,7 +62,9 @@ export async function POST(req: Request) {
                         type: parameters?.referenceImage
                             ? "img2img"
                             : "txt2img",
-                        prompt: parameters.prompt,
+                        prompt: `${supplementalPromptMap[parameters.modelId]} ${
+                            parameters.prompt
+                        }`,
                         negativePrompt: "trading cards, cards",
                         numInferenceSteps: parameters.samplingSteps,
                         guidance: parameters.guidance,

@@ -29,7 +29,7 @@ export async function pixelateImage({
     pixelSize = 8,
 }: TPixelateImage) {
     const image = await Jimp.read(remoteUrl).then((image) =>
-        image.pixelate(pixelSize, 0, 0, image.getWidth(), image.getHeight())
+        image.pixelate(pixelSize, 0, 0, 512, 512)
     )
 
     return image.getBase64Async(image.getMIME())
