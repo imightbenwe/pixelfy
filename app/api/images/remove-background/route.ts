@@ -66,14 +66,32 @@ export async function PUT(req: Request) {
             pixelSize: image.generation.pixelSize,
         })
 
-        const { publicUrl: postPixelization } = await uploadImage(
-            pixelatedImage
+        const removeBackgroundPixelated = await fetch(
+            `https://api.cloud.scenario.com/v1/images/erase-background`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Basic ${scenarioAuthToken}`,
+                },
+                body: JSON.stringify({
+                    image: pixelatedImage,
+                    name: `bg-removed-${image.seed}`,
+                    backgroundColor: "transparent",
+                    format: "png",
+                    returnImage: true,
+                }),
+            }
+        ).then((res) => res.json())
+
+        const { publicUrl: final } = await uploadImage(
+            removeBackgroundPixelated.image
         )
 
         const newOutputImage = await db.outputImage.create({
             data: {
                 seed: image.seed,
-                pixelatedImage: postPixelization,
+                pixelatedImage: final,
                 image: prePixelization,
                 scenarioImageId: removeBackground.asset.id,
                 generation: {
