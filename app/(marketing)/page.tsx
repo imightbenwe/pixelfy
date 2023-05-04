@@ -70,19 +70,6 @@ export default async function IndexPage() {
             ],
             imageAlt: "16 bit cyberpunk robot portrait",
         },
-        {
-            image: popCulture,
-            title: "Popular Culture",
-            prompts: ["Ekko from League of Legends", "Character portrait"],
-            imageAlt: "Image showing Ekko from league of legends pixelated",
-        },
-
-        {
-            image: "/shield1.png",
-            title: "32x32 Shields / Emblems",
-            prompts: ["glowing blue", "shield"],
-            imageAlt: "A pixelated blue shield",
-        },
     ]
 
     return (
