@@ -12,7 +12,7 @@ import {
 import { siteConfig } from "@/config/site"
 import { db } from "@/lib/db"
 import { cn, pixelateImage } from "@/lib/utils"
-import { FileImage, FileInput, Save, SlidersHorizontal } from "lucide-react"
+import { FileInput, FileMinus, Save, SlidersHorizontal } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -219,14 +219,12 @@ export default async function IndexPage() {
                     </div>
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                            <FileImage size={48} />
+                            <FileMinus size={48} />
                             <div className="space-y-2">
-                                <h3 className="font-bold">
-                                    Battle Tested Generators
-                                </h3>
+                                <h3 className="font-bold">Remove background</h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Pixelfy utilizes a suite of battle tested AI
-                                    image generators from Scenario.
+                                    Isolate the subject of your image by
+                                    removing the background!
                                 </p>
                             </div>
                         </div>
