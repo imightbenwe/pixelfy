@@ -2,8 +2,8 @@ export type TScenarioModels =
     | "fantasyRpg"
     | "landscapePortrait"
     | "animeStyle"
-    | "shields"
-    | "16x16Icons"
+    // | "shields"
+    // | "16x16Icons"
     | "pixelPortrait"
 
 type TScenarioModelsToIds = {
@@ -14,8 +14,8 @@ export const scenarioGenerators: TScenarioModelsToIds = {
     fantasyRpg: "DkCC2BfCQ8mhxnyFW1tXcw",
     landscapePortrait: "BnhDXzIrQxWk1c0bWe73_w",
     animeStyle: "PNqixjKURbiouk49_gYWCw",
-    shields: "TtjEG2UmQQSxwIvlMh6p5A",
-    "16x16Icons": "aoEUJBxQQOejv_DA7rq-2g",
+    // shields: "TtjEG2UmQQSxwIvlMh6p5A",
+    // "16x16Icons": "aoEUJBxQQOejv_DA7rq-2g",
     pixelPortrait: "Zk4dmsnVQJ6x02F9IZfXhA",
 }
 
@@ -42,13 +42,13 @@ export const supplementalPromptMap = {
 }
 
 export const sizeLockedGenerators = [
-    scenarioGenerators["16x16Icons"],
-    scenarioGenerators.shields,
+    // scenarioGenerators["16x16Icons"],
+    // scenarioGenerators.shields,
     scenarioGenerators.pixelPortrait,
 ]
 
 export const sizeLockedGeneratorsSizeValue = {
     [scenarioGenerators.pixelPortrait]: 32,
-    [scenarioGenerators["16x16Icons"]]: 32,
-    [scenarioGenerators.shields]: 16,
+    // [scenarioGenerators["16x16Icons"]]: 32,
+    // [scenarioGenerators.shields]: 16,
 }

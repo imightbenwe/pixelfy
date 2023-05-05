@@ -186,54 +186,54 @@ export const examples: TScenarioExamples = {
             },
         ],
     },
-    "16x16Icons": {
-        slug: "16bit-icons",
-        heading: "16x16 Icons",
-        images: [
-            {
-                url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/839f4818-8792-4872-ba97-e692d596d2d6.png",
-                prompt: "Rainbow coin",
-            },
-            {
-                url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/5b56a850-5bc6-44fc-b312-e95ea934b504.png",
-                prompt: "Rainbow coin",
-            },
-            {
-                url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/e3bc7d6e-bcc1-4f4c-95bd-4c6d2c920e2c.png",
-                prompt: "Bag of rainbow coin",
-            },
-            {
-                url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/411dabe3-22ea-4a54-87a3-3202ac1a9909.png",
-                prompt: "Gold coin",
-            },
-        ],
-    },
-    shields: {
-        slug: "32x32-shields",
-        heading: "32x32 Shields",
-        images: [
-            {
-                url: "/examples/shields/shield1.png",
-                prompt: "Glowing blue shield",
-            },
-            {
-                url: "/examples/shields/shield2.png",
-                prompt: "Glowing blue shield",
-            },
-            {
-                url: "/examples/shields/shield3.png",
-                prompt: "Volcanic Shield",
-            },
-            {
-                url: "/examples/shields/shield4.png",
-                prompt: "A gleaming crystal shield reflects a fiery dragon's breath in a bold, stylized art nouveau illustration.",
-            },
-            {
-                url: "/examples/shields/shield5.png",
-                prompt: "A gleaming crystal shield reflects a fiery dragon's breath in a bold, stylized art nouveau illustration.",
-            },
-        ],
-    },
+    // "16x16Icons": {
+    //     slug: "16bit-icons",
+    //     heading: "16x16 Icons",
+    //     images: [
+    //         {
+    //             url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/839f4818-8792-4872-ba97-e692d596d2d6.png",
+    //             prompt: "Rainbow coin",
+    //         },
+    //         {
+    //             url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/5b56a850-5bc6-44fc-b312-e95ea934b504.png",
+    //             prompt: "Rainbow coin",
+    //         },
+    //         {
+    //             url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/e3bc7d6e-bcc1-4f4c-95bd-4c6d2c920e2c.png",
+    //             prompt: "Bag of rainbow coin",
+    //         },
+    //         {
+    //             url: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/411dabe3-22ea-4a54-87a3-3202ac1a9909.png",
+    //             prompt: "Gold coin",
+    //         },
+    //     ],
+    // },
+    // shields: {
+    //     slug: "32x32-shields",
+    //     heading: "32x32 Shields",
+    //     images: [
+    //         {
+    //             url: "/examples/shields/shield1.png",
+    //             prompt: "Glowing blue shield",
+    //         },
+    //         {
+    //             url: "/examples/shields/shield2.png",
+    //             prompt: "Glowing blue shield",
+    //         },
+    //         {
+    //             url: "/examples/shields/shield3.png",
+    //             prompt: "Volcanic Shield",
+    //         },
+    //         {
+    //             url: "/examples/shields/shield4.png",
+    //             prompt: "A gleaming crystal shield reflects a fiery dragon's breath in a bold, stylized art nouveau illustration.",
+    //         },
+    //         {
+    //             url: "/examples/shields/shield5.png",
+    //             prompt: "A gleaming crystal shield reflects a fiery dragon's breath in a bold, stylized art nouveau illustration.",
+    //         },
+    //     ],
+    // },
     pixelPortrait: {
         slug: "pixel-portrait",
         heading: "16x16 Pixel Portrait",

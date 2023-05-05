@@ -27,14 +27,14 @@ export const docsConfig: DocsConfig = {
                     title: "16x16 Pixel Portrait",
                     href: "/examples/pixel-portrait",
                 },
-                {
-                    title: "32x32 Shields",
-                    href: "/examples/32x32-shields",
-                },
-                {
-                    title: "16x16 Icons",
-                    href: "/examples/16bit-icons",
-                },
+                // {
+                //     title: "32x32 Shields",
+                //     href: "/examples/32x32-shields",
+                // },
+                // {
+                //     title: "16x16 Icons",
+                //     href: "/examples/16bit-icons",
+                // },
             ],
         },
     ],
