@@ -16,6 +16,44 @@ export type TScenarioExamples = {
 }
 
 export const examples: TScenarioExamples = {
+    skillArt: {
+        slug: "skill-art-32x32",
+        heading: "32x32 Skill Art",
+        images: [
+            {
+                url: "/examples/skillArt/frostbolt1.png",
+                prompt: "Frostbolt pierces through the frigid air, its icy tendrils shimmering with shades of blue and white, captured in a minimalist 32x32 skill art style.",
+            },
+            {
+                url: "/examples/skillArt/frostbolt2.png",
+                prompt: "Frostbolt pierces through the frigid air, its icy tendrils shimmering with shades of blue and white, captured in a minimalist 32x32 skill art style.",
+            },
+            {
+                url: "/examples/skillArt/frostbolt3.png",
+                prompt: "Frostbolt pierces through the frigid air, its icy tendrils shimmering with shades of blue and white, captured in a minimalist 32x32 skill art style.",
+            },
+            {
+                url: "/examples/skillArt/frostbolt4.png",
+                prompt: "Frostbolt pierces through the frigid air, its icy tendrils shimmering with shades of blue and white, captured in a minimalist 32x32 skill art style.",
+            },
+            {
+                url: "/examples/skillArt/skull1.png",
+                prompt: "Death icon, skull and crossbones, dark colors",
+            },
+            {
+                url: "/examples/skillArt/skull2.png",
+                prompt: "Death icon, skull and crossbones, dark colors",
+            },
+            {
+                url: "/examples/skillArt/skull3.png",
+                prompt: "Death icon, skull and crossbones, dark colors",
+            },
+            {
+                url: "/examples/skillArt/skull4.png",
+                prompt: "Death icon, skull and crossbones, dark colors",
+            },
+        ],
+    },
     fantasyRpg: {
         slug: "fantasy-rpg",
         heading: "Fantasy RPG",
