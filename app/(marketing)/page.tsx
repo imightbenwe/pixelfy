@@ -54,10 +54,10 @@ export default async function IndexPage() {
             imageAlt: "Image showing a warhammer character portrait pixelated",
         },
         {
-            image: "/anime-cyberpunk-girl.png",
-            title: "Anime style",
-            prompts: ["Anime cyberpunk girl", "miyazaki"],
-            imageAlt: "Image showing a pixelated anime girl",
+            image: "/examples/skillArt/frostbolt4.png",
+            title: "32x32 Skill Art",
+            prompts: ["Frostbolt", "frigid air", "shades of blue and white"],
+            imageAlt: "Image showing a frostbolt skill art pixelated",
         },
         {
             image: "/energy.png",
@@ -165,6 +165,9 @@ export default async function IndexPage() {
                 </div>
 
                 <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center mt-8">
+                    <h2 className="font-heading text-xl leading-[1.1] sm:text-xl md:text-4xl my-4">
+                        And many more
+                    </h2>
                     <Link href="/examples/fantasy-rpg">
                         <Button>View more examples</Button>
                     </Link>
