@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { siteConfig } from "@/config/site"
 import { absoluteUrl, cn } from "@/lib/utils"
 import { Analytics } from "@vercel/analytics/react"
+import Script from "next/script"
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -80,6 +81,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     fontHeading.variable
                 )}
             >
+                <Script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8869788898421299"
+                    crossOrigin="anonymous"
+                    strategy="beforeInteractive"
+                />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
