@@ -62,8 +62,8 @@ export async function POST(req: Request) {
                         type: parameters?.referenceImage
                             ? "img2img"
                             : "txt2img",
-                        prompt: `${supplementalPromptMap[parameters.modelId]} ${
-                            parameters.prompt
+                        prompt: `${parameters.prompt} ${
+                            supplementalPromptMap[parameters.modelId]
                         }`,
                         negativePrompt: "trading cards, cards",
                         numInferenceSteps: parameters.samplingSteps,

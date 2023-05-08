@@ -78,6 +78,7 @@ export default async function GenerationPage({
                                             key={generatedImage.id}
                                         >
                                             <Image
+                                                unoptimized
                                                 alt={
                                                     generatedImage.generation
                                                         .prompt
