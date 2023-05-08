@@ -28,13 +28,6 @@ async function getImageGenerations() {
 export default async function IndexPage() {
     const imageGenerations = await getImageGenerations()
 
-    const [popCulture] = await Promise.all([
-        pixelateImage({
-            remoteUrl:
-                "https://cdn.cloud.scenario.com/assets/UmOYgxPoSi-phI3F1OAVtg?p=100&Expires=1683504000&Key-Pair-Id=K36FIAB9LE2OLR&Signature=LXEa8PtWJXuPUPVOiOFZeVceoS3~aHuPANnRfjcPgPYGh4a25cT5w58D8PRrOrf1j1CvLL-Ylc3ci6KhFHQpwxxn776qdw6iY5gMOnG6sBQIrhhHAF47gy-pl5ARJeBD8l8IVBGYsAEYmrS3U6SRyb76liOMoCn3EZa5c9gSfdVIaRyZ-yb3dMjSC~KBYu03zKo2sQvgNxrbX-xsuR2wlktYI0fdv6UpL8T8FUep8dfKLL0tu4TBcwnr1bbBWTTjbEOHsdtBSNFvurLkzENQ51LuwQyZCs2TJ6dBqX3KmyYfbyOjYCqi1JsCiNur4PJkg5dWP5LWllrnd0S5xrNXsw__",
-        }),
-    ])
-
     const featuredCardData = [
         {
             image: "/landscape.png",
