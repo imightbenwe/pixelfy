@@ -30,12 +30,6 @@ export default async function DashboardLayout({
 
     return (
         <div className="flex min-h-screen flex-col space-y-6">
-            <div className="w-full flex justify-center items-center py-2 px-4 text-center bg-primary-foreground">
-                <span className="text-sm">
-                    🎉 Limited time launch special! Enter code{" "}
-                    <strong>LAUNCH</strong> for 50% off platform credits.
-                </span>
-            </div>
             <header className="sticky top-0 z-40 border-b bg-background">
                 <div className="container flex h-16 items-center justify-between py-4">
                     <MainNav items={dashboardConfig.mainNav} />
