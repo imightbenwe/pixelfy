@@ -1,3 +1,5 @@
+import { Generation, OutputImage } from "@prisma/client"
+
 export interface ScenarioInferenceResponse {
     inference: Inference
 }
@@ -29,6 +31,7 @@ export interface Parameters {
 
 export interface ScenarioInferenceProgressResponse {
     inference: ScenarioInferenceProgress
+    outputImages: OutputImage[]
 }
 
 export interface ScenarioInferenceProgress {

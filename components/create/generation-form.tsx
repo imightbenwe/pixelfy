@@ -5,6 +5,7 @@ import { SamplingStepSelector } from "../sampling-step-selector"
 import { Textarea } from "../ui/textarea"
 import { Icons } from "@/components/icons"
 import { ImageLoadingCard } from "@/components/image-loading-card"
+import { ImageOptions } from "@/components/image-options"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -49,7 +50,7 @@ import {
     ScenarioInferenceResponse,
 } from "@/types/scenario"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { User } from "@prisma/client"
+import { OutputImage, User } from "@prisma/client"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -86,7 +87,7 @@ export function GenerationForm({
 
     const reactivePrompt = watch("prompt")
 
-    const [images, setImages] = React.useState<ScenarioImage[]>([])
+    const [images, setImages] = React.useState<OutputImage[]>([])
     const [isSaving, setIsSaving] = React.useState<boolean>(false)
     const [promptGenerating, setPromptGenerating] =
         React.useState<boolean>(false)
@@ -213,7 +214,7 @@ export function GenerationForm({
 
         const responseData: ScenarioInferenceResponse = await response.json()
 
-        let generatedImages: null | ScenarioImage[] = null
+        let generatedImages: null | OutputImage[] = null
         let secondCount = 0
         let showedPatienceModal = false
         while (!generatedImages) {
@@ -231,8 +232,11 @@ export function GenerationForm({
                 await finalResponse.json()
             setProgress(jsonFinalResponse.inference.progress)
 
-            if (jsonFinalResponse.inference.status === "succeeded") {
-                generatedImages = jsonFinalResponse.inference.images
+            if (
+                jsonFinalResponse.inference.status === "succeeded" &&
+                jsonFinalResponse?.outputImages
+            ) {
+                generatedImages = jsonFinalResponse.outputImages
                 setImages(generatedImages)
             } else if (jsonFinalResponse.inference.status === "failed") {
                 break
@@ -729,10 +733,10 @@ export function GenerationForm({
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
                         {images.map((image) => (
                             <div
-                                key={image.seed}
+                                key={image.id}
                                 className="rounded-lg overflow-hidden relative w-full"
                             >
-                                {image?.pixelated && (
+                                {image?.pixelatedImage && (
                                     <>
                                         <Image
                                             unoptimized
@@ -740,20 +744,15 @@ export function GenerationForm({
                                             height={512}
                                             width={512}
                                             alt={"Image prompt result"}
-                                            src={image.pixelated}
+                                            src={image.pixelatedImage}
                                         />
-                                        <Button
-                                            onClick={() =>
-                                                downloadImage(
-                                                    image.pixelated ?? "",
-                                                    image.seed
-                                                )
-                                            }
-                                            className="absolute top-4 right-4"
-                                            variant="secondary"
-                                        >
-                                            <Icons.download className="h-4 w-4" />
-                                        </Button>
+                                        <div className="absolute top-2 right-2 z-10">
+                                            <ImageOptions
+                                                name={image.seed}
+                                                imageId={image.id}
+                                                src={image.pixelatedImage}
+                                            />
+                                        </div>
                                     </>
                                 )}
                             </div>

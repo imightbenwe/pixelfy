@@ -132,13 +132,16 @@ export async function GET(
                 }),
             ])
 
+            const outputImages = await db.outputImage.findMany({
+                where: {
+                    generationId: generation.id,
+                },
+            })
+
             let copiedInferenceProgressWithImagesPixelated: ScenarioInferenceProgressResponse =
                 {
                     ...inferenceProgress,
-                    inference: {
-                        ...inferenceProgress.inference,
-                        images: imagesWithPixelated,
-                    },
+                    outputImages,
                 }
             return new Response(
                 JSON.stringify(copiedInferenceProgressWithImagesPixelated),
