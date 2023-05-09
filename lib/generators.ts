@@ -17,7 +17,7 @@ export const scenarioGenerators: TScenarioModelsToIds = {
     animeStyle: "PNqixjKURbiouk49_gYWCw",
     // shields: "TtjEG2UmQQSxwIvlMh6p5A",
     // "16x16Icons": "aoEUJBxQQOejv_DA7rq-2g",
-    pixelPortrait: "Zk4dmsnVQJ6x02F9IZfXhA",
+    pixelPortrait: "eaJqvpaqQGCzRM1KiG5l7w",
     skillArt: "VB8yd1LaRsinkQMZuFoupg",
 }
 
@@ -31,7 +31,7 @@ export const normalizedGeneratorMap = {
     PNqixjKURbiouk49_gYWCw: "Anime Style",
     TtjEG2UmQQSxwIvlMh6p5A: "32x32 Shields",
     "aoEUJBxQQOejv_DA7rq-2g": "16x16 Icons",
-    Zk4dmsnVQJ6x02F9IZfXhA: "16x16 Pixel Portrait",
+    eaJqvpaqQGCzRM1KiG5l7w: "16x16 Pixel Portrait",
     VB8yd1LaRsinkQMZuFoupg: "32x32 Skill Art",
 }
 
@@ -41,7 +41,7 @@ export const supplementalPromptMap = {
     PNqixjKURbiouk49_gYWCw: " ,anime style",
     TtjEG2UmQQSxwIvlMh6p5A: " ,game icon, shield, 32x32",
     "aoEUJBxQQOejv_DA7rq-2g": " ,game icon",
-    Zk4dmsnVQJ6x02F9IZfXhA: " ,game icon, 16x16, pixel art, close up, portrait",
+    eaJqvpaqQGCzRM1KiG5l7w: " ,16x16 pixel art, game icon",
     VB8yd1LaRsinkQMZuFoupg:
         " ,game icon, 32x32 pixel art, sRGB, skill art, close up, portrait",
 }
