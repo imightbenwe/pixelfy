@@ -5,6 +5,7 @@ import { SamplingStepSelector } from "../sampling-step-selector"
 import { Textarea } from "../ui/textarea"
 import { Icons } from "@/components/icons"
 import { ImageLoadingCard } from "@/components/image-loading-card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
     Card,
@@ -35,13 +36,12 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { downloadImage } from "@/lib/client-helpers"
 import {
-    scenarioGenerators,
     normalizedGeneratorMap,
+    scenarioGenerators,
     sizeLockedGenerators,
     sizeLockedGeneratorsSizeValue,
 } from "@/lib/generators"
-import { cn } from "@/lib/utils"
-import { convertBase64 } from "@/lib/utils"
+import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
 import {
     ScenarioImage,
@@ -52,14 +52,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { User } from "@prisma/client"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { normalize } from "path"
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
-    user: Pick<User, "id" | "name">
+    user: Pick<User, "id" | "name" | "credits">
 }
 
 type FormData = z.infer<typeof generateSchema>
@@ -255,6 +255,8 @@ export function GenerationForm({
     }
 
     const sizeGridLocked = sizeLockedGenerators.includes(modelId)
+
+    const userOutOfCredits = parseInt(numImages) / 4 > user?.credits
 
     return (
         <>
@@ -609,25 +611,72 @@ export function GenerationForm({
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
-                                    <div className="flex flex-col lg:flex-row items-center gap-4 w-full">
-                                        <button
-                                            disabled={
-                                                reactivePrompt === "" ||
-                                                isSaving ||
-                                                promptGenerating
-                                            }
-                                            type="submit"
-                                            className={cn(
-                                                buttonVariants(),
-                                                className,
-                                                "w-full lg:w-auto"
-                                            )}
-                                        >
-                                            {isSaving && (
-                                                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                            )}
-                                            <span>Generate</span>
-                                        </button>
+                                    <Alert
+                                        variant={
+                                            userOutOfCredits
+                                                ? "destructive"
+                                                : "default"
+                                        }
+                                        className="mt-0"
+                                    >
+                                        <Icons.info className="h-4 w-4" />
+                                        <AlertTitle>
+                                            {userOutOfCredits
+                                                ? "You have insufficient credits for this generation"
+                                                : "Credit usage breakdown"}
+                                        </AlertTitle>
+                                        <AlertDescription>
+                                            This generation will use{" "}
+                                            <strong>
+                                                {parseInt(numImages) / 4}{" "}
+                                                {parseInt(numImages) / 4 !== 1
+                                                    ? "credits"
+                                                    : "credit"}{" "}
+                                            </strong>
+                                            once it succeeds. 1 credit = 4
+                                            images.
+                                        </AlertDescription>
+                                    </Alert>
+                                    <div className="flex flex-col lg:flex-row items-center gap-4 w-full mt-6">
+                                        {userOutOfCredits ? (
+                                            <Link
+                                                className="w-full lg:w-auto"
+                                                href="/credits"
+                                            >
+                                                <button
+                                                    className={cn(
+                                                        buttonVariants(),
+                                                        className,
+                                                        "w-full lg:w-auto"
+                                                    )}
+                                                >
+                                                    <Icons.billing className="mr-2 h-4 w-4 " />
+                                                    <span>
+                                                        Buy more credits
+                                                    </span>
+                                                </button>
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                disabled={
+                                                    reactivePrompt === "" ||
+                                                    isSaving ||
+                                                    promptGenerating
+                                                }
+                                                type="submit"
+                                                className={cn(
+                                                    buttonVariants(),
+                                                    className,
+                                                    "w-full lg:w-auto"
+                                                )}
+                                            >
+                                                {isSaving && (
+                                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                                )}
+                                                <span>Generate</span>
+                                            </button>
+                                        )}
+
                                         <Button
                                             className={cn("w-full lg:w-auto")}
                                             onClick={(e) => {
@@ -641,14 +690,21 @@ export function GenerationForm({
                                             Show advanced options
                                         </Button>
                                     </div>
-                                    <small className="mt-4 text-xs text-muted-foreground">
+
+                                    {/* </Alert>
+                                    <Badge
+                                        variant="outline"
+                                        className="mt-4 inline-flex gap-1"
+                                    >
                                         This generation will use{" "}
-                                        {parseInt(numImages) / 4}{" "}
-                                        {parseInt(numImages) / 4 !== 1
-                                            ? "credits"
-                                            : "credit"}{" "}
+                                        <strong>
+                                            {parseInt(numImages) / 4}{" "}
+                                            {parseInt(numImages) / 4 !== 1
+                                                ? "credits"
+                                                : "credit"}{" "}
+                                        </strong>
                                         once it succeeds. 1 credit = 4 images.
-                                    </small>
+                                    </Badge> */}
                                 </CardFooter>
                             </Card>
                         </form>

@@ -26,7 +26,13 @@ export default async function DashboardPage() {
             </DashboardHeader>
 
             <div>
-                <GenerationForm user={{ id: user.id, name: user.name || "" }} />
+                <GenerationForm
+                    user={{
+                        id: user.id,
+                        name: user.name || "",
+                        credits: user.credits,
+                    }}
+                />
             </div>
         </DashboardShell>
     )

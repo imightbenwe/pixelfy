@@ -22,6 +22,7 @@ import {
     Settings,
     SunMedium,
     Trash,
+    Info,
     Twitter,
     FormInput,
     User,
@@ -35,6 +36,7 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+    info: Info,
     formInput: FormInput,
     grid: Grid,
     logo: ({ ...props }: LucideProps) => (
