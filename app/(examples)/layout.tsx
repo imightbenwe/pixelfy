@@ -1,3 +1,4 @@
+import { LoginButton } from "@/components/login-button"
 import { MainNav } from "@/components/main-nav"
 import { DocsSidebarNav } from "@/components/sidebar-nav"
 import { SiteFooter } from "@/components/site-footer"
@@ -20,18 +21,7 @@ export default async function DocsLayout({ children }: DocsLayoutProps) {
                     </MainNav>
                     <div className="flex flex-1 items-center space-x-4 sm:justify-end">
                         <nav className="flex space-x-4">
-                            <Link
-                                href="/login"
-                                className={cn(
-                                    buttonVariants({
-                                        variant: "secondary",
-                                        size: "sm",
-                                    }),
-                                    "px-4"
-                                )}
-                            >
-                                Login
-                            </Link>
+                            <LoginButton />
                         </nav>
                     </div>
                 </div>
