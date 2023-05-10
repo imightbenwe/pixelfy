@@ -39,6 +39,7 @@ import { toast } from "@/components/ui/use-toast"
 import {
     normalizedGeneratorMap,
     scenarioGenerators,
+    supplementalPromptMap,
     sizeLockedGenerators,
     sizeLockedGeneratorsSizeValue,
     scenarioModelData,
@@ -116,7 +117,7 @@ export function GenerationForm({
         Base the entire prompt on this context: ${getValues(
             "prompt"
         )} making sure to keep the style in mind which is: ${
-            normalizedGeneratorMap[modelId]
+            supplementalPromptMap[modelId]
         }`
 
         const response = await fetch("/api/generate/prompt-generate", {
