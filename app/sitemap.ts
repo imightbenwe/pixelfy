@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { examples, TExample } from "@/lib/examples"
+import { scenarioModelData } from "@/lib/generators"
 import { MetadataRoute } from "next"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -10,9 +10,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
     })
 
-    const examplesSitemapEntry = Object.keys(examples).map((style) => {
+    const examplesSitemapEntry = Object.keys(scenarioModelData).map((style) => {
         return {
-            url: `https://pixelfy.ai/examples/${examples[style].slug}`,
+            url: `https://pixelfy.ai/examples/${scenarioModelData[style].slug}`,
             lastModified: new Date(),
         }
     })

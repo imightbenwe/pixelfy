@@ -7,9 +7,12 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card"
+import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { examples, TExample } from "@/lib/examples"
+import { db } from "@/lib/db"
+import { scenarioModelData } from "@/lib/generators"
 import Image from "next/image"
+import Link from "next/link"
 
 interface ExamplePageProps {
     params: {
@@ -22,68 +25,110 @@ export const metadata = {
     description: "View examples of popular generators on Pixelfy",
 }
 
-async function getStyleFromParams(params): Promise<TExample | null> {
+async function getStyleFromParams(params) {
     const slug = params.slug?.join("/") || ""
 
     if (!slug) {
         null
     }
 
-    let images: TExample | null = null
+    const matchingStyle = Object.values(scenarioModelData).find(
+        (scenario) => scenario.slug === slug
+    )
 
-    Object.keys(examples).forEach((style) => {
-        // find matching images
-        if (examples[style].slug === slug) {
-            images = examples[style]
-        }
+    if (!matchingStyle) {
+        return null
+    }
+
+    return db.outputImage.findMany({
+        where: {
+            id: {
+                in: matchingStyle.examples,
+            },
+        },
+        include: {
+            generation: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
     })
-
-    return images
 }
 
 export async function generateStaticParams(): Promise<
     ExamplePageProps["params"][]
 > {
-    return Object.keys(examples).map((style) => {
+    return Object.keys(scenarioModelData).map((style) => {
         return {
-            slug: examples[style].slug.split("/"),
+            slug: scenarioModelData[style].slug.split("/"),
         }
     })
 }
 
 export default async function DocPage({ params }) {
+    const matchingStyle = Object.values(scenarioModelData).find(
+        (scenario) => scenario.slug === params.slug?.join("/") || ""
+    )
     const images = await getStyleFromParams(params)
 
     return (
         <DashboardShell>
             <DashboardHeader
-                heading={images?.heading || "Examples"}
+                heading={matchingStyle?.name || "Examples"}
                 text="View examples of pixel art generations"
             />
 
+            {matchingStyle?.featuredArtist && (
+                <div className="flex flex-col items-start">
+                    <p>{matchingStyle?.artistInfo?.bio}</p>
+                    <Label className="mt-4 text-muted-foreground">
+                        Socials
+                    </Label>
+                    <div className="flex items-center gap-4 mt-4">
+                        <a
+                            href={matchingStyle.artistInfo?.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Icons.instagram className="h-6 w-6" />
+                        </a>
+                        <a
+                            href={matchingStyle.artistInfo?.twitter}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Icons.twitter className="h-6 w-6" />
+                        </a>
+                    </div>
+                </div>
+            )}
             <div>
                 <Separator />
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                {images?.images?.map((image) => (
-                    <HoverCard>
+                {images?.map((image) => (
+                    <HoverCard key={image.id}>
                         <HoverCardTrigger asChild>
                             <div
                                 className={` rounded-lg  overflow-hidden relative`}
-                                key={image.url}
                             >
-                                <Image
-                                    unoptimized
-                                    alt={image.prompt}
-                                    height={512}
-                                    width={512}
-                                    src={image.url}
-                                />
+                                <Link
+                                    href={`/i/${image.id}`}
+                                    className={`rounded-lg  overflow-hidden`}
+                                >
+                                    <Image
+                                        unoptimized
+                                        alt={image.generation.prompt}
+                                        height={512}
+                                        width={512}
+                                        src={image.pixelatedImage}
+                                    />
+                                </Link>
                             </div>
                         </HoverCardTrigger>
                         <HoverCardContent className="w-80">
                             <p className="text-sm text-primary">
-                                {image.prompt}
+                                {image.generation.prompt}
                             </p>
                         </HoverCardContent>
                     </HoverCard>

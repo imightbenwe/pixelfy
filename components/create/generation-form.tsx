@@ -2,6 +2,7 @@
 
 import { GuidanceSelector } from "../guidance-selector"
 import { SamplingStepSelector } from "../sampling-step-selector"
+import { Badge } from "../ui/badge"
 import { Textarea } from "../ui/textarea"
 import { Icons } from "@/components/icons"
 import { ImageLoadingCard } from "@/components/image-loading-card"
@@ -35,17 +36,16 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
-import { downloadImage } from "@/lib/client-helpers"
 import {
     normalizedGeneratorMap,
     scenarioGenerators,
     sizeLockedGenerators,
     sizeLockedGeneratorsSizeValue,
+    scenarioModelData,
 } from "@/lib/generators"
 import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
 import {
-    ScenarioImage,
     ScenarioInferenceProgressResponse,
     ScenarioInferenceResponse,
 } from "@/types/scenario"
@@ -337,29 +337,42 @@ export function GenerationForm({
                                                                     </SelectLabel>
 
                                                                     {Object.keys(
-                                                                        scenarioGenerators
+                                                                        scenarioModelData
                                                                     ).map(
                                                                         (
                                                                             key
                                                                         ) => {
                                                                             return (
                                                                                 <SelectItem
+                                                                                    className="relative flex items-center gap-2"
                                                                                     key={
                                                                                         key
                                                                                     }
                                                                                     value={
-                                                                                        scenarioGenerators[
+                                                                                        scenarioModelData[
                                                                                             key as keyof typeof scenarioGenerators
                                                                                         ]
+                                                                                            .id
                                                                                     }
                                                                                 >
                                                                                     {
-                                                                                        normalizedGeneratorMap[
-                                                                                            scenarioGenerators[
-                                                                                                key
-                                                                                            ]
+                                                                                        scenarioModelData[
+                                                                                            key as keyof typeof scenarioGenerators
                                                                                         ]
+                                                                                            .name
                                                                                     }
+
+                                                                                    {scenarioModelData[
+                                                                                        key as keyof typeof scenarioGenerators
+                                                                                    ]
+                                                                                        .featuredArtist && (
+                                                                                        <div className="inline-flex items-center ml-2">
+                                                                                            <Badge variant="secondary">
+                                                                                                Featured
+                                                                                                artist
+                                                                                            </Badge>
+                                                                                        </div>
+                                                                                    )}
                                                                                 </SelectItem>
                                                                             )
                                                                         }
@@ -729,8 +742,8 @@ export function GenerationForm({
             )}
 
             {images && (
-                <div className="mt-4 w-full">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
+                <div className="mt-8 w-full mb-24">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full mt-4">
                         {images.map((image) => (
                             <div
                                 key={image.id}
