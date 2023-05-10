@@ -163,6 +163,10 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "clhgznu8b0004ugeue9lxke49",
             "clhh0inwc0007ugee9bpjolt7",
             "clhh0inwc0005ugee5apecca2",
+            "clhh2oioy0001i808fjqd62nc",
+            "clhh2oioy000bi808yw2e8610",
+            "clhh2oioy0008i808znlp7ayq",
+            "clhh2oioy0005i808mqxql266",
         ],
     },
 }
