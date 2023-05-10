@@ -186,6 +186,7 @@ export const normalizedGeneratorMap = {
     PNqixjKURbiouk49_gYWCw: "Anime Style",
     Zk4dmsnVQJ6x02F9IZfXhA: "16x16 Pixel Portrait",
     VB8yd1LaRsinkQMZuFoupg: "32x32 Skill Art",
+    Q36HbYy1T2WdsjkfQp3MoA: "Yo-Hokki Style",
 }
 
 export const supplementalPromptMap = {
