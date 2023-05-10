@@ -12,16 +12,13 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             <div className="container flex flex-col items-center justify-between gap-8 lg:gap-4 py-10 lg:h-24 lg:flex-row lg:py-0">
                 <div>
                     <a
-                        href="https://www.producthunt.com/posts/pixelfy?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-pixelfy"
+                        href="https://www.producthunt.com/products/pixelfy/reviews?utm_source=badge-product_review&utm_medium=badge&utm_souce=badge-pixelfy"
                         target="_blank"
                     >
                         <img
-                            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=392459&theme=neutral"
+                            src="https://api.producthunt.com/widgets/embed-image/v1/product_review.svg?product_id=532828&theme=neutral"
                             alt="Pixelfy - Generate&#0032;stunning&#0032;pixel&#0032;art&#0032;with&#0032;AI | Product Hunt"
-                            style={{
-                                width: "250px",
-                                height: "54px",
-                            }}
+                            style={{ width: "250px", height: "54px" }}
                             width="250"
                             height="54"
                         />
