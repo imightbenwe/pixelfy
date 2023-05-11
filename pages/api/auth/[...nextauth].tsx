@@ -1,4 +1,4 @@
-import { sendMail } from "@/emails"
+import { asyncSendMail, sendMail } from "@/emails"
 import LoginLink from "@/emails/LoginLink"
 import WelcomeEmail from "@/emails/WelcomeEmail"
 import { sendMarketingMail } from "@/emails/index"
@@ -41,7 +41,7 @@ authOptionsWithEvents.providers = [
     }),
     EmailProvider({
         sendVerificationRequest({ identifier, url }) {
-            sendMail({
+            asyncSendMail({
                 subject: "Your Pixelfy.ai Login Link",
                 to: identifier,
                 component: <LoginLink url={url} />,

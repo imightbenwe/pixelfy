@@ -16,6 +16,10 @@ export const sendMail = buildSendMail({
     configPath: "./mailing.config.json",
 })
 
+export const asyncSendMail = async ({ component, to, subject }) => {
+    return sendMail({ component, to, subject })
+}
+
 export const sendMarketingMail = buildSendMail({
     transport: nodemailer.createTransport({
         host: "smtp-broadcasts.postmarkapp.com",
