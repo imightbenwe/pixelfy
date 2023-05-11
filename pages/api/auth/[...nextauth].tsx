@@ -1,4 +1,4 @@
-import { asyncSendMail, sendMail } from "@/emails"
+import { sendMail } from "@/emails"
 import LoginLink from "@/emails/LoginLink"
 import WelcomeEmail from "@/emails/WelcomeEmail"
 import { sendMarketingMail } from "@/emails/index"
@@ -40,23 +40,13 @@ authOptionsWithEvents.providers = [
         clientSecret: googleClientSecret,
     }),
     EmailProvider({
-        sendVerificationRequest({ identifier, url }) {
-            asyncSendMail({
+        sendVerificationRequest: async ({ identifier, url, provider }) => {
+            await sendMail({
                 subject: "Your Pixelfy.ai Login Link",
                 to: identifier,
                 component: <LoginLink url={url} />,
             })
         },
-        // server: {
-        //     host: process.env.EMAIL_SERVER_HOST,
-        //     // @ts-ignore
-        //     port: process.env.EMAIL_SERVER_PORT,
-        //     auth: {
-        //         user: process.env.EMAIL_SERVER_USER,
-        //         pass: process.env.EMAIL_SERVER_PASSWORD,
-        //     },
-        // },
-        // from: process.env.EMAIL_FROM,
     }),
 ]
 // @see ./lib/auth
