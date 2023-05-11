@@ -11,31 +11,6 @@ const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET as string
 
 let authOptionsWithEvents = {
     ...authOptions,
-    providers: [
-        GoogleProvider({
-            clientId: googleClientId,
-            clientSecret: googleClientSecret,
-        }),
-        EmailProvider({
-            sendVerificationRequest({ identifier, url }) {
-                sendMail({
-                    subject: "Your Pixelfy Login Link",
-                    to: identifier,
-                    component: <LoginLink url={url} />,
-                })
-            },
-            server: {
-                host: process.env.EMAIL_SERVER_HOST,
-                // @ts-ignore
-                port: process.env.EMAIL_SERVER_PORT,
-                auth: {
-                    user: process.env.EMAIL_SERVER_USER,
-                    pass: process.env.EMAIL_SERVER_PASSWORD,
-                },
-            },
-            from: process.env.EMAIL_FROM,
-        }),
-    ],
     events: {
         async signIn(message) {
             if (message.isNewUser) {
@@ -57,6 +32,33 @@ let authOptionsWithEvents = {
         },
     },
 }
+
+authOptionsWithEvents.providers = [
+    GoogleProvider({
+        clientId: googleClientId,
+        clientSecret: googleClientSecret,
+    }),
+    EmailProvider({
+        // sendVerificationRequest({ identifier, url }) {
+        //     sendMail({
+        //         subject: "Your Pixelfy.ai Login Link",
+        //         to: identifier,
+        //         component: <LoginLink url={url} />,
+        //     })
+        // },
+        server: {
+            host: process.env.EMAIL_SERVER_HOST,
+            // @ts-ignore
+            port: process.env.EMAIL_SERVER_PORT,
+            auth: {
+                user: process.env.EMAIL_SERVER_USER,
+                pass: process.env.EMAIL_SERVER_PASSWORD,
+            },
+        },
+        from: process.env.EMAIL_FROM,
+    }),
+]
+
 const handler = NextAuth(authOptionsWithEvents)
 
 export { handler as GET, handler as POST }
