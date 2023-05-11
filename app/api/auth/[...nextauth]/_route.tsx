@@ -1,6 +1,6 @@
 import LoginLink from "@/emails/LoginLink"
 import WelcomeEmail from "@/emails/WelcomeEmail"
-import { sendMarketingMail, sendMail } from "@/emails/index"
+import { sendMail, sendMarketingMail } from "@/emails/index"
 import { authOptions } from "@/lib/auth"
 import NextAuth from "next-auth"
 import EmailProvider from "next-auth/providers/email"
@@ -39,23 +39,13 @@ authOptionsWithEvents.providers = [
         clientSecret: googleClientSecret,
     }),
     EmailProvider({
-        // sendVerificationRequest({ identifier, url }) {
-        //     sendMail({
-        //         subject: "Your Pixelfy.ai Login Link",
-        //         to: identifier,
-        //         component: <LoginLink url={url} />,
-        //     })
-        // },
-        server: {
-            host: process.env.EMAIL_SERVER_HOST,
-            // @ts-ignore
-            port: process.env.EMAIL_SERVER_PORT,
-            auth: {
-                user: process.env.EMAIL_SERVER_USER,
-                pass: process.env.EMAIL_SERVER_PASSWORD,
-            },
+        sendVerificationRequest: async ({ identifier, url, provider }) => {
+            await sendMail({
+                subject: "Your Pixelfy.ai Login Link",
+                to: identifier,
+                component: <LoginLink url={url} />,
+            })
         },
-        from: process.env.EMAIL_FROM,
     }),
 ]
 
