@@ -194,7 +194,7 @@ export const normalizedGeneratorMap = {
 }
 
 export const supplementalPromptMap = {
-    DkCC2BfCQ8mhxnyFW1tXcw: " , fantasy RPG",
+    DkCC2BfCQ8mhxnyFW1tXcw: "",
     BnhDXzIrQxWk1c0bWe73_w: " , landscape portrait, ",
     PNqixjKURbiouk49_gYWCw: " , anime style",
     Zk4dmsnVQJ6x02F9IZfXhA:
