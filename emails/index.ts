@@ -4,8 +4,7 @@ import nodemailer from "nodemailer"
 export const sendMail = buildSendMail({
     transport: nodemailer.createTransport({
         host: "smtp.postmarkapp.com",
-        port: 587,
-        secure: true,
+        greetingTimeout: 1000 * 30,
         auth: {
             user: process.env.POSTMARK_API_KEY,
             pass: process.env.POSTMARK_API_KEY,
