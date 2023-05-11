@@ -4,7 +4,7 @@ import nodemailer from "nodemailer"
 export const sendMail = buildSendMail({
     transport: nodemailer.createTransport({
         host: "smtp.postmarkapp.com",
-        greetingTimeout: 1000 * 30,
+        port: 587,
         auth: {
             user: process.env.POSTMARK_API_KEY,
             pass: process.env.POSTMARK_API_KEY,
@@ -15,8 +15,6 @@ export const sendMail = buildSendMail({
     defaultFrom: "David from Pixelfy <pixelfy@pixelfy.ai>",
     configPath: "./mailing.config.json",
 })
-
-export default sendMail
 
 export const sendMarketingMail = buildSendMail({
     transport: nodemailer.createTransport({
