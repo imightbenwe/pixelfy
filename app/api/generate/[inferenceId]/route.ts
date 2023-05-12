@@ -71,6 +71,8 @@ export const pixelateImageScenario = async ({
         }
     ).then((res) => res.json())
 
+    console.log(pixelateResponse)
+
     return pixelateResponse.image
 }
 
@@ -119,18 +121,14 @@ export async function GET(
 
             const pixelatedImagesScenario = await Promise.all(
                 inferenceProgress.inference.images.map((image) => {
-                    if (generation.pixelSize === 32) {
-                        return pixelateImage({
-                            remoteUrl: image.url,
-                            pixelSize: generation.pixelSize,
-                        })
-                    }
-                    return pixelateImageScenario({
-                        assetId: image.id,
-                        pixelGridSize: generation.pixelSize,
+                    return pixelateImage({
+                        remoteUrl: image.url,
+                        pixelSize: generation.pixelSize,
                     })
                 })
             )
+
+            console.log(pixelateImageScenario)
 
             const pixelatedImages = await Promise.all(
                 pixelatedImagesScenario.map((image) => {
