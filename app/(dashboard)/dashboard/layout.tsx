@@ -50,7 +50,7 @@ export default async function DashboardLayout({
                 <aside className="hidden w-[200px] flex-col md:flex">
                     <DashboardNav items={dashboardConfig.sidebarNav} />
                     <div
-                        className="flex flex-col flex-1 mt-auto justify-end pb-32"
+                        className="flex flex-col mt-12"
                         id="carbon-container"
                     />
                     <Carbon />
