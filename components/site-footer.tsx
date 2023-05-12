@@ -55,6 +55,13 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                     <Link href="/tos">
                         <Button variant="link">Terms of Service</Button>
                     </Link>
+                    <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://twitter.com/Pixelfydotai"
+                    >
+                        <Icons.twitter />
+                    </a>
                     <ModeToggle />
                 </div>
             </div>
