@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
 import {
-    normalizedGeneratorMap,
+    sizeDisabledGenerators,
     scenarioGenerators,
     supplementalPromptMap,
     sizeLockedGenerators,
@@ -260,6 +260,7 @@ export function GenerationForm({
     }
 
     const sizeGridLocked = sizeLockedGenerators.includes(modelId)
+    const sixteenGridDisabled = sizeDisabledGenerators.includes(modelId)
 
     const userOutOfCredits = parseInt(numImages) / 4 > user?.credits
 
@@ -321,7 +322,16 @@ export function GenerationForm({
                                                                             e
                                                                         ]?.toString()
                                                                     )
+                                                                } else if (
+                                                                    sizeDisabledGenerators.includes(
+                                                                        e
+                                                                    )
+                                                                ) {
+                                                                    setGridSize(
+                                                                        "8"
+                                                                    )
                                                                 }
+
                                                                 setModelId(e)
                                                             }}
                                                             defaultValue={
@@ -454,6 +464,9 @@ export function GenerationForm({
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     <SelectItem
+                                                                        disabled={
+                                                                            sixteenGridDisabled
+                                                                        }
                                                                         value={
                                                                             "32"
                                                                         }

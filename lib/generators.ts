@@ -22,6 +22,7 @@ export type TScenarioModelData = {
     sizeLockedValue?: number
     slug: string
     examples?: string[]
+    disabledSizes?: string[]
     featuredArtist?: boolean
     artistInfo?: TArtistInfo
 }
@@ -42,6 +43,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         description: "Fantasy RPG style, concept art",
         supplementalPrompt: " , fantasy RPG style, concept art",
         sizeLocked: false,
+        disabledSizes: ["32"],
         examples: [
             "clhfjtqv0002dugah4hstbwxk",
             "clh4bqrly0002mj0833sjle3k",
@@ -59,6 +61,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         description: "Landscape Portrait Art for games",
         supplementalPrompt: " , landscape portrait, ",
         sizeLocked: false,
+        disabledSizes: ["32"],
         examples: [
             "clh9qmtv80007mk08yj87qvyl",
             "clh9qmtv80009mk08f9kfbq8w",
@@ -77,6 +80,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         description: "Anime style portrait art",
         supplementalPrompt: " , anime style",
         sizeLocked: false,
+        disabledSizes: ["32"],
         examples: [
             "clh2oa3tv0005ju08x1v40dbv",
             "clh2oa3tv0003ju08hqc6pgct",
@@ -144,6 +148,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             " , anime style, character portrait, close up, pixel art",
         sizeLocked: false,
         featuredArtist: true,
+        disabledSizes: ["32"],
         artistInfo: {
             twitter: "https://twitter.com/YoHokki",
             instagram: "https://www.instagram.com/yo_hokki",
@@ -218,3 +223,10 @@ export const sizeLockedGeneratorsSizeValue = {
     // [scenarioGenerators["16x16Icons"]]: 32,
     // [scenarioGenerators.shields]: 16,
 }
+
+export const sizeDisabledGenerators = [
+    scenarioGenerators.fantasyRpg,
+    scenarioGenerators.animeStyle,
+    scenarioGenerators.yoHokki,
+    scenarioGenerators.landscapePortrait,
+]
