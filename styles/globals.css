@@ -86,3 +86,114 @@
     --tw-prose-links: var(--text-default-focus);
     --tw-prose-bold: var(--text-default-focus);
 }
+
+#carbonads * {
+    margin: initial;
+    padding: initial;
+}
+
+#carbonads {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background-color: hsl(var(--card));
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+        var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    border: 1px hsl(var(--border)) solid;
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+        sans-serif;
+}
+
+#carbonads a {
+    background-image: none;
+    color: var(--text-default);
+    text-decoration: none;
+}
+
+#carbonads a:hover {
+    color: hsl(var(--accent-foreground));
+}
+
+#carbonads .carbon-img {
+    display: block;
+    width: 100%;
+    max-width: unset;
+    object-fit: contain;
+    /* max-width: 130px; */
+    line-height: 1;
+}
+
+#carbonads .carbon-img img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    height: auto;
+    margin: 0 auto;
+    max-width: unset !important;
+}
+
+#carbonads .carbon-text {
+    display: block;
+    padding: 8px 10px;
+    background-color: var(--background);
+    border: 1px var(--border) solid;
+    line-height: 1.35;
+    text-align: left;
+}
+
+#carbonads .carbon-poweredby {
+    display: block;
+    padding: 10px;
+    border: 1px hsl(var(--border)) solid;
+    background-color: hsl(var(--secondary));
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    font-weight: 600;
+    font-size: 8px;
+    line-height: 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 759px) {
+    #carbonads {
+        position: relative;
+        margin: 20px 0;
+        float: none;
+        border: 1px white solid;
+        --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+            var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    #carbonads .carbon-wrap {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #carbonads .carbon-img {
+        margin: 0;
+    }
+
+    #carbonads .carbon-text {
+        padding: 10px 10px 0 10px;
+
+        font-size: 12px;
+    }
+
+    #carbonads .carbon-poweredby {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        border-radius: var(--radius);
+        text-align: center;
+    }
+}
