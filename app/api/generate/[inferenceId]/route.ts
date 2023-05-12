@@ -2,7 +2,10 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { supabase } from "@/lib/supabase"
 import { pixelateImage, scenarioAuthToken } from "@/lib/utils"
-import { ScenarioInferenceProgressResponse } from "@/types/scenario"
+import {
+    ScenarioInferenceProgressResponse,
+    ScenarioPixelateResponse,
+} from "@/types/scenario"
 import { decode } from "base64-arraybuffer"
 import { getServerSession } from "next-auth/next"
 import { v4 as uuidv4 } from "uuid"
@@ -13,6 +16,12 @@ const routeContextSchema = z.object({
         inferenceId: z.string(),
     }),
 })
+
+const gridSizeToScenarioPixelMap = {
+    16: 32,
+    8: 64,
+    4: 128,
+}
 
 export const uploadImage = async (base64String: string) => {
     const base64FileData = base64String.split("base64,")?.[1]
@@ -35,6 +44,34 @@ export const uploadImage = async (base64String: string) => {
     }
 
     return data
+}
+
+type PixelateImageParams = {
+    assetId: string
+    pixelGridSize: number
+}
+export const pixelateImageScenario = async ({
+    assetId,
+    pixelGridSize,
+}: PixelateImageParams) => {
+    const pixelateResponse: ScenarioPixelateResponse = await fetch(
+        `https://api.cloud.scenario.com/v1/images/pixelate`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${scenarioAuthToken}`,
+            },
+            body: JSON.stringify({
+                assetId,
+                pixelGridSize: gridSizeToScenarioPixelMap[pixelGridSize],
+                returnImage: true,
+                removeNoise: true,
+            }),
+        }
+    ).then((res) => res.json())
+
+    return pixelateResponse.image
 }
 
 export async function GET(
@@ -80,13 +117,24 @@ export async function GET(
                 },
             })
 
-            const pixelatedImages = await Promise.all(
-                inferenceProgress.inference.images.map(async (image) => {
-                    const pixelatedImage = await pixelateImage({
-                        remoteUrl: image.url,
-                        pixelSize: generation.pixelSize,
+            const pixelatedImagesScenario = await Promise.all(
+                inferenceProgress.inference.images.map((image) => {
+                    if (generation.pixelSize === 32) {
+                        return pixelateImage({
+                            remoteUrl: image.url,
+                            pixelSize: generation.pixelSize,
+                        })
+                    }
+                    return pixelateImageScenario({
+                        assetId: image.id,
+                        pixelGridSize: generation.pixelSize,
                     })
-                    return uploadImage(pixelatedImage)
+                })
+            )
+
+            const pixelatedImages = await Promise.all(
+                pixelatedImagesScenario.map((image) => {
+                    return uploadImage(image)
                 })
             )
 

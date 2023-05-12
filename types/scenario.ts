@@ -55,3 +55,29 @@ export interface ScenarioImage {
     seed: string
     pixelated?: string
 }
+
+export interface ScenarioPixelateResponse {
+    asset: Asset
+    image: string
+}
+
+export interface Asset {
+    id: string
+    mimeType: string
+    type: Type
+    ownerId: string
+    authorId: string
+    createdAt: string
+    updatedAt: string
+    privacy: string
+    tags: any[]
+    collectionIds: any[]
+}
+
+export interface Type {
+    source: string
+    parentId: string
+    rootParentId: string
+    kind: string
+    pixelGridSize: number
+}
