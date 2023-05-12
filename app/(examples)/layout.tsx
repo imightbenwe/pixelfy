@@ -2,10 +2,7 @@ import { LoginButton } from "@/components/login-button"
 import { MainNav } from "@/components/main-nav"
 import { DocsSidebarNav } from "@/components/sidebar-nav"
 import { SiteFooter } from "@/components/site-footer"
-import { buttonVariants } from "@/components/ui/button"
 import { docsConfig } from "@/config/docs"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
 
 interface DocsLayoutProps {
     children: React.ReactNode
