@@ -30,15 +30,14 @@ export default async function IndexPage() {
 
     const featuredCardData = [
         {
-            image: "/landscape.png",
+            image: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/cf155958-a387-4311-b577-00e395027cb5.png",
             title: "Landscape Portraits",
             prompts: [
-                "A farmhouse in a grassy valley",
-                "warm colors",
-                "stardew valley",
+                "Floating castle",
+                "cascading waterfalls",
+                "lush green landscape",
             ],
-            imageAlt:
-                "Image showing a cozy farmhouse in a grassy valley pixelated",
+            imageAlt: "Image showing a castle in the sky",
         },
         {
             image: "/warhammer.png",
