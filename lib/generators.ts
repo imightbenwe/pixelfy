@@ -52,6 +52,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "clhe3k5as0020ug7jnlk4dc98",
             "clh75lsko0003l3085itnesv9",
             "clh75lskp000al308u4tptx1t",
+            "clhk2czm9003lugnv07duvx0l",
         ],
     },
     landscapePortrait: {
@@ -71,6 +72,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "clh3vjvg10011m8087a2p3vuo",
             "clh3yav9n0003mi0809524scl",
             "clh3yav9n0004mi08ewt2adhs",
+            "clhk2g8ub0044ugnvbrv3yedq",
         ],
     },
     animeStyle: {
@@ -90,6 +92,8 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "clh3v4qnt000em80868f8s85c",
             "clh3xcv7o0017kz08ss3kamhx",
             "clh3xcv7o0016kz083npuy0br",
+            "clhk2982m0030ugnv9lkvwc8v",
+            "clhk1iniz002jugnvibraib2i",
             "clh3wxek50005kz08ks6s47uu",
         ],
     },
@@ -136,6 +140,10 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "clhe28tw50011ugor5iq1ylcl",
             "clhcjnou1000bl0088txiz3n8",
             "clhcii3i5000wugvb2soqinm3",
+            "clhk2elpa003uugnvwsh0hw1g",
+            "clhk2llfq000el808z66346jt",
+            "clhk2llfq000dl80867p565pj",
+            "clhk2llfq000cl808pxniz1qv",
         ],
     },
     yoHokki: {
@@ -171,6 +179,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "clhh2oioy0001i808fjqd62nc",
             "clhh2oioy000bi808yw2e8610",
             "clhh2oioy0008i808znlp7ayq",
+            "clhk2aige003augnv665qilw3",
             "clhh2oioy0005i808mqxql266",
         ],
     },
