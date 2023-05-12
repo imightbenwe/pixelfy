@@ -1,4 +1,10 @@
+import va from "@vercel/analytics"
+
 export async function downloadImage(url: string, imageName: string) {
+    va.track("downloadImageSelected", {
+        url,
+        imageName,
+    })
     const a = document.createElement("a")
     a.href = await toDataURL(url)
     a.download = imageName

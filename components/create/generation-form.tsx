@@ -52,6 +52,7 @@ import {
 } from "@/types/scenario"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { OutputImage, User } from "@prisma/client"
+import va from "@vercel/analytics"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -110,6 +111,12 @@ export function GenerationForm({
     const generatePrompt = async (e: any) => {
         e.preventDefault()
         setPromptGenerating(true)
+
+        va.track("Prompt builder clicked", {
+            user: user.id,
+            model: modelId,
+            prompt: getValues("prompt"),
+        })
 
         const prompt = `
         Generate a comma-separated single sentence prompt that will be used to create an image. Include interesting visual descriptors and art styles. Make sure the prompt is less than 500 characters total, including spaces, newline characters punctuation. Do not include quotations in the prompt or the word "generate" or the word "ai". Do not use complete sentences. Please separate all descriptors with commas.
@@ -331,6 +338,14 @@ export function GenerationForm({
                                                                         "8"
                                                                     )
                                                                 }
+
+                                                                va.track(
+                                                                    "modelSelected",
+                                                                    {
+                                                                        model: e,
+                                                                        user: user?.id,
+                                                                    }
+                                                                )
 
                                                                 setModelId(e)
                                                             }}
@@ -712,6 +727,13 @@ export function GenerationForm({
                                             className={cn("w-full lg:w-auto")}
                                             onClick={(e) => {
                                                 e.preventDefault()
+
+                                                va.track(
+                                                    "advancedOptionsClicked",
+                                                    {
+                                                        user: user?.id,
+                                                    }
+                                                )
                                                 setShowAdvancedOptions(
                                                     !showAdvancedOptions
                                                 )

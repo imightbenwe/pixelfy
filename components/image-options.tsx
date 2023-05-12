@@ -7,39 +7,14 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ToastAction } from "@/components/ui/toast"
-import { toast } from "@/components/ui/use-toast"
 import { useToast } from "@/components/ui/use-toast"
 import { downloadImage } from "@/lib/client-helpers"
-import {
-    Cloud,
-    CreditCard,
-    Download,
-    Github,
-    ImageMinus,
-    Keyboard,
-    LifeBuoy,
-    LogOut,
-    Mail,
-    MessageSquare,
-    MoreHorizontal,
-    MoreVertical,
-    Plus,
-    PlusCircle,
-    Settings,
-    Twitter,
-    User,
-    UserPlus,
-    Users,
-} from "lucide-react"
+import va from "@vercel/analytics"
+import { Download, ImageMinus, MoreVertical, Twitter, User } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -54,6 +29,12 @@ export function ImageOptions({ imageId, src, name }: IImageOPtions) {
     const router = useRouter()
 
     const removeImageBackground = async (e: any) => {
+        va.track("removeBackgroundSelected", {
+            imageId,
+            src,
+            name,
+        })
+
         toast({
             title: "Removing the background from your image",
             description:
@@ -116,7 +97,15 @@ export function ImageOptions({ imageId, src, name }: IImageOPtions) {
                         <ImageMinus className="mr-2 h-4 w-4" />
                         <span>Remove Background</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem
+                        onSelect={() => {
+                            va.track("shareImageSelected", {
+                                imageId,
+                                name,
+                                src,
+                            })
+                        }}
+                    >
                         <a
                             className="inline-flex"
                             rel="noopener noreferrer"

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { searchString } from "@/lib/utils"
 import { searchGenerationsSchema } from "@/lib/validations/search-generations"
 import { zodResolver } from "@hookform/resolvers/zod"
+import va from "@vercel/analytics"
 import { useRouter } from "next/navigation"
 import { useSearchParams } from "next/navigation"
 import * as React from "react"
@@ -30,6 +31,12 @@ export const SearchGenerationsInput = () => {
     })
 
     async function onSubmit(data: FormData) {
+        if (data.input) {
+            va.track("generationsSearched", {
+                input: data.input,
+            })
+        }
+
         router.push(`/dashboard/generations?${searchString("1", data.input)}`)
         router.refresh()
     }
