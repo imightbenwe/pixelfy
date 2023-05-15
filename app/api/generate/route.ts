@@ -77,7 +77,7 @@ export async function POST(req: Request) {
                         height: 512,
                         numSamples: parameters.numImages,
                         image: parameters?.referenceImage ?? undefined,
-                        modality: modalityMap[parameters.modelId] ?? null,
+                        modality: modalityMap[parameters.modelId] ?? undefined,
                         // parameters.modelId ===
                         // scenarioGenerators.landscapePortrait
                         //     ? "landscape"
