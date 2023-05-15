@@ -11,13 +11,18 @@ const generateBody = z.object({
     parameters: z.object({
         modelId: z.string(),
         prompt: z.string().max(500),
-        samplingSteps: z.number().min(10).max(150).default(50),
+        samplingSteps: z.number().min(10).max(100).default(50),
         guidance: z.number().min(0).max(20).default(7),
         numImages: z.number().optional().default(4),
         pixelSize: z.number().optional().default(8),
         referenceImage: z.string().optional().nullable(),
     }),
 })
+
+const modalityMap = {
+    [scenarioGenerators.landscapePortrait]: "landscape",
+    [scenarioGenerators.yoHokki]: "character",
+}
 
 export async function POST(req: Request) {
     try {
@@ -72,11 +77,11 @@ export async function POST(req: Request) {
                         height: 512,
                         numSamples: parameters.numImages,
                         image: parameters?.referenceImage ?? undefined,
-                        modality:
-                            parameters.modelId ===
-                            scenarioGenerators.landscapePortrait
-                                ? "landscape"
-                                : undefined,
+                        modality: modalityMap[parameters.modelId] ?? null,
+                        // parameters.modelId ===
+                        // scenarioGenerators.landscapePortrait
+                        //     ? "landscape"
+                        //     : undefined,
                     },
                 }),
             }

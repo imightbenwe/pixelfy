@@ -49,12 +49,14 @@ export const uploadImage = async (base64String: string) => {
 type PixelateImageParams = {
     assetId: string
     pixelGridSize: number
+    remoteUrl: string
 }
 export const pixelateImageScenario = async ({
     assetId,
     pixelGridSize,
+    remoteUrl,
 }: PixelateImageParams) => {
-    const pixelateResponse: ScenarioPixelateResponse = await fetch(
+    const pixelateResponse = await fetch(
         `https://api.cloud.scenario.com/v1/images/pixelate`,
         {
             method: "PUT",
@@ -69,11 +71,18 @@ export const pixelateImageScenario = async ({
                 removeNoise: true,
             }),
         }
-    ).then((res) => res.json())
+    )
 
-    console.log(pixelateResponse)
+    if (!pixelateResponse.ok) {
+        return pixelateImage({
+            remoteUrl,
+            pixelSize: pixelGridSize,
+        })
+    }
 
-    return pixelateResponse.image
+    const pixelateData: ScenarioPixelateResponse = await pixelateResponse.json()
+
+    return pixelateData.image
 }
 
 export async function GET(
@@ -121,14 +130,19 @@ export async function GET(
 
             const pixelatedImagesScenario = await Promise.all(
                 inferenceProgress.inference.images.map((image) => {
-                    return pixelateImage({
+                    if (generation.pixelSize === 32) {
+                        return pixelateImage({
+                            remoteUrl: image.url,
+                            pixelSize: generation.pixelSize,
+                        })
+                    }
+                    return pixelateImageScenario({
                         remoteUrl: image.url,
-                        pixelSize: generation.pixelSize,
+                        assetId: image.id,
+                        pixelGridSize: generation.pixelSize,
                     })
                 })
             )
-
-            console.log(pixelateImageScenario)
 
             const pixelatedImages = await Promise.all(
                 pixelatedImagesScenario.map((image) => {
