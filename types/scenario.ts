@@ -27,6 +27,7 @@ export interface Parameters {
     height: number
     type: string
     prompt: string
+    strength: number
 }
 
 export interface ScenarioInferenceProgressResponse {

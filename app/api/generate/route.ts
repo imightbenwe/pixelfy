@@ -13,13 +13,15 @@ const generateBody = z.object({
         prompt: z.string().max(500),
         samplingSteps: z.number().min(10).max(100).default(50),
         guidance: z.number().min(0).max(20).default(7),
-        numImages: z.number().optional().default(4),
+        numImages: z.number().min(4).max(16).optional().default(4),
         pixelSize: z.number().optional().default(8),
         referenceImage: z.string().optional().nullable(),
+        influence: z.number().max(99).min(0).optional().default(25),
     }),
 })
 
 const modalityMap = {
+    // [scenarioGenerators.fantasyRpg]: "character",
     [scenarioGenerators.landscapePortrait]: "landscape",
     [scenarioGenerators.yoHokki]: "character",
 }
@@ -78,10 +80,9 @@ export async function POST(req: Request) {
                         numSamples: parameters.numImages,
                         image: parameters?.referenceImage ?? undefined,
                         modality: modalityMap[parameters.modelId] ?? undefined,
-                        // parameters.modelId ===
-                        // scenarioGenerators.landscapePortrait
-                        //     ? "landscape"
-                        //     : undefined,
+                        strength: parameters?.referenceImage
+                            ? (100 - parameters?.influence) / 100
+                            : undefined,
                     },
                 }),
             }
@@ -98,6 +99,8 @@ export async function POST(req: Request) {
                 guidance: generation.inference.parameters.guidance,
                 pixelSize: parameters.pixelSize,
                 type: generation.inference.parameters.type,
+                strength:
+                    generation?.inference?.parameters?.strength ?? undefined,
                 user: {
                     connect: {
                         id: session.user.id,

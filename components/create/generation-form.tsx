@@ -5,6 +5,7 @@ import { SamplingStepSelector } from "../sampling-step-selector"
 import { Badge } from "../ui/badge"
 import { Textarea } from "../ui/textarea"
 import { Icons } from "@/components/icons"
+import { ImageInfluencerSlider } from "@/components/image-influence-slider"
 import { ImageLoadingCard } from "@/components/image-loading-card"
 import { ImageOptions } from "@/components/image-options"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -105,8 +106,9 @@ export function GenerationForm({
 
     const [samplingSteps, setSamplingSteps] = React.useState<number[]>([50])
     const [guidance, setGuidance] = React.useState<number[]>([7])
-
     const [referenceImage, setReferenceImage] = React.useState<any>(null)
+    const [referenceImageInfluence, setReferenceImageInfluence] =
+        React.useState<number[]>([25])
 
     const generatePrompt = async (e: any) => {
         e.preventDefault()
@@ -190,6 +192,9 @@ export function GenerationForm({
                         guidance: guidance[0],
                         numImages: parseInt(numImages),
                         referenceImage,
+                        influence: referenceImage
+                            ? referenceImageInfluence[0]
+                            : undefined,
                     },
                 }),
             }
@@ -515,31 +520,49 @@ export function GenerationForm({
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="grid w-full lg:max-w-sm items-center gap-1.5 mt-8">
-                                                <Label htmlFor="picture">
-                                                    Reference image (optional)
-                                                </Label>
-                                                <Input
-                                                    accept="image/*"
-                                                    onChange={async (e) => {
-                                                        if (e?.target?.files) {
-                                                            const file =
-                                                                e.target
-                                                                    .files[0]
+                                            <div className="grid grid-cols-1 lg:grid-cols-2 w-full items-center gap-4 mt-8">
+                                                <div className="lg:max-w-sm ">
+                                                    <Label htmlFor="picture">
+                                                        Reference image
+                                                        (optional)
+                                                    </Label>
+                                                    <Input
+                                                        accept="image/*"
+                                                        onChange={async (e) => {
+                                                            if (
+                                                                e?.target?.files
+                                                            ) {
+                                                                const file =
+                                                                    e.target
+                                                                        .files[0]
 
-                                                            const base64 =
-                                                                await convertBase64(
-                                                                    file
+                                                                const base64 =
+                                                                    await convertBase64(
+                                                                        file
+                                                                    )
+
+                                                                setReferenceImage(
+                                                                    base64
                                                                 )
-
-                                                            setReferenceImage(
-                                                                base64
-                                                            )
-                                                        }
-                                                    }}
-                                                    id="picture"
-                                                    type="file"
-                                                />
+                                                            }
+                                                        }}
+                                                        id="picture"
+                                                        type="file"
+                                                    />
+                                                </div>
+                                                {referenceImage && (
+                                                    <div>
+                                                        <ImageInfluencerSlider
+                                                            value={
+                                                                referenceImageInfluence
+                                                            }
+                                                            onValueChange={
+                                                                setReferenceImageInfluence
+                                                            }
+                                                            defaultValue={[25]}
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className="grid gap-1 mt-8 lg:mt-8 relative">
                                                 <Label htmlFor="name">
@@ -743,21 +766,6 @@ export function GenerationForm({
                                             Show advanced options
                                         </Button>
                                     </div>
-
-                                    {/* </Alert>
-                                    <Badge
-                                        variant="outline"
-                                        className="mt-4 inline-flex gap-1"
-                                    >
-                                        This generation will use{" "}
-                                        <strong>
-                                            {parseInt(numImages) / 4}{" "}
-                                            {parseInt(numImages) / 4 !== 1
-                                                ? "credits"
-                                                : "credit"}{" "}
-                                        </strong>
-                                        once it succeeds. 1 credit = 4 images.
-                                    </Badge> */}
                                 </CardFooter>
                             </Card>
                         </form>
