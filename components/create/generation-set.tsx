@@ -1,10 +1,18 @@
 "use client"
 
+import { Badge } from "../ui/badge"
 import { ImageLoadingCard } from "@/components/image-loading-card"
 import { ImageOptions } from "@/components/image-options"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { toast } from "@/components/ui/use-toast"
+import { normalizedGeneratorMap } from "@/lib/generators"
 import { ScenarioInferenceProgressResponse } from "@/types/scenario"
 import { OutputImage } from "@prisma/client"
 import Image from "next/image"
@@ -16,6 +24,8 @@ export interface IGenerationSet {
     modelId: string
     numImages: string
     prompt: string
+    samplingSteps: number
+    guidance: number
 }
 
 export const GenerationSet = ({
@@ -23,6 +33,8 @@ export const GenerationSet = ({
     modelId,
     numImages,
     prompt,
+    samplingSteps,
+    guidance,
 }: IGenerationSet) => {
     const router = useRouter()
 
@@ -94,6 +106,17 @@ export const GenerationSet = ({
         <Card>
             <CardHeader>
                 <CardTitle>{prompt}</CardTitle>
+                <CardDescription>
+                    <div className="flex gap-2 flex-wrap justify-start w-full mt-2">
+                        <Badge variant="secondary">
+                            {normalizedGeneratorMap[modelId]}
+                        </Badge>
+                        <Badge variant="outline">
+                            {samplingSteps} sampling steps
+                        </Badge>
+                        <Badge variant="outline">{guidance} guidance</Badge>
+                    </div>
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 {isSaving && (
@@ -123,7 +146,7 @@ export const GenerationSet = ({
                                             className="object-cover w-full h-auto"
                                             height={512}
                                             width={512}
-                                            alt={"Image prompt result"}
+                                            alt={prompt}
                                             src={image.pixelatedImage}
                                         />
                                         <div className="absolute top-2 right-2 z-10">

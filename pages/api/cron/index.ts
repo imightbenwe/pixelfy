@@ -17,7 +17,6 @@ async function handler(req, res) {
         },
     })
 
-    // do stuff
     res.status(200).end()
 }
 

@@ -90,6 +90,7 @@ export function GenerationForm({
     >([])
 
     const [images, setImages] = React.useState<OutputImage[]>([])
+
     const [isSaving, setIsSaving] = React.useState<boolean>(false)
     const [promptGenerating, setPromptGenerating] =
         React.useState<boolean>(false)
@@ -210,7 +211,7 @@ export function GenerationForm({
                 return toast({
                     title: "Pending generations exceed credits",
                     description:
-                        "Your current pending generations exceed your credit balance. Please wait for your current generations to finish before starting new ones.",
+                        "Your current pending generations exceed your credit balance. Purchase more credits to continue generating concurrent image sets.",
                     variant: "destructive",
                 })
             } else if (!response.ok) {
@@ -230,6 +231,8 @@ export function GenerationForm({
             setRunningGenerations((prev) => [
                 ...prev,
                 {
+                    samplingSteps: samplingSteps[0],
+                    guidance: guidance[0],
                     inferenceId: responseData.inference.id,
                     modelId,
                     prompt: data.prompt,
@@ -763,6 +766,8 @@ export function GenerationForm({
                     </p>
                     {runningGenerations.map((runningGeneration) => (
                         <GenerationSet
+                            samplingSteps={runningGeneration.samplingSteps}
+                            guidance={runningGeneration.guidance}
                             inferenceId={runningGeneration.inferenceId}
                             modelId={runningGeneration.modelId}
                             prompt={runningGeneration.prompt}
