@@ -104,7 +104,7 @@ export function GenerationForm({
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
 
-    const [samplingSteps, setSamplingSteps] = React.useState<number[]>([50])
+    const [samplingSteps, setSamplingSteps] = React.useState<number[]>([30])
     const [guidance, setGuidance] = React.useState<number[]>([7])
     const [referenceImage, setReferenceImage] = React.useState<any>(null)
     const [referenceImageInfluence, setReferenceImageInfluence] =
@@ -219,9 +219,9 @@ export function GenerationForm({
             }
 
             toast({
-                title: "We've started your generation!",
+                title: "We've queued your generation!",
                 description:
-                    "This may take a few minutes. Don't worry, if it fails you will not be charged credits.",
+                    "This may take a few minutes. Don't worry, if it fails you will not be charged credits. Feel free to generate another image set while you wait.",
                 variant: "default",
             })
 
@@ -757,13 +757,17 @@ export function GenerationForm({
             </AnimatePresence>
 
             {runningGenerations?.length > 0 && (
-                <div className="w-full flex flex-col gap-2 mt-8">
-                    <h3 className="font-heading text-xl md:text-2xl">
-                        Active generations
-                    </h3>
-                    <p className="text-md text-muted-foreground mb-4">
-                        Generate multiple image sets at once
-                    </p>
+                <div className="w-full flex flex-col gap-4 mt-8">
+                    <div>
+                        <h3 className="font-heading text-xl md:text-2xl">
+                            Your generations
+                        </h3>
+                        <p className="text-md text-muted-foreground mb-4">
+                            View your generations here. You can generate image
+                            sets for multiple prompts at once.
+                        </p>
+                    </div>
+
                     {runningGenerations.map((runningGeneration) => (
                         <GenerationSet
                             samplingSteps={runningGeneration.samplingSteps}
