@@ -42,16 +42,34 @@ export async function POST(req: Request) {
             },
             select: {
                 credits: true,
+                generations: {
+                    where: {
+                        status: "PROCESSING",
+                    },
+                },
             },
         })
+
+        const pendingGenerationCredits = user.generations.reduce(
+            (acc, generation) => acc + generation.numSamples / 4,
+            0
+        )
 
         if (parameters.numImages / 4 > user.credits) {
             return new Response(
                 JSON.stringify({
                     message:
-                        "User is out of credits. Purchase more to continue generating images, or reduce the amount of images in your generation.",
+                        "Purchase more credits to continue generating images, or reduce the amount of images in your generation.",
                 }),
                 { status: 402 }
+            )
+        } else if (pendingGenerationCredits >= user.credits) {
+            return new Response(
+                JSON.stringify({
+                    message:
+                        "You currently have generations processing that exceed your credit balance. You will have to wait until they are finished before you can generate more images.",
+                }),
+                { status: 403 }
             )
         }
 

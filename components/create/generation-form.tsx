@@ -7,8 +7,6 @@ import { Textarea } from "../ui/textarea"
 import { GenerationSet, IGenerationSet } from "./generation-set"
 import { Icons } from "@/components/icons"
 import { ImageInfluencerSlider } from "@/components/image-influence-slider"
-import { ImageLoadingCard } from "@/components/image-loading-card"
-import { ImageOptions } from "@/components/image-options"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -21,7 +19,6 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Progress } from "@/components/ui/progress"
 import {
     Select,
     SelectContent,
@@ -39,24 +36,20 @@ import {
 } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
 import {
-    sizeDisabledGenerators,
     scenarioGenerators,
-    supplementalPromptMap,
+    scenarioModelData,
+    sizeDisabledGenerators,
     sizeLockedGenerators,
     sizeLockedGeneratorsSizeValue,
-    scenarioModelData,
+    supplementalPromptMap,
 } from "@/lib/generators"
 import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
-import {
-    ScenarioInferenceProgressResponse,
-    ScenarioInferenceResponse,
-} from "@/types/scenario"
+import { ScenarioInferenceResponse } from "@/types/scenario"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { OutputImage, User } from "@prisma/client"
 import va from "@vercel/analytics"
 import { AnimatePresence, motion } from "framer-motion"
-import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import * as React from "react"
@@ -179,69 +172,83 @@ export function GenerationForm({
     }
 
     async function onSubmit(data: FormData) {
-        setIsSaving(true)
-        const response = await fetch(
-            `
+        try {
+            setIsSaving(true)
+            const response = await fetch(
+                `
                 /api/generate`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    parameters: {
-                        pixelSize: parseInt(gridSize),
-                        modelId,
-                        prompt: data.prompt,
-                        samplingSteps: samplingSteps[0],
-                        guidance: guidance[0],
-                        numImages: parseInt(numImages),
-                        referenceImage,
-                        influence: referenceImage
-                            ? referenceImageInfluence[0]
-                            : undefined,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                }),
-            }
-        )
+                    body: JSON.stringify({
+                        parameters: {
+                            pixelSize: parseInt(gridSize),
+                            modelId,
+                            prompt: data.prompt,
+                            samplingSteps: samplingSteps[0],
+                            guidance: guidance[0],
+                            numImages: parseInt(numImages),
+                            referenceImage,
+                            influence: referenceImage
+                                ? referenceImageInfluence[0]
+                                : undefined,
+                        },
+                    }),
+                }
+            )
 
-        if (!response?.ok && response.status === 402) {
-            return toast({
-                title: "You are out of credits",
+            if (!response?.ok && response.status === 402) {
+                return toast({
+                    title: "You are out of credits",
+                    description:
+                        "Purchase more credits to continue generating images, or reduce the amount of images in your generation.",
+                    variant: "destructive",
+                })
+            } else if (!response.ok && response.status === 403) {
+                return toast({
+                    title: "Pending generations exceed credits",
+                    description:
+                        "Your current pending generations exceed your credit balance. Please wait for your current generations to finish before starting new ones.",
+                    variant: "destructive",
+                })
+            } else if (!response.ok) {
+                await response.json()
+            }
+
+            toast({
+                title: "We've started your generation!",
                 description:
-                    "In order to continue generating images please purchase more credits. If there's been a mistake contact support.",
-                variant: "destructive",
+                    "This may take a few minutes. Don't worry, if it fails you will not be charged credits.",
+                variant: "default",
             })
-        } else if (!response.ok) {
-            return toast({
+
+            const responseData: ScenarioInferenceResponse =
+                await response.json()
+
+            setRunningGenerations((prev) => [
+                ...prev,
+                {
+                    inferenceId: responseData.inference.id,
+                    modelId,
+                    prompt: data.prompt,
+                    numImages,
+                },
+            ])
+
+            reset()
+            setIsSaving(false)
+        } catch (e) {
+            toast({
                 title: "Something went wrong",
                 description:
                     "Please try to generate your image again. If the issue persists contact support.",
                 variant: "destructive",
             })
+        } finally {
+            setIsSaving(false)
         }
-
-        toast({
-            title: "We've started your generation!",
-            description:
-                "This may take a few minutes. Don't worry, if it fails you will not be charged credits.",
-            variant: "default",
-        })
-
-        const responseData: ScenarioInferenceResponse = await response.json()
-
-        setRunningGenerations((prev) => [
-            ...prev,
-            {
-                inferenceId: responseData.inference.id,
-                modelId,
-                prompt: data.prompt,
-                numImages,
-            },
-        ])
-
-        reset()
-        setIsSaving(false)
     }
 
     const sizeGridLocked = sizeLockedGenerators.includes(modelId)
@@ -747,7 +754,13 @@ export function GenerationForm({
             </AnimatePresence>
 
             {runningGenerations?.length > 0 && (
-                <div className="w-full flex flex-col gap-2">
+                <div className="w-full flex flex-col gap-2 mt-8">
+                    <h3 className="font-heading text-xl md:text-2xl">
+                        Active generations
+                    </h3>
+                    <p className="text-md text-muted-foreground mb-4">
+                        Generate multiple image sets at once
+                    </p>
                     {runningGenerations.map((runningGeneration) => (
                         <GenerationSet
                             inferenceId={runningGeneration.inferenceId}

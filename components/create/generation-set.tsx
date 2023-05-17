@@ -1,66 +1,15 @@
 "use client"
 
-import { GuidanceSelector } from "../guidance-selector"
-import { SamplingStepSelector } from "../sampling-step-selector"
-import { Badge } from "../ui/badge"
-import { Textarea } from "../ui/textarea"
-import { Icons } from "@/components/icons"
-import { ImageInfluencerSlider } from "@/components/image-influence-slider"
 import { ImageLoadingCard } from "@/components/image-loading-card"
 import { ImageOptions } from "@/components/image-options"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Button, buttonVariants } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
-import {
-    sizeDisabledGenerators,
-    scenarioGenerators,
-    supplementalPromptMap,
-    sizeLockedGenerators,
-    sizeLockedGeneratorsSizeValue,
-    scenarioModelData,
-} from "@/lib/generators"
-import { cn, convertBase64 } from "@/lib/utils"
-import { generateSchema } from "@/lib/validations/generate"
-import {
-    ScenarioInferenceProgressResponse,
-    ScenarioInferenceResponse,
-} from "@/types/scenario"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { OutputImage, User } from "@prisma/client"
-import va from "@vercel/analytics"
-import { AnimatePresence, motion } from "framer-motion"
+import { ScenarioInferenceProgressResponse } from "@/types/scenario"
+import { OutputImage } from "@prisma/client"
 import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import * as React from "react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
 
 export interface IGenerationSet {
     inferenceId: string
@@ -73,6 +22,7 @@ export const GenerationSet = ({
     inferenceId,
     modelId,
     numImages,
+    prompt,
 }: IGenerationSet) => {
     const router = useRouter()
 
@@ -141,23 +91,26 @@ export const GenerationSet = ({
     }, [inferenceId, modelId])
 
     return (
-        <>
-            {isSaving && (
-                <>
-                    <div className="mt-0">
-                        <Progress value={progress * 100} />
-                    </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
-                        {Array.from(Array(parseInt(numImages)), (e, i) => {
-                            return <ImageLoadingCard key={i} />
-                        })}
-                    </div>
-                </>
-            )}
+        <Card>
+            <CardHeader>
+                <CardTitle>{prompt}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                {isSaving && (
+                    <>
+                        <div className="mt-0">
+                            <Progress value={progress * 100} />
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
+                            {Array.from(Array(parseInt(numImages)), (e, i) => {
+                                return <ImageLoadingCard key={i} />
+                            })}
+                        </div>
+                    </>
+                )}
 
-            {images && (
-                <div className="mt-8 w-full">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full mt-4">
+                {images && (
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
                         {images.map((image) => (
                             <div
                                 key={image.id}
@@ -185,8 +138,8 @@ export const GenerationSet = ({
                             </div>
                         ))}
                     </div>
-                </div>
-            )}
-        </>
+                )}
+            </CardContent>
+        </Card>
     )
 }

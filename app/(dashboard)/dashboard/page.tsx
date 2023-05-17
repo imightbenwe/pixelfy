@@ -25,7 +25,7 @@ export default async function DashboardPage() {
                 {/* <ModelSelectButton /> */}
             </DashboardHeader>
 
-            <div>
+            <div className="mb-24">
                 <GenerationForm
                     user={{
                         id: user.id,
