@@ -4,10 +4,9 @@ import { GuidanceSelector } from "../guidance-selector"
 import { SamplingStepSelector } from "../sampling-step-selector"
 import { Badge } from "../ui/badge"
 import { Textarea } from "../ui/textarea"
+import { GenerationSet, IGenerationSet } from "./generation-set"
 import { Icons } from "@/components/icons"
 import { ImageInfluencerSlider } from "@/components/image-influence-slider"
-import { ImageLoadingCard } from "@/components/image-loading-card"
-import { ImageOptions } from "@/components/image-options"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -20,7 +19,6 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Progress } from "@/components/ui/progress"
 import {
     Select,
     SelectContent,
@@ -38,24 +36,20 @@ import {
 } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
 import {
-    sizeDisabledGenerators,
     scenarioGenerators,
-    supplementalPromptMap,
+    scenarioModelData,
+    sizeDisabledGenerators,
     sizeLockedGenerators,
     sizeLockedGeneratorsSizeValue,
-    scenarioModelData,
+    supplementalPromptMap,
 } from "@/lib/generators"
 import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
-import {
-    ScenarioInferenceProgressResponse,
-    ScenarioInferenceResponse,
-} from "@/types/scenario"
+import { ScenarioInferenceResponse } from "@/types/scenario"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { OutputImage, User } from "@prisma/client"
 import va from "@vercel/analytics"
 import { AnimatePresence, motion } from "framer-motion"
-import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import * as React from "react"
@@ -79,6 +73,7 @@ export function GenerationForm({
         getValues,
         handleSubmit,
         register,
+        reset,
         watch,
         formState: { errors },
     } = useForm<FormData>({
@@ -90,7 +85,12 @@ export function GenerationForm({
 
     const reactivePrompt = watch("prompt")
 
+    const [runningGenerations, setRunningGenerations] = React.useState<
+        IGenerationSet[]
+    >([])
+
     const [images, setImages] = React.useState<OutputImage[]>([])
+
     const [isSaving, setIsSaving] = React.useState<boolean>(false)
     const [promptGenerating, setPromptGenerating] =
         React.useState<boolean>(false)
@@ -104,7 +104,7 @@ export function GenerationForm({
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
 
-    const [samplingSteps, setSamplingSteps] = React.useState<number[]>([50])
+    const [samplingSteps, setSamplingSteps] = React.useState<number[]>([30])
     const [guidance, setGuidance] = React.useState<number[]>([7])
     const [referenceImage, setReferenceImage] = React.useState<any>(null)
     const [referenceImageInfluence, setReferenceImageInfluence] =
@@ -173,102 +173,85 @@ export function GenerationForm({
     }
 
     async function onSubmit(data: FormData) {
-        setIsSaving(true)
-
-        const response = await fetch(
-            `
+        try {
+            setIsSaving(true)
+            const response = await fetch(
+                `
                 /api/generate`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    parameters: {
-                        pixelSize: parseInt(gridSize),
-                        modelId,
-                        prompt: data.prompt,
-                        samplingSteps: samplingSteps[0],
-                        guidance: guidance[0],
-                        numImages: parseInt(numImages),
-                        referenceImage,
-                        influence: referenceImage
-                            ? referenceImageInfluence[0]
-                            : undefined,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                }),
-            }
-        )
+                    body: JSON.stringify({
+                        parameters: {
+                            pixelSize: parseInt(gridSize),
+                            modelId,
+                            prompt: data.prompt,
+                            samplingSteps: samplingSteps[0],
+                            guidance: guidance[0],
+                            numImages: parseInt(numImages),
+                            referenceImage,
+                            influence: referenceImage
+                                ? referenceImageInfluence[0]
+                                : undefined,
+                        },
+                    }),
+                }
+            )
 
-        if (!response?.ok && response.status === 402) {
-            setIsSaving(false)
-            return toast({
-                title: "You are out of credits",
+            if (!response?.ok && response.status === 402) {
+                return toast({
+                    title: "You are out of credits",
+                    description:
+                        "Purchase more credits to continue generating images, or reduce the amount of images in your generation.",
+                    variant: "destructive",
+                })
+            } else if (!response.ok && response.status === 403) {
+                return toast({
+                    title: "Pending generations exceed credits",
+                    description:
+                        "Your current pending generations exceed your credit balance. Purchase more credits to continue generating concurrent image sets.",
+                    variant: "destructive",
+                })
+            } else if (!response.ok) {
+                await response.json()
+            }
+
+            toast({
+                title: "We've queued your generation!",
                 description:
-                    "In order to continue generating images please purchase more credits. If there's been a mistake contact support.",
-                variant: "destructive",
+                    "This may take a few minutes. Don't worry, if it fails you will not be charged credits. Feel free to generate another image set while you wait.",
+                variant: "default",
             })
-        } else if (!response.ok) {
+
+            const responseData: ScenarioInferenceResponse =
+                await response.json()
+
+            setRunningGenerations((prev) => [
+                ...prev,
+                {
+                    samplingSteps: samplingSteps[0],
+                    guidance: guidance[0],
+                    inferenceId: responseData.inference.id,
+                    modelId,
+                    prompt: data.prompt,
+                    numImages,
+                },
+            ])
+
+            reset()
             setIsSaving(false)
-            return toast({
+        } catch (e) {
+            toast({
                 title: "Something went wrong",
                 description:
                     "Please try to generate your image again. If the issue persists contact support.",
                 variant: "destructive",
             })
+        } finally {
+            setIsSaving(false)
         }
-
-        toast({
-            title: "We've started your generation!",
-            description:
-                "This may take a few minutes. Don't worry, if it fails you will not be charged credits.",
-            variant: "default",
-        })
-
-        const responseData: ScenarioInferenceResponse = await response.json()
-
-        let generatedImages: null | OutputImage[] = null
-        let secondCount = 0
-        let showedPatienceModal = false
-        while (!generatedImages) {
-            // Loop in 1s intervals until the alt text is ready
-            let finalResponse = await fetch(
-                `/api/generate/${responseData.inference.id}?modelId=${modelId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            let jsonFinalResponse: ScenarioInferenceProgressResponse =
-                await finalResponse.json()
-            setProgress(jsonFinalResponse.inference.progress)
-
-            if (
-                jsonFinalResponse.inference.status === "succeeded" &&
-                jsonFinalResponse?.outputImages
-            ) {
-                generatedImages = jsonFinalResponse.outputImages
-                setImages(generatedImages)
-            } else if (jsonFinalResponse.inference.status === "failed") {
-                break
-            } else {
-                if (secondCount >= 60 && !showedPatienceModal) {
-                    toast({
-                        title: "Still generating!",
-                        description:
-                            "Sorry this is taking a while. Your generation should be done soon. Thanks for your patience",
-                        variant: "default",
-                    })
-                    showedPatienceModal = true
-                }
-                secondCount++
-                await new Promise((resolve) => setTimeout(resolve, 1000))
-            }
-        }
-        setIsSaving(false)
-        router.refresh()
     }
 
     const sizeGridLocked = sizeLockedGenerators.includes(modelId)
@@ -772,49 +755,29 @@ export function GenerationForm({
                     </motion.div>
                 )}
             </AnimatePresence>
-            {isSaving && (
-                <>
-                    <div className="mt-4">
-                        <Progress value={progress * 100} />
-                    </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
-                        {Array.from(Array(parseInt(numImages)), (e, i) => {
-                            return <ImageLoadingCard key={i} />
-                        })}
-                    </div>
-                </>
-            )}
 
-            {images && (
-                <div className="mt-8 w-full mb-24">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full mt-4">
-                        {images.map((image) => (
-                            <div
-                                key={image.id}
-                                className="rounded-lg overflow-hidden relative w-full"
-                            >
-                                {image?.pixelatedImage && (
-                                    <>
-                                        <Image
-                                            unoptimized
-                                            className="object-cover w-full h-auto"
-                                            height={512}
-                                            width={512}
-                                            alt={"Image prompt result"}
-                                            src={image.pixelatedImage}
-                                        />
-                                        <div className="absolute top-2 right-2 z-10">
-                                            <ImageOptions
-                                                name={image.seed}
-                                                imageId={image.id}
-                                                src={image.pixelatedImage}
-                                            />
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        ))}
+            {runningGenerations?.length > 0 && (
+                <div className="w-full flex flex-col gap-4 mt-8">
+                    <div>
+                        <h3 className="font-heading text-xl md:text-2xl">
+                            Your generations
+                        </h3>
+                        <p className="text-md text-muted-foreground mb-4">
+                            View your generations here. You can generate image
+                            sets for multiple prompts at once.
+                        </p>
                     </div>
+
+                    {runningGenerations.map((runningGeneration) => (
+                        <GenerationSet
+                            samplingSteps={runningGeneration.samplingSteps}
+                            guidance={runningGeneration.guidance}
+                            inferenceId={runningGeneration.inferenceId}
+                            modelId={runningGeneration.modelId}
+                            prompt={runningGeneration.prompt}
+                            numImages={runningGeneration.numImages}
+                        />
+                    ))}
                 </div>
             )}
         </>

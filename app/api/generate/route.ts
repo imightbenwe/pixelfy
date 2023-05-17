@@ -11,7 +11,7 @@ const generateBody = z.object({
     parameters: z.object({
         modelId: z.string(),
         prompt: z.string().max(500),
-        samplingSteps: z.number().min(10).max(100).default(50),
+        samplingSteps: z.number().min(10).max(100).default(30),
         guidance: z.number().min(0).max(20).default(7),
         numImages: z.number().min(4).max(16).optional().default(4),
         pixelSize: z.number().optional().default(8),
@@ -42,16 +42,34 @@ export async function POST(req: Request) {
             },
             select: {
                 credits: true,
+                generations: {
+                    where: {
+                        status: "PROCESSING",
+                    },
+                },
             },
         })
+
+        const pendingGenerationCredits = user.generations.reduce(
+            (acc, generation) => acc + generation.numSamples / 4,
+            0
+        )
 
         if (parameters.numImages / 4 > user.credits) {
             return new Response(
                 JSON.stringify({
                     message:
-                        "User is out of credits. Purchase more to continue generating images, or reduce the amount of images in your generation.",
+                        "Purchase more credits to continue generating images, or reduce the amount of images in your generation.",
                 }),
                 { status: 402 }
+            )
+        } else if (pendingGenerationCredits >= user.credits) {
+            return new Response(
+                JSON.stringify({
+                    message:
+                        "You currently have generations processing that exceed your credit balance. You will have to wait until they are finished before you can generate more images.",
+                }),
+                { status: 403 }
             )
         }
 

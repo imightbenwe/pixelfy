@@ -126,7 +126,23 @@ export async function GET(
                         modelId: modelId,
                     },
                 },
+                include: {
+                    outputImages: true,
+                },
             })
+
+            // If the generation is already complete, return the output images
+            if (generation.status === "COMPLETE") {
+                let copiedInferenceProgressWithImagesPixelated: ScenarioInferenceProgressResponse =
+                    {
+                        ...inferenceProgress,
+                        outputImages: generation.outputImages,
+                    }
+                return new Response(
+                    JSON.stringify(copiedInferenceProgressWithImagesPixelated),
+                    { status: 200 }
+                )
+            }
 
             const pixelatedImagesScenario = await Promise.all(
                 inferenceProgress.inference.images.map((image) => {
