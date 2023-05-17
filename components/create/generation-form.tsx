@@ -4,6 +4,7 @@ import { GuidanceSelector } from "../guidance-selector"
 import { SamplingStepSelector } from "../sampling-step-selector"
 import { Badge } from "../ui/badge"
 import { Textarea } from "../ui/textarea"
+import { GenerationSet, IGenerationSet } from "./generation-set"
 import { Icons } from "@/components/icons"
 import { ImageInfluencerSlider } from "@/components/image-influence-slider"
 import { ImageLoadingCard } from "@/components/image-loading-card"
@@ -79,6 +80,7 @@ export function GenerationForm({
         getValues,
         handleSubmit,
         register,
+        reset,
         watch,
         formState: { errors },
     } = useForm<FormData>({
@@ -89,6 +91,10 @@ export function GenerationForm({
     })
 
     const reactivePrompt = watch("prompt")
+
+    const [runningGenerations, setRunningGenerations] = React.useState<
+        IGenerationSet[]
+    >([])
 
     const [images, setImages] = React.useState<OutputImage[]>([])
     const [isSaving, setIsSaving] = React.useState<boolean>(false)
@@ -174,7 +180,6 @@ export function GenerationForm({
 
     async function onSubmit(data: FormData) {
         setIsSaving(true)
-
         const response = await fetch(
             `
                 /api/generate`,
@@ -201,7 +206,6 @@ export function GenerationForm({
         )
 
         if (!response?.ok && response.status === 402) {
-            setIsSaving(false)
             return toast({
                 title: "You are out of credits",
                 description:
@@ -209,7 +213,6 @@ export function GenerationForm({
                 variant: "destructive",
             })
         } else if (!response.ok) {
-            setIsSaving(false)
             return toast({
                 title: "Something went wrong",
                 description:
@@ -227,48 +230,18 @@ export function GenerationForm({
 
         const responseData: ScenarioInferenceResponse = await response.json()
 
-        let generatedImages: null | OutputImage[] = null
-        let secondCount = 0
-        let showedPatienceModal = false
-        while (!generatedImages) {
-            // Loop in 1s intervals until the alt text is ready
-            let finalResponse = await fetch(
-                `/api/generate/${responseData.inference.id}?modelId=${modelId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            let jsonFinalResponse: ScenarioInferenceProgressResponse =
-                await finalResponse.json()
-            setProgress(jsonFinalResponse.inference.progress)
+        setRunningGenerations((prev) => [
+            ...prev,
+            {
+                inferenceId: responseData.inference.id,
+                modelId,
+                prompt: data.prompt,
+                numImages,
+            },
+        ])
 
-            if (
-                jsonFinalResponse.inference.status === "succeeded" &&
-                jsonFinalResponse?.outputImages
-            ) {
-                generatedImages = jsonFinalResponse.outputImages
-                setImages(generatedImages)
-            } else if (jsonFinalResponse.inference.status === "failed") {
-                break
-            } else {
-                if (secondCount >= 60 && !showedPatienceModal) {
-                    toast({
-                        title: "Still generating!",
-                        description:
-                            "Sorry this is taking a while. Your generation should be done soon. Thanks for your patience",
-                        variant: "default",
-                    })
-                    showedPatienceModal = true
-                }
-                secondCount++
-                await new Promise((resolve) => setTimeout(resolve, 1000))
-            }
-        }
+        reset()
         setIsSaving(false)
-        router.refresh()
     }
 
     const sizeGridLocked = sizeLockedGenerators.includes(modelId)
@@ -772,49 +745,17 @@ export function GenerationForm({
                     </motion.div>
                 )}
             </AnimatePresence>
-            {isSaving && (
-                <>
-                    <div className="mt-4">
-                        <Progress value={progress * 100} />
-                    </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
-                        {Array.from(Array(parseInt(numImages)), (e, i) => {
-                            return <ImageLoadingCard key={i} />
-                        })}
-                    </div>
-                </>
-            )}
 
-            {images && (
-                <div className="mt-8 w-full mb-24">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full mt-4">
-                        {images.map((image) => (
-                            <div
-                                key={image.id}
-                                className="rounded-lg overflow-hidden relative w-full"
-                            >
-                                {image?.pixelatedImage && (
-                                    <>
-                                        <Image
-                                            unoptimized
-                                            className="object-cover w-full h-auto"
-                                            height={512}
-                                            width={512}
-                                            alt={"Image prompt result"}
-                                            src={image.pixelatedImage}
-                                        />
-                                        <div className="absolute top-2 right-2 z-10">
-                                            <ImageOptions
-                                                name={image.seed}
-                                                imageId={image.id}
-                                                src={image.pixelatedImage}
-                                            />
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+            {runningGenerations?.length > 0 && (
+                <div className="w-full flex flex-col gap-2">
+                    {runningGenerations.map((runningGeneration) => (
+                        <GenerationSet
+                            inferenceId={runningGeneration.inferenceId}
+                            modelId={runningGeneration.modelId}
+                            prompt={runningGeneration.prompt}
+                            numImages={runningGeneration.numImages}
+                        />
+                    ))}
                 </div>
             )}
         </>
