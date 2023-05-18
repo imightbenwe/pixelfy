@@ -323,7 +323,7 @@ export const GenerationSet = ({
                                             onChange={(e) =>
                                                 setFeedback(e.target.value)
                                             }
-                                            placeholder="We'd lve to hear why this generation
+                                            placeholder="We'd love to hear why this generation
                                             wasn't up to par. We'll credit your
                                             account back a credit up to 3 times
                                             if you provide some context to why
