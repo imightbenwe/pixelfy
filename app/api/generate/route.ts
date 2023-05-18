@@ -90,7 +90,7 @@ export async function POST(req: Request) {
                         prompt: `${parameters.prompt} ${
                             supplementalPromptMap[parameters.modelId]
                         }`,
-                        negativePrompt: "trading cards, cards",
+                        negativePrompt: "trading cards, cards, isometric",
                         numInferenceSteps: parameters.samplingSteps,
                         guidance: parameters.guidance,
                         width: 512,

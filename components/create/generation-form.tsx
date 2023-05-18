@@ -95,7 +95,7 @@ export function GenerationForm({
     const [showAdvancedOptions, setShowAdvancedOptions] =
         React.useState<boolean>(false)
     const [modelId, setModelId] = React.useState<string>(
-        scenarioGenerators.fantasyRpg
+        scenarioGenerators.assetDiffusion
     )
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")

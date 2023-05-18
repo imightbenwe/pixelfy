@@ -1,3 +1,5 @@
+import { de } from "date-fns/locale"
+
 export type TScenarioModels =
     | "fantasyRpg"
     | "landscapePortrait"
@@ -5,6 +7,7 @@ export type TScenarioModels =
     | "pixelPortrait"
     | "skillArt"
     | "yoHokki"
+    | "assetDiffusion"
 // | "spriteGenerator"
 
 type TArtistInfo = {
@@ -38,6 +41,27 @@ export type TScenarioModelsToIds = {
 }
 
 export const scenarioModelData: TScenarioModelIdsToData = {
+    assetDiffusion: {
+        slug: "asset-diffusion",
+        id: "VklJ8PLtTpC_8z2p6fk2lg",
+        name: "Asset Diffusion",
+        description: "Asset diffusion",
+        supplementalPrompt: "",
+        sizeLocked: false,
+        disabledSizes: ["32"],
+        placeholderInputText:
+            "Ex. Enter a prompt you'd like to see comma separated, or use our prompt builder below",
+        examples: [
+            "clhsmbnvt0010uggptyqug23n",
+            "clhsma0yi000muggpedssr74d",
+            "clhsmg4y7002fuggpchkxo48b",
+            "clhsmiemu002quggpz2yysihg",
+            "clhsmiemu002ouggpyjcj99oi",
+            "clhsmiemu002puggp13yevni3",
+            "clhsmt2mj004luggpmcyj9hsg",
+            "clhsmvr7h0053uggpwv6lv07i",
+        ],
+    },
     // spriteGenerator: {
     //     slug: "sprite-generator",
     //     id: "bBo4wjNsRPiBvVT1LR5cjQ",
@@ -223,6 +247,7 @@ export const scenarioGenerators: TScenarioModelsToIds = {
     pixelPortrait: "Zk4dmsnVQJ6x02F9IZfXhA",
     skillArt: "VB8yd1LaRsinkQMZuFoupg",
     yoHokki: "Q36HbYy1T2WdsjkfQp3MoA",
+    assetDiffusion: "VklJ8PLtTpC_8z2p6fk2lg",
     // spriteGenerator: "bBo4wjNsRPiBvVT1LR5cjQ",
 }
 
@@ -238,6 +263,7 @@ export const normalizedGeneratorMap = {
     VB8yd1LaRsinkQMZuFoupg: "32x32 Skill Art",
     Q36HbYy1T2WdsjkfQp3MoA: "Yo-Hokki Style",
     bBo4wjNsRPiBvVT1LR5cjQ: "32x32 Sprites",
+    VklJ8PLtTpC_8z2p6fk2lg: "Asset Diffusion",
 }
 
 export const supplementalPromptMap = {
@@ -252,6 +278,7 @@ export const supplementalPromptMap = {
         ", character portrait, close up, anime style, pixel art",
     bBo4wjNsRPiBvVT1LR5cjQ:
         " , 32x32 pixel art, sRGB, close up, full body, game asset, centered in frame",
+    VklJ8PLtTpC_8z2p6fk2lg: ", pixel art",
 }
 
 export const sizeLockedGenerators = [
@@ -271,6 +298,7 @@ export const sizeLockedGeneratorsSizeValue = {
 }
 
 export const sizeDisabledGenerators = [
+    scenarioGenerators.assetDiffusion,
     scenarioGenerators.fantasyRpg,
     scenarioGenerators.animeStyle,
     scenarioGenerators.yoHokki,
