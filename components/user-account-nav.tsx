@@ -12,19 +12,22 @@ import {
 import { UserAvatar } from "@/components/user-avatar"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 
-interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-    user: Pick<User, "name" | "image" | "email">
-    credits: number
-}
+export function UserAccountNav() {
+    const { data: session } = useSession()
 
-export function UserAccountNav({ user, credits }: UserAccountNavProps) {
     return (
         <div className="flex items-center gap-4">
             <span className="text-xs md:text-sm text-foreground block">
-                {" "}
-                {credits.toLocaleString()} credits remaining
+                {session && (
+                    <>
+                        {" "}
+                        {session?.user.credits.toLocaleString()} credits
+                        remaining
+                    </>
+                )}
             </span>
             <Link href="/credits">
                 <Button className="inline-flex gap-2" size="sm">
@@ -37,8 +40,8 @@ export function UserAccountNav({ user, credits }: UserAccountNavProps) {
                 <DropdownMenuTrigger className="relative">
                     <UserAvatar
                         user={{
-                            name: user.name || null,
-                            image: user.image || null,
+                            name: session?.user.name || null,
+                            image: session?.user.image || null,
                         }}
                         className="h-8 w-8"
                     />
@@ -46,12 +49,14 @@ export function UserAccountNav({ user, credits }: UserAccountNavProps) {
                 <DropdownMenuContent align="end">
                     <div className="flex items-center justify-start gap-2 p-2">
                         <div className="flex flex-col space-y-1 leading-none">
-                            {user.name && (
-                                <p className="font-medium">{user.name}</p>
+                            {session?.user.name && (
+                                <p className="font-medium">
+                                    {session?.user.name}
+                                </p>
                             )}
-                            {user.email && (
+                            {session?.user.email && (
                                 <p className="w-[200px] truncate text-sm text-muted-foreground">
-                                    {user.email}
+                                    {session.user.email}
                                 </p>
                             )}
                         </div>
