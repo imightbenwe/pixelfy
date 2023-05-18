@@ -5,6 +5,7 @@ export type TScenarioModels =
     | "pixelPortrait"
     | "skillArt"
     | "yoHokki"
+// | "spriteGenerator"
 
 type TArtistInfo = {
     instagram: string
@@ -25,6 +26,7 @@ export type TScenarioModelData = {
     disabledSizes?: string[]
     featuredArtist?: boolean
     artistInfo?: TArtistInfo
+    placeholderInputText?: string
 }
 
 export type TScenarioModelIdsToData = {
@@ -36,6 +38,15 @@ export type TScenarioModelsToIds = {
 }
 
 export const scenarioModelData: TScenarioModelIdsToData = {
+    // spriteGenerator: {
+    //     slug: "sprite-generator",
+    //     id: "bBo4wjNsRPiBvVT1LR5cjQ",
+    //     name: "32x32 Sprite Generator",
+    //     description: "32x32 Sprites for RPG games",
+    //     supplementalPrompt: " , fantasy RPG style, concept art",
+    //     sizeLocked: true,
+    //     placeholderInputText: "Ex. Skeleton sprite, gray colors",
+    // },
     fantasyRpg: {
         slug: "fantasy-rpg",
         id: "DkCC2BfCQ8mhxnyFW1tXcw",
@@ -44,6 +55,8 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         supplementalPrompt: " , fantasy RPG style, concept art",
         sizeLocked: false,
         disabledSizes: ["32"],
+        placeholderInputText:
+            "Ex. Space warrior, nighttime, galaxy in the sky, neon colors",
         examples: [
             "clhfjtqv0002dugah4hstbwxk",
             "clh4bqrly0002mj0833sjle3k",
@@ -63,6 +76,8 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         supplementalPrompt: " , landscape portrait, ",
         sizeLocked: false,
         disabledSizes: ["32"],
+        placeholderInputText:
+            "Ex. A majestic castle, towering mountains, and a mythical creature, rendered in a dark gothic style",
         examples: [
             "clh9qmtv80007mk08yj87qvyl",
             "clh9qmtv80009mk08f9kfbq8w",
@@ -83,6 +98,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         supplementalPrompt: " , anime style",
         sizeLocked: false,
         disabledSizes: ["32"],
+        placeholderInputText: "Ex. Cyberpunk hacker, anime style",
         examples: [
             "clh2oa3tv0005ju08x1v40dbv",
             "clh2oa3tv0003ju08hqc6pgct",
@@ -106,6 +122,8 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         supplementalPrompt:
             " , game icon, 16x16, pixel art, close up, portrait",
         sizeLocked: true,
+        placeholderInputText:
+            "Ex. Purple-robed warlock with a menacing void helmet, rendered in a 16x16 pixel portrait style",
         examples: [
             "clhfsgbkw0011ugzvwt3kw67u",
             "clhfso3ui0004k008u9zx40c8",
@@ -127,6 +145,8 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         supplementalPrompt:
             " , game icon, 32x32 pixel art, sRGB, skill art, close up, portrait",
         sizeLocked: true,
+        placeholderInputText:
+            "Ex. Death game icon, skull and crossbones, evil vibe",
         examples: [
             "clhcinhwo0023ugvb79g649zs",
             "clhcinhwo0020ugvbaj072m6v",
@@ -149,7 +169,7 @@ export const scenarioModelData: TScenarioModelIdsToData = {
     yoHokki: {
         slug: "yo-hokki-style-pixel-art",
         id: "Q36HbYy1T2WdsjkfQp3MoA",
-        name: "Yo-Hokki Style Pixel Art",
+        name: "Yo-Hokki Style",
         description:
             "Game icon, 32x32 pixel art, sRGB, skill art, close up, portrait",
         supplementalPrompt:
@@ -163,6 +183,8 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             name: "Yo-Hokki",
             bio: "Yo-Hokki is an artist who specializes in pixel art and anime style portraits.",
         },
+        placeholderInputText:
+            "Ex. Demon slayer with fiery red hair and piercing green eyes stares fiercely at the viewer in a close-up character portrait, rendered in a vibrant anime style with intricate pixel art details.",
         examples: [
             "clhh0m05j000fugee9xb6poxl",
             "clhh0pohf000zugee9by2nm3y",
@@ -185,6 +207,15 @@ export const scenarioModelData: TScenarioModelIdsToData = {
     },
 }
 
+export const findMatchingStyleFromModelId = (
+    modelId: string
+): TScenarioModelData | undefined => {
+    const matchingStyle = Object.values(scenarioModelData).find(
+        (scenario) => scenario.id === modelId
+    )
+    return matchingStyle
+}
+
 export const scenarioGenerators: TScenarioModelsToIds = {
     fantasyRpg: "DkCC2BfCQ8mhxnyFW1tXcw",
     landscapePortrait: "BnhDXzIrQxWk1c0bWe73_w",
@@ -192,6 +223,7 @@ export const scenarioGenerators: TScenarioModelsToIds = {
     pixelPortrait: "Zk4dmsnVQJ6x02F9IZfXhA",
     skillArt: "VB8yd1LaRsinkQMZuFoupg",
     yoHokki: "Q36HbYy1T2WdsjkfQp3MoA",
+    // spriteGenerator: "bBo4wjNsRPiBvVT1LR5cjQ",
 }
 
 type TNormalizedGeneratorNameMap = {
@@ -205,6 +237,7 @@ export const normalizedGeneratorMap = {
     Zk4dmsnVQJ6x02F9IZfXhA: "16x16 Pixel Portrait",
     VB8yd1LaRsinkQMZuFoupg: "32x32 Skill Art",
     Q36HbYy1T2WdsjkfQp3MoA: "Yo-Hokki Style",
+    bBo4wjNsRPiBvVT1LR5cjQ: "32x32 Sprites",
 }
 
 export const supplementalPromptMap = {
@@ -217,6 +250,8 @@ export const supplementalPromptMap = {
         " , game icon, 32x32 pixel art, sRGB, skill art, close up, portrait",
     Q36HbYy1T2WdsjkfQp3MoA:
         ", character portrait, close up, anime style, pixel art",
+    bBo4wjNsRPiBvVT1LR5cjQ:
+        " , 32x32 pixel art, sRGB, close up, full body, game asset, centered in frame",
 }
 
 export const sizeLockedGenerators = [
@@ -224,11 +259,13 @@ export const sizeLockedGenerators = [
     // scenarioGenerators.shields,
     scenarioGenerators.pixelPortrait,
     scenarioGenerators.skillArt,
+    // scenarioGenerators.spriteGenerator,
 ]
 
 export const sizeLockedGeneratorsSizeValue = {
     [scenarioGenerators.pixelPortrait]: 32,
     [scenarioGenerators.skillArt]: 16,
+    // [scenarioGenerators.spriteGenerator]: 16,
     // [scenarioGenerators["16x16Icons"]]: 32,
     // [scenarioGenerators.shields]: 16,
 }

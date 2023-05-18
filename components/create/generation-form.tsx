@@ -43,6 +43,7 @@ import {
     sizeLockedGeneratorsSizeValue,
     supplementalPromptMap,
 } from "@/lib/generators"
+import { findMatchingStyleFromModelId } from "@/lib/generators"
 import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
 import { ScenarioInferenceResponse } from "@/types/scenario"
@@ -557,7 +558,13 @@ export function GenerationForm({
                                                         isSaving ||
                                                         promptGenerating
                                                     }
-                                                    placeholder="Ex. Ekko from league of legends, vivid colors, full body, portrait"
+                                                    placeholder={
+                                                        findMatchingStyleFromModelId(
+                                                            modelId
+                                                        )
+                                                            ?.placeholderInputText ??
+                                                        "Enter a prompt or enter a phrase then click on our prompt builder button to help you out"
+                                                    }
                                                     className="mt-1"
                                                     id="Prompt"
                                                     maxLength={500}
