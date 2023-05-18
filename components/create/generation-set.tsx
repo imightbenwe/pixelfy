@@ -25,7 +25,6 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import * as React from "react"
 import { useState } from "react"
-import { useInterval } from "usehooks-ts"
 
 export interface IGenerationSet {
     inferenceId: string
@@ -263,7 +262,7 @@ export const GenerationSet = ({
                         className="flex items-center justify-center flex-col w-full gap-2"
                     >
                         <p className="mr-2 text-sm text-muted-foreground">
-                            Are you satisfied with this generation?
+                            Are you happy with this generation?
                         </p>
                         <div className="flex items-center gap-2">
                             <Button
@@ -334,7 +333,10 @@ export const GenerationSet = ({
                                         />
                                     </div>
                                     <Button
-                                        disabled={feedbackWithCommentSaving}
+                                        disabled={
+                                            feedbackWithCommentSaving ||
+                                            feedback?.length === 0
+                                        }
                                         onClick={async () =>
                                             await updateGenerationFeedback({
                                                 satisfaction:
