@@ -30,6 +30,8 @@ import {
     ImagePlus,
     Terminal,
     Instagram,
+    ThumbsUp,
+    ThumbsDown,
     type Icon as LucideIcon,
     MessageSquare,
 } from "lucide-react"
@@ -37,6 +39,8 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+    thumbsUp: ThumbsUp,
+    thumbsDown: ThumbsDown,
     instagram: Instagram,
     info: Info,
     formInput: FormInput,

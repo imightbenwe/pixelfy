@@ -59,7 +59,8 @@ model User {
   sessions      Session[]
   generations   Generation[]
 
-  credits Int @default(4)
+  credits                Int @default(4)
+  feedbackCreditsGranted Int @default(0)
 
   stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
@@ -70,30 +71,31 @@ model User {
 }
 
 model Generation {
-  id                String           @id @default(cuid())
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  id                String              @id @default(cuid())
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
   userId            String
-  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   modelId           String
   inferenceId       String
-  prompt            String           @db.LongText
+  prompt            String              @db.LongText
   outputImages      OutputImage[]
   image             String?
   mask              String?
-  numInferenceSteps Int              @default(50)
-  pixelSize         Int              @default(8)
+  numInferenceSteps Int                 @default(50)
+  pixelSize         Int                 @default(8)
   modality          String?
   seed              String?
   strength          Float?
   negativePrompt    String?
-  guidance          Float?           @default(7.5)
-  numSamples        Int              @default(4)
-  width             Int?             @default(512)
-  height            Int?             @default(512)
-  type              String?          @default("txt2img")
-  favorites         Int              @default(0)
-  status            GENERATIONSTATUS @default(PROCESSING)
+  guidance          Float?              @default(7.5)
+  numSamples        Int                 @default(4)
+  width             Int?                @default(512)
+  height            Int?                @default(512)
+  type              String?             @default("txt2img")
+  favorites         Int                 @default(0)
+  status            GENERATIONSTATUS    @default(PROCESSING)
+  feedback          GenerationFeedback?
 
   @@unique([inferenceId, modelId], name: "uniqueGeneration")
   @@index([userId])
@@ -101,11 +103,28 @@ model Generation {
   @@fulltext([prompt])
 }
 
+model GenerationFeedback {
+  id           String                 @id @default(cuid())
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  satisfaction GENERATIONSATISFCATION @default(NOOPINION)
+  comment      String                 @db.LongText
+
+  generationId String     @unique
+  generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
+}
+
 enum GENERATIONSTATUS {
   PROCESSING
   COMPLETE
   FAILED
   TIMEOUT
+}
+
+enum GENERATIONSATISFCATION {
+  NOOPINION
+  SATISFIED
+  UNSATISFIED
 }
 
 model OutputImage {

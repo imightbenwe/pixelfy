@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/tooltip"
 import { toast } from "@/components/ui/use-toast"
 import {
+    findMatchingStyleFromModelId,
     scenarioGenerators,
     scenarioModelData,
     sizeDisabledGenerators,
@@ -43,16 +44,14 @@ import {
     sizeLockedGeneratorsSizeValue,
     supplementalPromptMap,
 } from "@/lib/generators"
-import { findMatchingStyleFromModelId } from "@/lib/generators"
 import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
 import { ScenarioInferenceResponse } from "@/types/scenario"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { OutputImage, User } from "@prisma/client"
+import { User } from "@prisma/client"
 import va from "@vercel/analytics"
 import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -68,7 +67,6 @@ export function GenerationForm({
     className,
     ...props
 }: UserNameFormProps) {
-    const router = useRouter()
     const {
         setValue,
         getValues,
@@ -90,15 +88,12 @@ export function GenerationForm({
         IGenerationSet[]
     >([])
 
-    const [images, setImages] = React.useState<OutputImage[]>([])
-
     const [isSaving, setIsSaving] = React.useState<boolean>(false)
     const [promptGenerating, setPromptGenerating] =
         React.useState<boolean>(false)
     const [isOpen, setIsOpen] = React.useState<boolean>(true)
     const [showAdvancedOptions, setShowAdvancedOptions] =
         React.useState<boolean>(false)
-    const [progress, setProgress] = React.useState<number>(0)
     const [modelId, setModelId] = React.useState<string>(
         scenarioGenerators.fantasyRpg
     )
