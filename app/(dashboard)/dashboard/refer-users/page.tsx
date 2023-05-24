@@ -65,7 +65,9 @@ export default async function ReferUsersPage({
                     <CardHeader>
                         <CardTitle>Referral link</CardTitle>
                         <CardDescription>
-                            Share this link with your friends to earn credits.
+                            Share this referral link with your friends to earn
+                            credits. You'll earn credits for every user that you
+                            refer who signs up and becomes an active user.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

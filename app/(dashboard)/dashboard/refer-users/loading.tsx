@@ -7,7 +7,7 @@ export default function DashboardSettingsLoading() {
         <DashboardShell>
             <DashboardHeader
                 heading="Refer users"
-                text="View all of your referral stats here"
+                text="Refer your friends, earn credits. It's that simple."
             ></DashboardHeader>
             <div className="grid gap-10">
                 <CardSkeleton />

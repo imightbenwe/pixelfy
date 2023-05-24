@@ -23,7 +23,7 @@ export const dashboardConfig: DashboardConfig = {
             icon: "imagePlus",
         },
         {
-            title: "Refer users",
+            title: "Refer & Earn",
             href: "/dashboard/refer-users",
             icon: "userPlus",
         },
