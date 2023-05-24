@@ -12,8 +12,7 @@ export default withAuth(
 
         const response = NextResponse.next()
 
-        const isReferralCodeInSearchParams =
-            req.nextUrl.searchParams.has("referredBy")
+        const isReferralCodeInSearchParams = req.nextUrl.searchParams.has("ref")
 
         if (isAuthPage) {
             if (isAuth) {
@@ -22,11 +21,11 @@ export default withAuth(
 
             if (
                 isReferralCodeInSearchParams &&
-                !!req.nextUrl.searchParams.get("referredBy")
+                !!req.nextUrl.searchParams.get("ref")
             ) {
                 response.cookies.set({
                     name: "referralCode",
-                    value: req.nextUrl.searchParams.get("referredBy") as string,
+                    value: req.nextUrl.searchParams.get("ref") as string,
                     path: "/",
                 })
 

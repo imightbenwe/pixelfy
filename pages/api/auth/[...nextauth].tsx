@@ -21,16 +21,14 @@ export const authOptionsWithEvents = (req: NextApiRequest, res) => {
                     const email = message.user.email
                     const name = message.user.name
 
-                    req.cookies
-
                     const isReferred =
                         req && req?.cookies && req?.cookies["referralCode"]
 
                     if (isReferred) {
                         const referredByUser = req.cookies["referralCode"]
 
-                        const incrementUserReferralCredits =
-                            await db.user.update({
+                        await db.$transaction([
+                            db.user.update({
                                 where: {
                                     id: referredByUser,
                                 },
@@ -38,21 +36,24 @@ export const authOptionsWithEvents = (req: NextApiRequest, res) => {
                                     credits: {
                                         increment: 1,
                                     },
-                                },
-                            })
-
-                        const referralRecord = await db.user.update({
-                            where: {
-                                email,
-                            },
-                            data: {
-                                referredByUser: {
-                                    connect: {
-                                        id: referredByUser,
+                                    creditsEarnedViaReferrals: {
+                                        increment: 1,
                                     },
                                 },
-                            },
-                        })
+                            }),
+                            db.user.update({
+                                where: {
+                                    email,
+                                },
+                                data: {
+                                    referredByUser: {
+                                        connect: {
+                                            id: referredByUser,
+                                        },
+                                    },
+                                },
+                            }),
+                        ])
                     }
 
                     if (email) {

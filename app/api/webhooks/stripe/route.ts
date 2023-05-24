@@ -48,6 +48,8 @@ export async function POST(req: Request) {
                 creditAmount = 750
                 break
         }
+
+        // Update user's credits balance with the amount they purchased and get the updated user record back from the database.
         const userWhoPurchased = await db.user.update({
             where: {
                 id: userId,
@@ -57,21 +59,36 @@ export async function POST(req: Request) {
                     increment: creditAmount,
                 },
             },
+            include: {
+                _count: {
+                    select: {
+                        purchases: true,
+                    },
+                },
+            },
         })
 
-        if (userWhoPurchased.referredByUserId) {
+        // If this user was referred to Pixelfy, and this is their first purchase, give the referrer 10 credits.
+        if (
+            userWhoPurchased?.referredByUserId &&
+            userWhoPurchased._count.purchases === 0
+        ) {
             await db.user.update({
                 where: {
                     id: userWhoPurchased.referredByUserId,
                 },
                 data: {
                     credits: {
-                        increment: 20,
+                        increment: 10,
+                    },
+                    creditsEarnedViaReferrals: {
+                        increment: 10,
                     },
                 },
             })
         }
 
+        // Create purchase record for tracking
         await db.purchase.create({
             data: {
                 creditAmount: creditAmount,

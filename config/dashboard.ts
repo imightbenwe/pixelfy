@@ -24,7 +24,7 @@ export const dashboardConfig: DashboardConfig = {
         },
         {
             title: "Refer users",
-            href: "/dashboard/generations",
+            href: "/dashboard/refer-users",
             icon: "userPlus",
         },
         {
