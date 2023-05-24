@@ -58,7 +58,7 @@ export default async function ReferUsersPage({
         <DashboardShell>
             <DashboardHeader
                 heading="Refer users"
-                text="View all of your referral stats here"
+                text="Refer your friends, earn credits. It's that simple."
             ></DashboardHeader>
             <div>
                 <Card>
@@ -119,7 +119,8 @@ export default async function ReferUsersPage({
                         </AccordionTrigger>
                         <AccordionContent>
                             You can earn one credit for every user that signs
-                            up. There is no limit.
+                            up. There is no limit to the amount of users you can
+                            refer or credits you can earn from referrals.
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-2">
@@ -128,9 +129,11 @@ export default async function ReferUsersPage({
                             makes a purchase?
                         </AccordionTrigger>
                         <AccordionContent>
-                            If you refer a user and they make a purchase, you
-                            will receive 10 credits. This only applies to the
-                            referred users first purchase.
+                            If you refer a user and they make a credit purchase,
+                            you will receive 10 additional credits to your
+                            credit balance. This only applies to the referred
+                            users first purchase. Any subsequent purchases from
+                            a referred user will not trigger a bonus.
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
