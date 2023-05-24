@@ -26,6 +26,7 @@ import {
     Twitter,
     FormInput,
     User,
+    UserPlus,
     X,
     ImagePlus,
     Terminal,
@@ -39,6 +40,7 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+    userPlus: UserPlus,
     thumbsUp: ThumbsUp,
     thumbsDown: ThumbsDown,
     instagram: Instagram,

@@ -27,8 +27,6 @@ export async function POST(req: Request) {
         const userId = paymentIntent.client_reference_id
         let creditAmount = 0
 
-        console.log("USer id", userId)
-
         // @ts-ignore
         switch (paymentIntent.amount_subtotal) {
             case 500:
@@ -36,6 +34,7 @@ export async function POST(req: Request) {
                 creditAmount = 20
                 break
             case 1900:
+            case 2000:
             case 3000:
                 creditAmount = 100
                 break
@@ -49,7 +48,7 @@ export async function POST(req: Request) {
                 creditAmount = 750
                 break
         }
-        await db.user.update({
+        const userWhoPurchased = await db.user.update({
             where: {
                 id: userId,
             },
@@ -59,6 +58,19 @@ export async function POST(req: Request) {
                 },
             },
         })
+
+        if (userWhoPurchased.referredByUserId) {
+            await db.user.update({
+                where: {
+                    id: userWhoPurchased.referredByUserId,
+                },
+                data: {
+                    credits: {
+                        increment: 20,
+                    },
+                },
+            })
+        }
 
         await db.purchase.create({
             data: {
