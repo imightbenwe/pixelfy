@@ -59,14 +59,21 @@ model User {
   sessions      Session[]
   generations   Generation[]
 
-  credits                Int @default(4)
-  feedbackCreditsGranted Int @default(0)
+  usersReferred User[] @relation("ReferrerToUser")
+
+  referredByUserId String?
+  referredByUser   User?   @relation("ReferrerToUser", fields: [referredByUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  credits                   Int @default(4)
+  feedbackCreditsGranted    Int @default(0)
+  creditsEarnedViaReferrals Int @default(0)
 
   stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
+  @@index([referredByUserId])
   @@map(name: "users")
 }
 

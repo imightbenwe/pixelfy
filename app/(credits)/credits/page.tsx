@@ -32,7 +32,6 @@ export default async function CreditsPage() {
             </div>
 
             <div className="grid gap-8 mt-8">
-                {/* @ts-ignore */}
                 <StripePricingTable clientReferenceId={user.id} />
             </div>
             <div className="grid w-full items-start gap-10 rounded-lg border p-10 container mx-auto max-w-lg mt-6">

@@ -51,10 +51,7 @@ export default async function GenerationPage({
                 heading="Generations"
                 text="View all of your generations here"
             >
-                <SearchGenerationsInput
-                // className="w-full lg:max-w-[24rem]"
-                // placeholder="Search generations..."
-                />
+                <SearchGenerationsInput />
             </DashboardHeader>
             {generatedImages?.length ? (
                 <>

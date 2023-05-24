@@ -16,6 +16,7 @@ import {
     Moon,
     MoreVertical,
     Grid,
+    ClipboardCheck,
     Download,
     Pizza,
     Plus,
@@ -26,11 +27,13 @@ import {
     Twitter,
     FormInput,
     User,
+    UserPlus,
     X,
     ImagePlus,
     Terminal,
     Instagram,
     ThumbsUp,
+    Clipboard,
     ThumbsDown,
     type Icon as LucideIcon,
     MessageSquare,
@@ -39,6 +42,10 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+    clipBoard: Clipboard,
+    clipBoardCheck: ClipboardCheck,
+    check: Check,
+    userPlus: UserPlus,
     thumbsUp: ThumbsUp,
     thumbsDown: ThumbsDown,
     instagram: Instagram,
@@ -176,5 +183,4 @@ export const Icons = {
     ),
     terminal: Terminal,
     twitter: Twitter,
-    check: Check,
 }

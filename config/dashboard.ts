@@ -23,6 +23,11 @@ export const dashboardConfig: DashboardConfig = {
             icon: "imagePlus",
         },
         {
+            title: "Refer & Earn",
+            href: "/dashboard/refer-users",
+            icon: "userPlus",
+        },
+        {
             title: "Buy credits",
             href: "/credits",
             icon: "billing",

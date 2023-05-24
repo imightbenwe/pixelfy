@@ -1,18 +1,35 @@
 import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 export default withAuth(
-    async function middleware(req) {
+    async function middleware(req: NextRequest) {
         const token = await getToken({ req })
         const isAuth = !!token
         const isAuthPage =
             req.nextUrl.pathname.startsWith("/login") ||
             req.nextUrl.pathname.startsWith("/register")
 
+        const response = NextResponse.next()
+
+        const isReferralCodeInSearchParams = req.nextUrl.searchParams.has("ref")
+
         if (isAuthPage) {
             if (isAuth) {
                 return NextResponse.redirect(new URL("/dashboard", req.url))
+            }
+
+            if (
+                isReferralCodeInSearchParams &&
+                !!req.nextUrl.searchParams.get("ref")
+            ) {
+                response.cookies.set({
+                    name: "referralCode",
+                    value: req.nextUrl.searchParams.get("ref") as string,
+                    path: "/",
+                })
+
+                return response
             }
 
             return null
