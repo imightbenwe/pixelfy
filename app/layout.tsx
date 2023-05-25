@@ -94,7 +94,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 >
                     <div className="w-full flex justify-center items-center py-2 px-4 text-center bg-primary-foreground">
                         <span className="text-sm">
-                            🎉 Limited time memorial day special! Enter code{" "}
+                            🎉 Limited time Memorial Day special! Enter code{" "}
                             <strong>MEMORIALDAY</strong> for 50% off platform
                             credits.
                         </span>
