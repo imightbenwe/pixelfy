@@ -3,6 +3,7 @@
 import { Button } from "./ui/button"
 import { Icons } from "@/components/icons"
 import { toast } from "@/components/ui/use-toast"
+import va from "@vercel/analytics"
 import * as React from "react"
 import { ComponentProps } from "react"
 
@@ -16,6 +17,9 @@ export const CopyLinkButton = ({ url, ...props }: TCopyLinkButton) => {
     const [linkCopied, setLinkCopied] = React.useState<boolean>(false)
 
     const onClick = () => {
+        va.track("copy-link-button-clicked", {
+            url,
+        })
         navigator.clipboard.writeText(url)
         toast({
             title: "Link copied!",
