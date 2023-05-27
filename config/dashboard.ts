@@ -8,7 +8,7 @@ export const dashboardConfig: DashboardConfig = {
         },
         {
             title: "Examples",
-            href: "/examples/fantasy-rpg",
+            href: "/examples/pixel-background",
         },
     ],
     sidebarNav: [
