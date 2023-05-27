@@ -8,6 +8,7 @@ export type TScenarioModels =
     | "skillArt"
     | "yoHokki"
     | "assetDiffusion"
+    | "pixelBackground"
 // | "spriteGenerator"
 
 type TArtistInfo = {
@@ -41,6 +42,26 @@ export type TScenarioModelsToIds = {
 }
 
 export const scenarioModelData: TScenarioModelIdsToData = {
+    pixelBackground: {
+        id: "HTee5KEsSaSQt1JXmqctcQ",
+        slug: "pixel-background",
+        name: "Pixel Background",
+        description: "Pixel Background",
+        supplementalPrompt: "",
+        sizeLocked: false,
+        disabledSizes: ["32"],
+        placeholderInputText: "Ex. Enter a background you would like to see",
+        examples: [
+            "cli5j5qqd003eugozm4r14mhz",
+            "cli5j405z0034ugozug1mzeme",
+            "cli5ixgj70013ugoze81arczd",
+            "cli5iw8mr000gugoza3ij1bvl",
+            "cli5iwi5e000mugozozw3ki8y",
+            "cli5j5qqd003fugoz3mcfa6ot",
+            "cli5jhfli005rugoz8fy13624",
+            "cli5jhrly0068ugoz1068pzu1",
+        ],
+    },
     assetDiffusion: {
         slug: "asset-diffusion",
         id: "VklJ8PLtTpC_8z2p6fk2lg",
@@ -248,6 +269,7 @@ export const scenarioGenerators: TScenarioModelsToIds = {
     skillArt: "VB8yd1LaRsinkQMZuFoupg",
     yoHokki: "Q36HbYy1T2WdsjkfQp3MoA",
     assetDiffusion: "VklJ8PLtTpC_8z2p6fk2lg",
+    pixelBackground: "HTee5KEsSaSQt1JXmqctcQ",
     // spriteGenerator: "bBo4wjNsRPiBvVT1LR5cjQ",
 }
 
@@ -264,10 +286,11 @@ export const normalizedGeneratorMap = {
     Q36HbYy1T2WdsjkfQp3MoA: "Yo-Hokki Style",
     bBo4wjNsRPiBvVT1LR5cjQ: "32x32 Sprites",
     VklJ8PLtTpC_8z2p6fk2lg: "Asset Diffusion",
+    HTee5KEsSaSQt1JXmqctcQ: "Pixel Background",
 }
 
 export const supplementalPromptMap = {
-    DkCC2BfCQ8mhxnyFW1tXcw: "",
+    DkCC2BfCQ8mhxnyFW1tXcw: ", fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: " , landscape portrait",
     PNqixjKURbiouk49_gYWCw: " , anime style",
     Zk4dmsnVQJ6x02F9IZfXhA:
@@ -279,6 +302,7 @@ export const supplementalPromptMap = {
     bBo4wjNsRPiBvVT1LR5cjQ:
         " , 32x32 pixel art, sRGB, close up, full body, game asset, centered in frame",
     VklJ8PLtTpC_8z2p6fk2lg: ", pixel art",
+    HTee5KEsSaSQt1JXmqctcQ: ", sRGB, pixel art, background, landscape",
 }
 
 export const sizeLockedGenerators = [
@@ -303,4 +327,5 @@ export const sizeDisabledGenerators = [
     scenarioGenerators.animeStyle,
     scenarioGenerators.yoHokki,
     scenarioGenerators.landscapePortrait,
+    scenarioGenerators.pixelBackground,
 ]

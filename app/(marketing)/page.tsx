@@ -30,14 +30,14 @@ export default async function IndexPage() {
 
     const featuredCardData = [
         {
-            image: "https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/cf155958-a387-4311-b577-00e395027cb5.png",
-            title: "Landscape Portraits",
+            image: "/pixel-background.png",
+            title: "Backgrounds",
             prompts: [
-                "Floating castle",
-                "cascading waterfalls",
+                "Snow-capped peaks",
+                "cozy cabin",
                 "lush green landscape",
             ],
-            imageAlt: "Image showing a castle in the sky",
+            imageAlt: "Image showing a cozy cabin with snow",
         },
         {
             image: "/warhammer.png",
@@ -160,7 +160,7 @@ export default async function IndexPage() {
                     <h2 className="font-heading text-xl leading-[1.1] sm:text-xl md:text-4xl my-4">
                         And many more
                     </h2>
-                    <Link href="/examples/fantasy-rpg">
+                    <Link href="/examples/pixel-background">
                         <Button>View more examples</Button>
                     </Link>
                 </div>

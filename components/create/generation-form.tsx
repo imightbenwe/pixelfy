@@ -95,7 +95,7 @@ export function GenerationForm({
     const [showAdvancedOptions, setShowAdvancedOptions] =
         React.useState<boolean>(false)
     const [modelId, setModelId] = React.useState<string>(
-        scenarioGenerators.fantasyRpg
+        scenarioGenerators.pixelBackground
     )
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
@@ -117,8 +117,14 @@ export function GenerationForm({
         })
 
         const prompt = `
-        Generate a comma-separated single sentence prompt that will be used to create an image. Include interesting visual descriptors and art styles. Make sure the prompt is less than 500 characters total, including spaces, newline characters punctuation. Do not include quotations in the prompt or the word "generate" or the word "ai". Do not use complete sentences. Please separate all descriptors with commas.
+        You are a creative and genius img2img and text2img prompt generator. 
+
+        Generate a comma-separated single sentence prompt that will be used to create an image without using a period. Include interesting visual descriptors and art styles. Make sure the prompt is less than 500 characters total. Do not use quotations in the prompt or the word "generate" or the word "ai".
     
+        Make sure the prompt is just descriptors, framing, or details separated by commas. Do not include any other text or form any sentence structure.
+
+        Make sure the most important part of the prompt is at the beginning of the prompt, like the character or subject of the image.
+
         Base the entire prompt on this context: ${getValues(
             "prompt"
         )} making sure to keep the style in mind which is: ${
@@ -163,7 +169,10 @@ export function GenerationForm({
             const { value, done: doneReading } = await reader.read()
             done = doneReading
             const chunkValue = decoder.decode(value)
-            setValue("prompt", getValues("prompt") + chunkValue)
+            setValue(
+                "prompt",
+                getValues("prompt") + chunkValue?.replace(".", "")
+            )
         }
         setPromptGenerating(false)
     }
