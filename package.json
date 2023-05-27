@@ -1,10 +1,10 @@
 {
-    "name": "taxonomy",
+    "name": "pixelfy",
     "version": "0.2.0",
     "private": true,
     "author": {
-        "name": "shadcn",
-        "url": "https://twitter.com/shadcn"
+        "name": "David Parks",
+        "url": "https://twitter.com/dparksdev"
     },
     "scripts": {
         "dev": "next dev",
