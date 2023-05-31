@@ -92,13 +92,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     defaultTheme="system"
                     enableSystem
                 >
-                    <div className="w-full flex justify-center items-center py-2 px-4 text-center bg-primary-foreground">
+                    {/* <div className="w-full flex justify-center items-center py-2 px-4 text-center bg-primary-foreground">
                         <span className="text-sm">
                             🎉 Limited time Memorial Day special! Enter code{" "}
                             <strong>MEMORIALDAY</strong> for 50% off platform
                             credits.
                         </span>
-                    </div>
+                    </div> */}
                     {children}
                     <Analytics />
                     <Toaster />
