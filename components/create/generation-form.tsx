@@ -1,9 +1,9 @@
 "use client"
 
 import { GuidanceSelector } from "../guidance-selector"
-import { SamplingStepSelector } from "../sampling-step-selector"
 import { Badge } from "../ui/badge"
 import { Textarea } from "../ui/textarea"
+import { ColorPaletteSwitch } from "./color-palette-switch"
 import { GenerationSet, IGenerationSet } from "./generation-set"
 import { Icons } from "@/components/icons"
 import { ImageInfluencerSlider } from "@/components/image-influence-slider"
@@ -28,6 +28,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import {
     Tooltip,
     TooltipContent,
@@ -46,6 +47,7 @@ import {
 } from "@/lib/generators"
 import { cn, convertBase64 } from "@/lib/utils"
 import { generateSchema } from "@/lib/validations/generate"
+import { useColorStore } from "@/store"
 import { ScenarioInferenceResponse } from "@/types/scenario"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { User } from "@prisma/client"
@@ -82,6 +84,8 @@ export function GenerationForm({
         },
     })
 
+    const { colorPaletteEnabled, colors, disableColorPalette } = useColorStore()
+
     const reactivePrompt = watch("prompt")
 
     const [runningGenerations, setRunningGenerations] = React.useState<
@@ -99,11 +103,16 @@ export function GenerationForm({
     )
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
-
     const [guidance, setGuidance] = React.useState<number[]>([7])
     const [referenceImage, setReferenceImage] = React.useState<any>(null)
     const [referenceImageInfluence, setReferenceImageInfluence] =
         React.useState<number[]>([25])
+
+    React.useEffect(() => {
+        if (gridSize === "32") {
+            disableColorPalette()
+        }
+    }, [gridSize])
 
     const generatePrompt = async (e: any) => {
         e.preventDefault()
@@ -198,6 +207,8 @@ export function GenerationForm({
                             influence: referenceImage
                                 ? referenceImageInfluence[0]
                                 : undefined,
+                            colorPaletteEnabled,
+                            colors,
                         },
                     }),
                 }
@@ -627,6 +638,11 @@ export function GenerationForm({
                                                     </TooltipContent>
                                                 </Tooltip>
                                             </TooltipProvider>
+                                        </div>
+                                        <div className="mt-6">
+                                            <ColorPaletteSwitch
+                                                gridSize={gridSize}
+                                            />
                                         </div>
                                     </div>
                                     <AnimatePresence initial={false}>

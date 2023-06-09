@@ -197,3 +197,7 @@
         text-align: center;
     }
 }
+
+.responsive .react-colorful {
+    width: auto;
+}
