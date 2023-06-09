@@ -31,8 +31,6 @@ export interface IGenerationSet {
     modelId: string
     numImages: string
     prompt: string
-    samplingSteps: number
-    guidance: number
 }
 
 export const GenerationSet = ({
@@ -40,8 +38,6 @@ export const GenerationSet = ({
     modelId,
     numImages,
     prompt,
-    samplingSteps,
-    guidance,
 }: IGenerationSet) => {
     const router = useRouter()
 
@@ -191,10 +187,7 @@ export const GenerationSet = ({
                         <Badge variant="secondary">
                             {normalizedGeneratorMap[modelId]}
                         </Badge>
-                        <Badge variant="outline">
-                            {samplingSteps} sampling steps
-                        </Badge>
-                        <Badge variant="outline">{guidance} guidance</Badge>
+                        <Badge variant="outline">{numImages} images</Badge>
                     </div>
                 </CardDescription>
             </CardHeader>

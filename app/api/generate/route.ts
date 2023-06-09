@@ -11,7 +11,6 @@ const generateBody = z.object({
     parameters: z.object({
         modelId: z.string(),
         prompt: z.string().max(500),
-        samplingSteps: z.number().min(10).max(100).default(30),
         guidance: z.number().min(0).max(20).default(7),
         numImages: z.number().min(4).max(16).optional().default(4),
         pixelSize: z.number().optional().default(8),
@@ -91,7 +90,7 @@ export async function POST(req: Request) {
                             supplementalPromptMap[parameters.modelId]
                         }`,
                         negativePrompt: "trading cards, cards",
-                        numInferenceSteps: parameters.samplingSteps,
+                        numInferenceSteps: 30,
                         guidance: parameters.guidance,
                         width: 512,
                         height: 512,

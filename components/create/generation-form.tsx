@@ -100,7 +100,6 @@ export function GenerationForm({
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
 
-    const [samplingSteps, setSamplingSteps] = React.useState<number[]>([30])
     const [guidance, setGuidance] = React.useState<number[]>([7])
     const [referenceImage, setReferenceImage] = React.useState<any>(null)
     const [referenceImageInfluence, setReferenceImageInfluence] =
@@ -193,7 +192,6 @@ export function GenerationForm({
                             pixelSize: parseInt(gridSize),
                             modelId,
                             prompt: data.prompt,
-                            samplingSteps: samplingSteps[0],
                             guidance: guidance[0],
                             numImages: parseInt(numImages),
                             referenceImage,
@@ -236,7 +234,6 @@ export function GenerationForm({
             setRunningGenerations((prev) => [
                 ...prev,
                 {
-                    samplingSteps: samplingSteps[0],
                     guidance: guidance[0],
                     inferenceId: responseData.inference.id,
                     modelId,
@@ -656,13 +653,6 @@ export function GenerationForm({
                                                 }}
                                             >
                                                 <div className="grid gap-8 grid-cols-1 lg:grid-cols-2 w-full pb-8">
-                                                    <SamplingStepSelector
-                                                        value={samplingSteps}
-                                                        onValueChange={
-                                                            setSamplingSteps
-                                                        }
-                                                        defaultValue={[50]}
-                                                    />
                                                     <GuidanceSelector
                                                         value={guidance}
                                                         onValueChange={
@@ -781,8 +771,6 @@ export function GenerationForm({
 
                     {runningGenerations.map((runningGeneration) => (
                         <GenerationSet
-                            samplingSteps={runningGeneration.samplingSteps}
-                            guidance={runningGeneration.guidance}
                             inferenceId={runningGeneration.inferenceId}
                             modelId={runningGeneration.modelId}
                             prompt={runningGeneration.prompt}
