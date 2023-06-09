@@ -36,14 +36,14 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                         >
                             David Parks.
                         </a>{" "}
-                        The source code is available on{" "}
+                        Powered by{" "}
                         <a
-                            href={siteConfig.links.github}
+                            href={"https://app.scenario.com/?ref=pixelfy"}
                             target="_blank"
                             rel="noreferrer"
                             className="font-medium underline underline-offset-4"
                         >
-                            GitHub
+                            Scenario
                         </a>
                         .
                     </p>
