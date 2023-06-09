@@ -50,11 +50,15 @@ type PixelateImageParams = {
     assetId: string
     pixelGridSize: number
     remoteUrl: string
+    colorPaletteEnabled: boolean
+    colors: number[][]
 }
 export const pixelateImageScenario = async ({
     assetId,
     pixelGridSize,
     remoteUrl,
+    colorPaletteEnabled,
+    colors,
 }: PixelateImageParams) => {
     const pixelateResponse = await fetch(
         `https://api.cloud.scenario.com/v1/images/pixelate`,
@@ -69,6 +73,10 @@ export const pixelateImageScenario = async ({
                 pixelGridSize: gridSizeToScenarioPixelMap[pixelGridSize],
                 returnImage: true,
                 removeNoise: true,
+                colorPalette:
+                    colorPaletteEnabled && colors?.length > 0
+                        ? colors
+                        : undefined,
             }),
         }
     )
@@ -156,6 +164,8 @@ export async function GET(
                         remoteUrl: image.url,
                         assetId: image.id,
                         pixelGridSize: generation.pixelSize,
+                        colorPaletteEnabled: generation.colorPaletteEnabled,
+                        colors: generation.colors as number[][],
                     })
                 })
             )

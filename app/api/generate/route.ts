@@ -16,6 +16,8 @@ const generateBody = z.object({
         pixelSize: z.number().optional().default(8),
         referenceImage: z.string().optional().nullable(),
         influence: z.number().max(99).min(0).optional().default(25),
+        colorPaletteEnabled: z.boolean().optional().default(false),
+        colors: z.array(z.array(z.number())).optional().default([]),
     }),
 })
 
@@ -123,6 +125,8 @@ export async function POST(req: Request) {
                         id: session.user.id,
                     },
                 },
+                colorPaletteEnabled: parameters.colorPaletteEnabled,
+                colors: parameters.colorPaletteEnabled ? parameters.colors : [],
             },
         })
 

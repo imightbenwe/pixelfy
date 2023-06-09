@@ -104,6 +104,9 @@ model Generation {
   status            GENERATIONSTATUS    @default(PROCESSING)
   feedback          GenerationFeedback?
 
+  colorPaletteEnabled Boolean @default(false)
+  colors              Json?
+
   @@unique([inferenceId, modelId], name: "uniqueGeneration")
   @@index([userId])
   @@index([modelId])

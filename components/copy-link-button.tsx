@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/use-toast"
 import va from "@vercel/analytics"
 import * as React from "react"
 import { ComponentProps } from "react"
+import { MouseEvent } from "react"
 
 type ButtonProps = ComponentProps<typeof Button>
 
