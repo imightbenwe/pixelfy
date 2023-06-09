@@ -11,8 +11,14 @@ import {
 } from "@/components/ui/card"
 import { siteConfig } from "@/config/site"
 import { db } from "@/lib/db"
-import { cn, pixelateImage } from "@/lib/utils"
-import { FileInput, FileMinus, Save, SlidersHorizontal } from "lucide-react"
+import { cn } from "@/lib/utils"
+import {
+    FileInput,
+    FileMinus,
+    Save,
+    SlidersHorizontal,
+    Palette,
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -246,12 +252,14 @@ export default async function IndexPage() {
                     </div>
                     <div className="relative overflow-hidden rounded-lg border bg-background p-2">
                         <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                            <Save size={48} />
+                            <Palette size={48} />
                             <div className="space-y-2">
-                                <h3 className="font-bold">Save Generations</h3>
+                                <h3 className="font-bold">
+                                    Color palette control
+                                </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Save all of your pixel art generations for
-                                    download later.
+                                    Constrain your generated image to a specific
+                                    color palette.
                                 </p>
                             </div>
                         </div>
