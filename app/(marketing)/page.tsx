@@ -93,7 +93,7 @@ export default async function IndexPage() {
                             href="/login"
                             className={cn(buttonVariants({ size: "lg" }))}
                         >
-                            Start for free
+                            Get started
                         </Link>
                         <Link
                             href={siteConfig.links.github}

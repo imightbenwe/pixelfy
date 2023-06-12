@@ -64,7 +64,7 @@ model User {
   referredByUserId String?
   referredByUser   User?   @relation("ReferrerToUser", fields: [referredByUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  credits                   Int @default(4)
+  credits                   Int @default(0)
   feedbackCreditsGranted    Int @default(0)
   creditsEarnedViaReferrals Int @default(0)
 
