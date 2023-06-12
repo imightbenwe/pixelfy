@@ -746,25 +746,45 @@ export function GenerationForm({
                                             </button>
                                         )}
 
-                                        <Button
-                                            className={cn("w-full lg:w-auto")}
-                                            onClick={(e) => {
-                                                e.preventDefault()
+                                        {userOutOfCredits ? (
+                                            <Link
+                                                className="w-full lg:w-auto"
+                                                href="/dashboard/refer-users"
+                                            >
+                                                <Button
+                                                    variant="outline"
+                                                    className={cn(
+                                                        "w-full lg:w-auto"
+                                                    )}
+                                                >
+                                                    <span>
+                                                        Refer users for credits
+                                                    </span>
+                                                </Button>
+                                            </Link>
+                                        ) : (
+                                            <Button
+                                                className={cn(
+                                                    "w-full lg:w-auto"
+                                                )}
+                                                onClick={(e) => {
+                                                    e.preventDefault()
 
-                                                va.track(
-                                                    "advancedOptionsClicked",
-                                                    {
-                                                        user: user?.id,
-                                                    }
-                                                )
-                                                setShowAdvancedOptions(
-                                                    !showAdvancedOptions
-                                                )
-                                            }}
-                                            variant={"outline"}
-                                        >
-                                            Show advanced options
-                                        </Button>
+                                                    va.track(
+                                                        "advancedOptionsClicked",
+                                                        {
+                                                            user: user?.id,
+                                                        }
+                                                    )
+                                                    setShowAdvancedOptions(
+                                                        !showAdvancedOptions
+                                                    )
+                                                }}
+                                                variant={"outline"}
+                                            >
+                                                Show advanced options
+                                            </Button>
+                                        )}
                                     </div>
                                 </CardFooter>
                             </Card>
