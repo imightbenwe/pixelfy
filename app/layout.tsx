@@ -25,7 +25,7 @@ interface RootLayoutProps {
 
 export const metadata = {
     title: {
-        default: siteConfig.name,
+        default: `${siteConfig.name} | Create Pixel Art with Artificial Intelligence`,
         template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
