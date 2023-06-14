@@ -1,9 +1,13 @@
-import { uploadImage } from "../../generate/[inferenceId]/route"
+import {
+    gridSizeToScenarioPixelMap,
+    uploadImage,
+} from "../../generate/[inferenceId]/route"
 import { authOptions } from "@/lib/auth"
 import { LOCALHOST_IP } from "@/lib/constants"
 import { db } from "@/lib/db"
 import { ratelimit } from "@/lib/upstash"
-import { pixelateImage, scenarioAuthToken } from "@/lib/utils"
+import { scenarioAuthToken } from "@/lib/utils"
+import { ScenarioPixelateResponse } from "@/types/scenario"
 import { ipAddress } from "@vercel/edge"
 import { getServerSession } from "next-auth/next"
 import { z } from "zod"
@@ -11,6 +15,39 @@ import { z } from "zod"
 const removeBackgroundBody = z.object({
     imageId: z.string().cuid(),
 })
+
+export const removeBackgroundPixelate = async ({
+    assetId,
+    pixelGridSize,
+    colorPaletteEnabled,
+    colors,
+}) => {
+    const pixelateResponse = await fetch(
+        `https://api.cloud.scenario.com/v1/images/pixelate`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${scenarioAuthToken}`,
+            },
+            body: JSON.stringify({
+                assetId,
+                pixelGridSize: gridSizeToScenarioPixelMap[pixelGridSize],
+                returnImage: true,
+                removeNoise: true,
+                removeBackground: true,
+                colorPalette:
+                    colorPaletteEnabled && colors?.length > 0
+                        ? colors
+                        : undefined,
+            }),
+        }
+    )
+
+    const pixelateData: ScenarioPixelateResponse = await pixelateResponse.json()
+
+    return pixelateData.image
+}
 
 export async function PUT(req: Request) {
     try {
@@ -39,61 +76,23 @@ export async function PUT(req: Request) {
             },
         })
 
-        const removeBackground = await fetch(
-            `https://api.cloud.scenario.com/v1/images/erase-background`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Basic ${scenarioAuthToken}`,
-                },
-                body: JSON.stringify({
-                    // name: `bg-removed-${image.seed}`,
-                    assetId: image.scenarioImageId,
-                    backgroundColor: "#FFF",
-                    format: "png",
-                    returnImage: true,
-                }),
-            }
-        ).then((res) => res.json())
-
-        const { publicUrl: prePixelization } = await uploadImage(
-            removeBackground.image
-        )
-
-        const pixelatedImage = await pixelateImage({
-            remoteUrl: prePixelization,
-            pixelSize: image.generation.pixelSize,
+        const removedBackground = await removeBackgroundPixelate({
+            assetId: image.scenarioImageId,
+            pixelGridSize: image.generation.pixelSize,
+            colorPaletteEnabled: image.generation.colorPaletteEnabled,
+            colors: image.generation.colors as number[][],
         })
 
-        const removeBackgroundPixelated = await fetch(
-            `https://api.cloud.scenario.com/v1/images/erase-background`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Basic ${scenarioAuthToken}`,
-                },
-                body: JSON.stringify({
-                    image: pixelatedImage,
-                    name: `bg-removed-${image.seed}`,
-                    backgroundColor: "transparent",
-                    format: "png",
-                    returnImage: true,
-                }),
-            }
-        ).then((res) => res.json())
-
-        const { publicUrl: final } = await uploadImage(
-            removeBackgroundPixelated.image
+        const { publicUrl: removedBackgroundAsset } = await uploadImage(
+            removedBackground
         )
 
         const newOutputImage = await db.outputImage.create({
             data: {
                 seed: image.seed,
-                pixelatedImage: final,
-                image: prePixelization,
-                scenarioImageId: removeBackground.asset.id,
+                pixelatedImage: removedBackgroundAsset,
+                image: removedBackgroundAsset,
+                scenarioImageId: image.scenarioImageId,
                 generation: {
                     connect: {
                         id: image.generationId,

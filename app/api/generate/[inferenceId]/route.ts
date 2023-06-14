@@ -17,7 +17,7 @@ const routeContextSchema = z.object({
     }),
 })
 
-const gridSizeToScenarioPixelMap = {
+export const gridSizeToScenarioPixelMap = {
     16: 32,
     8: 64,
     4: 128,
@@ -51,6 +51,7 @@ type PixelateImageParams = {
     pixelGridSize: number
     remoteUrl: string
     colorPaletteEnabled: boolean
+    removeBackground?: boolean
     colors: number[][]
 }
 export const pixelateImageScenario = async ({
@@ -59,6 +60,7 @@ export const pixelateImageScenario = async ({
     remoteUrl,
     colorPaletteEnabled,
     colors,
+    removeBackground = false,
 }: PixelateImageParams) => {
     const pixelateResponse = await fetch(
         `https://api.cloud.scenario.com/v1/images/pixelate`,
@@ -73,6 +75,7 @@ export const pixelateImageScenario = async ({
                 pixelGridSize: gridSizeToScenarioPixelMap[pixelGridSize],
                 returnImage: true,
                 removeNoise: true,
+                removeBackground,
                 colorPalette:
                     colorPaletteEnabled && colors?.length > 0
                         ? colors
