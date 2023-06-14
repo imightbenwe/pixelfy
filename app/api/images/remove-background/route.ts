@@ -16,7 +16,7 @@ const removeBackgroundBody = z.object({
     imageId: z.string().cuid(),
 })
 
-export const removeBackgroundPixelate = async ({
+const removeBackgroundPixelate = async ({
     assetId,
     pixelGridSize,
     colorPaletteEnabled,
