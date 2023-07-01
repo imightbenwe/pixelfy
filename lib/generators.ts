@@ -9,6 +9,7 @@ export type TScenarioModels =
     | "yoHokki"
     | "assetDiffusion"
     | "pixelBackground"
+    | "cozyCharacter"
 // | "spriteGenerator"
 
 type TArtistInfo = {
@@ -42,6 +43,24 @@ export type TScenarioModelsToIds = {
 }
 
 export const scenarioModelData: TScenarioModelIdsToData = {
+    cozyCharacter: {
+        id: "WLJaDqYkRha7lOu842K9Rg",
+        slug: "cozy-world-builder",
+        name: "Cozy world builder",
+        description: "Cozy world builder",
+        supplementalPrompt: "",
+        sizeLocked: false,
+        disabledSizes: ["32"],
+        placeholderInputText:
+            "Ex. Enter a character or place you would like to see",
+        examples: [
+            "cljkk7yam0018ugebase2gcrs",
+            "cljkk7s020011ugebqu40wifm",
+            "cljkk4kks000nugeb5miu0oz0",
+            "cljkk4df3000hugebur15ngph",
+            "cljkk38ct0003ugebwz9acl07",
+        ],
+    },
     pixelBackground: {
         id: "HTee5KEsSaSQt1JXmqctcQ",
         slug: "pixel-background",
@@ -262,6 +281,7 @@ export const findMatchingStyleFromModelId = (
 }
 
 export const scenarioGenerators: TScenarioModelsToIds = {
+    cozyCharacter: "WLJaDqYkRha7lOu842K9Rg",
     fantasyRpg: "DkCC2BfCQ8mhxnyFW1tXcw",
     landscapePortrait: "BnhDXzIrQxWk1c0bWe73_w",
     animeStyle: "PNqixjKURbiouk49_gYWCw",
@@ -278,6 +298,7 @@ type TNormalizedGeneratorNameMap = {
 }
 
 export const normalizedGeneratorMap = {
+    WLJaDqYkRha7lOu842K9Rg: "Cozy Character",
     DkCC2BfCQ8mhxnyFW1tXcw: "Fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: "Landscape Portrait",
     PNqixjKURbiouk49_gYWCw: "Anime Style",
@@ -290,6 +311,7 @@ export const normalizedGeneratorMap = {
 }
 
 export const supplementalPromptMap = {
+    WLJaDqYkRha7lOu842K9Rg: " , pixel art, sRGB",
     DkCC2BfCQ8mhxnyFW1tXcw: ", fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: " , landscape portrait",
     PNqixjKURbiouk49_gYWCw: " , anime style",
@@ -322,6 +344,7 @@ export const sizeLockedGeneratorsSizeValue = {
 }
 
 export const sizeDisabledGenerators = [
+    scenarioGenerators.cozyCharacter,
     scenarioGenerators.assetDiffusion,
     scenarioGenerators.fantasyRpg,
     scenarioGenerators.animeStyle,
