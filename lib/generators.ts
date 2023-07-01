@@ -54,11 +54,13 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         placeholderInputText:
             "Ex. Enter a character or place you would like to see",
         examples: [
+            "cljkkdla80023ugebedpizogt",
             "cljkk7yam0018ugebase2gcrs",
             "cljkk7s020011ugebqu40wifm",
             "cljkk4kks000nugeb5miu0oz0",
             "cljkk4df3000hugebur15ngph",
             "cljkk38ct0003ugebwz9acl07",
+            "cljkkd95n001nugeb64wetvqr",
         ],
     },
     pixelBackground: {
