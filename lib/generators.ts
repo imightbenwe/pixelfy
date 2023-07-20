@@ -10,6 +10,7 @@ export type TScenarioModels =
     | "assetDiffusion"
     | "pixelBackground"
     | "cozyCharacter"
+    | "JRPGAdventure"
 // | "spriteGenerator"
 
 type TArtistInfo = {
@@ -59,6 +60,18 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "cljkkkk020001mm08a4fframn",
             "cljkkko5i0009mm082vkv7pme",
         ],
+    },
+    JRPGAdventure: {
+        id: "WMFVfL6ASISizG1T7X2NNw",
+        slug: "jrpg-adventure",
+        name: "JRPG Adventure",
+        description: "JRPG Adventure",
+        supplementalPrompt: "",
+        sizeLocked: false,
+        disabledSizes: ["32"],
+        placeholderInputText:
+            "Ex. Enter a JRPG character or place you would like to see",
+        examples: [],
     },
     pixelBackground: {
         id: "HTee5KEsSaSQt1JXmqctcQ",
@@ -307,6 +320,7 @@ export const normalizedGeneratorMap = {
     bBo4wjNsRPiBvVT1LR5cjQ: "32x32 Sprites",
     VklJ8PLtTpC_8z2p6fk2lg: "Asset Diffusion",
     HTee5KEsSaSQt1JXmqctcQ: "Pixel Background",
+    WMFVfL6ASISizG1T7X2NNw: "JRPG Adventure",
 }
 
 export const supplementalPromptMap = {
@@ -324,6 +338,7 @@ export const supplementalPromptMap = {
         " , 32x32 pixel art, sRGB, close up, full body, game asset, centered in frame",
     VklJ8PLtTpC_8z2p6fk2lg: ", pixel art",
     HTee5KEsSaSQt1JXmqctcQ: ", sRGB, pixel art, background, landscape",
+    WMFVfL6ASISizG1T7X2NNw: ", sRGB, pixel art",
 }
 
 export const sizeLockedGenerators = [
@@ -350,4 +365,5 @@ export const sizeDisabledGenerators = [
     scenarioGenerators.yoHokki,
     scenarioGenerators.landscapePortrait,
     scenarioGenerators.pixelBackground,
+    scenarioGenerators.JRPGAdventure,
 ]
