@@ -168,10 +168,10 @@ export const scenarioModelData: TScenarioModelIdsToData = {
     },
     animeStyle: {
         slug: "anime-style",
-        id: "PNqixjKURbiouk49_gYWCw",
-        name: "Anime Style",
-        description: "Anime style portrait art",
-        supplementalPrompt: " , anime style",
+        id: "YmyINMSST5-Ia8ZtsOAlXw",
+        name: "Anime Avatar",
+        description: "Anime Avatar portrait art",
+        supplementalPrompt: "",
         sizeLocked: false,
         disabledSizes: ["32"],
         placeholderInputText: "Ex. Cyberpunk hacker, anime style",
@@ -296,12 +296,13 @@ export const scenarioGenerators: TScenarioModelsToIds = {
     cozyCharacter: "WLJaDqYkRha7lOu842K9Rg",
     fantasyRpg: "DkCC2BfCQ8mhxnyFW1tXcw",
     landscapePortrait: "BnhDXzIrQxWk1c0bWe73_w",
-    animeStyle: "PNqixjKURbiouk49_gYWCw",
+    animeStyle: "YmyINMSST5-Ia8ZtsOAlXw",
     pixelPortrait: "Zk4dmsnVQJ6x02F9IZfXhA",
     skillArt: "VB8yd1LaRsinkQMZuFoupg",
     yoHokki: "Q36HbYy1T2WdsjkfQp3MoA",
     assetDiffusion: "VklJ8PLtTpC_8z2p6fk2lg",
     pixelBackground: "HTee5KEsSaSQt1JXmqctcQ",
+    JRPGAdventure: "WMFVfL6ASISizG1T7X2NNw",
     // spriteGenerator: "bBo4wjNsRPiBvVT1LR5cjQ",
 }
 
@@ -313,7 +314,7 @@ export const normalizedGeneratorMap = {
     WLJaDqYkRha7lOu842K9Rg: "Cozy Character",
     DkCC2BfCQ8mhxnyFW1tXcw: "Fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: "Landscape Portrait",
-    PNqixjKURbiouk49_gYWCw: "Anime Style",
+    "YmyINMSST5-Ia8ZtsOAlXw": "Anime Avatar",
     Zk4dmsnVQJ6x02F9IZfXhA: "16x16 Pixel Portrait",
     VB8yd1LaRsinkQMZuFoupg: "32x32 Skill Art",
     Q36HbYy1T2WdsjkfQp3MoA: "Yo-Hokki Style",
@@ -327,7 +328,7 @@ export const supplementalPromptMap = {
     WLJaDqYkRha7lOu842K9Rg: " , pixel art, sRGB",
     DkCC2BfCQ8mhxnyFW1tXcw: ", fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: " , landscape portrait",
-    PNqixjKURbiouk49_gYWCw: " , anime style",
+    "YmyINMSST5-Ia8ZtsOAlXw": ", pixel art, sRGB",
     Zk4dmsnVQJ6x02F9IZfXhA:
         " , game icon, 16x16, pixel art, close up, portrait",
     VB8yd1LaRsinkQMZuFoupg:
