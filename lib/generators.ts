@@ -71,7 +71,12 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         disabledSizes: ["32"],
         placeholderInputText:
             "Ex. Enter a JRPG character or place you would like to see",
-        examples: [],
+        examples: [
+            "clkalk87q000dl20811mt307e",
+            "clkalj1wb0004l208b4wdklca",
+            "clkalnq2w000gla08kmqc6uo3",
+            "clkalna0s0003la08ca8tzxm8",
+        ],
     },
     pixelBackground: {
         id: "HTee5KEsSaSQt1JXmqctcQ",
