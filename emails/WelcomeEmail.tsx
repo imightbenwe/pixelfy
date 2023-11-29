@@ -70,15 +70,6 @@ export default function WelcomeEmail({ name }: { name?: string }) {
                                     Twitter
                                 </a>
                             </MjmlText>
-                            <MjmlText cssClass="li">
-                                •&nbsp;&nbsp;Check out{" "}
-                                <a
-                                    href="https://app.scenario.com/?ref=pixelfy"
-                                    target="_blank"
-                                >
-                                    Scenario
-                                </a>{" "}which Hackreels is powered by.
-                            </MjmlText>
                             <MjmlText cssClass="paragraph">
                                 Let me know if you have any questions or
                                 feedback. I'm always happy to help!
