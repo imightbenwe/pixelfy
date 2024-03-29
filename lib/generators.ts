@@ -11,6 +11,8 @@ export type TScenarioModels =
     | "pixelBackground"
     | "cozyCharacter"
     | "JRPGAdventure"
+    | "blockyCartoon"
+// | "detailedIcons"
 // | "spriteGenerator"
 
 type TArtistInfo = {
@@ -44,6 +46,22 @@ export type TScenarioModelsToIds = {
 }
 
 export const scenarioModelData: TScenarioModelIdsToData = {
+    blockyCartoon: {
+        id: "F2cGg1OYRn-DnHkhhiZViw",
+        slug: "blocky-cartoon",
+        name: "Blocky Cartoon",
+        description: "Blocky Cartoon",
+        supplementalPrompt: "",
+        sizeLocked: false,
+        disabledSizes: ["32"],
+        placeholderInputText: "Ex. Enter a character or place you would like to see",
+        examples: [
+            "clud21y92000fuglac0cv3s8x",
+            "clud20ba60005ugla0v1mdt6c",
+            "clud22zrw000wuglamwq8q2hn"
+        ]
+
+    },
     cozyCharacter: {
         id: "WLJaDqYkRha7lOu842K9Rg",
         slug: "cozy-world-builder",
@@ -61,6 +79,22 @@ export const scenarioModelData: TScenarioModelIdsToData = {
             "cljkkko5i0009mm082vkv7pme",
         ],
     },
+    // detailedIcons: {
+    //     id: "purple-moose",
+    //     slug: "detailed-icons",
+    //     name: "Detailed Icons",
+    //     description: "Detailed Icons",
+    //     supplementalPrompt: "",
+    //     sizeLocked: false,
+    //     disabledSizes: ["32"],
+    //     placeholderInputText: "Ex. Enter a detailed icon you would like to see",
+    //     examples: [
+    //         "clud29km7001puglal99tkgvw",
+    //         "clud29btw001hugla96sn8pca",
+    //         "clud29t8m001vuglac4rbi0lq"
+    //     ]
+
+    // },
     JRPGAdventure: {
         id: "WMFVfL6ASISizG1T7X2NNw",
         slug: "jrpg-adventure",
@@ -298,6 +332,8 @@ export const findMatchingStyleFromModelId = (
 }
 
 export const scenarioGenerators: TScenarioModelsToIds = {
+    // detailedIcons: "purple-moose",
+    blockyCartoon: "F2cGg1OYRn-DnHkhhiZViw",
     cozyCharacter: "WLJaDqYkRha7lOu842K9Rg",
     fantasyRpg: "DkCC2BfCQ8mhxnyFW1tXcw",
     landscapePortrait: "BnhDXzIrQxWk1c0bWe73_w",
@@ -316,6 +352,8 @@ type TNormalizedGeneratorNameMap = {
 }
 
 export const normalizedGeneratorMap = {
+    "purple-moose": "Detailed Icons",
+    "F2cGg1OYRn-DnHkhhiZViw": "Blocky Cartoon",
     WLJaDqYkRha7lOu842K9Rg: "Cozy Character",
     DkCC2BfCQ8mhxnyFW1tXcw: "Fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: "Landscape Portrait",
@@ -330,6 +368,8 @@ export const normalizedGeneratorMap = {
 }
 
 export const supplementalPromptMap = {
+    "purple-moose": ", pixel art, sRGB",
+    "F2cGg1OYRn-DnHkhhiZViw": ", pixel art, sRGB",
     WLJaDqYkRha7lOu842K9Rg: " , pixel art, sRGB",
     DkCC2BfCQ8mhxnyFW1tXcw: ", fantasy RPG",
     BnhDXzIrQxWk1c0bWe73_w: " , landscape portrait",
@@ -364,6 +404,7 @@ export const sizeLockedGeneratorsSizeValue = {
 }
 
 export const sizeDisabledGenerators = [
+    scenarioGenerators.blockyCartoon,
     scenarioGenerators.cozyCharacter,
     scenarioGenerators.assetDiffusion,
     scenarioGenerators.fantasyRpg,
