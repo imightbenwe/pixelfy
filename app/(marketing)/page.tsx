@@ -145,10 +145,10 @@ export default async function IndexPage() {
                         <div className="inline-flex items-center text-sm gap-2 mt-4">
                             <div className="flex">
                                 {recentUsers?.map((user) => (
-                                    <div className="rounded-full border-2 border-background -ml-2">
+                                    <div key={user.id} className="rounded-full border-2 border-background -ml-2">
                                         {user?.image && user?.name && (
                                             <Image
-                                                key={user.id}
+
                                                 src={user?.image}
                                                 alt={user?.name}
                                                 width={24}
