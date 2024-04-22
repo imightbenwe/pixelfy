@@ -6,6 +6,7 @@ const nextConfig = {
             "avatars.githubusercontent.com",
             "cdn.cloud.scenario.com",
             "jpxwqgklwwytoznbpbmn.supabase.co",
+            "lh3.googleusercontent.com"
         ],
     },
     experimental: {
