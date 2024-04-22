@@ -21,7 +21,6 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-
 export const revalidate = 60
 
 async function getImageGenerations() {
@@ -103,70 +102,153 @@ export default async function IndexPage() {
 
     return (
         <>
-            <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
-                <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-                    {imageGenerations && (
-                        <Badge variant="secondary">
-                            {imageGenerations.toLocaleString()} images generated
-                            and counting!
-                        </Badge>
-                    )}
-                    <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-                        Generate high-quality pixel art with Artificial
-                        Intelligence
-                    </h1>
-                    <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-                        Pixelfy is a tool that harnesses bleeding-edge AI models
-                        to generate professional pixel art images for your
-                        creative projects
-                    </p>
-                    <div className="space-x-4">
-                        <Link
-                            href="/login"
-                            className={cn(buttonVariants({ size: "lg" }))}
+            <div className="bg-background">
+                <main>
+                    <div className="relative isolate">
+                        <svg
+                            className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-secondary [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
+                            aria-hidden="true"
                         >
-                            Get started
-                        </Link>
-                        <Link
-                            href={siteConfig.links.github}
-                            target="_blank"
-                            rel="noreferrer"
-                            className={cn(
-                                buttonVariants({
-                                    variant: "outline",
-                                    size: "lg",
-                                })
-                            )}
-                        >
-                            GitHub
-                        </Link>
-                    </div>
-                    {userCount && (
-                        <div className="inline-flex items-center text-sm gap-2 mt-4">
-                            <div className="flex">
-                                {recentUsers?.map((user) => (
-                                    <div key={user.id} className="rounded-full border-2 border-background -ml-2">
-                                        {user?.image && user?.name && (
-                                            <Image
+                            <defs>
+                                <pattern
+                                    id="1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84"
+                                    width={200}
+                                    height={200}
+                                    x="50%"
+                                    y={-1}
+                                    patternUnits="userSpaceOnUse"
+                                >
+                                    <path d="M.5 200V.5H200" fill="none" />
+                                </pattern>
+                            </defs>
+                            <svg x="50%" y={-1} className="overflow-visible fill-secondary">
+                                <path
+                                    d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
+                                    strokeWidth={0}
+                                />
+                            </svg>
+                            <rect width="100%" height="100%" strokeWidth={0} fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)" />
+                        </svg>
 
-                                                src={user?.image}
-                                                alt={user?.name}
-                                                width={24}
-                                                height={24}
-                                                className="rounded-full"
-                                            />
+                        <div className="overflow-hidden">
+                            <div className="mx-auto max-w-7xl px-6 pb-32 pt-12 sm:pt-24 lg:px-8 lg:pt-24">
+                                <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
+                                    <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
+                                        {imageGenerations && (
+                                            <Badge variant="secondary">
+                                                {imageGenerations.toLocaleString()} images generated
+                                                and counting!
+                                            </Badge>
+                                        )}
+                                        <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-6xl mt-4">
+                                            Generate high-quality pixel art with Artificial
+                                            Intelligence
+                                        </h1>
+                                        <p className="mt-6 text-lg leading-8 text-muted-foreground sm:max-w-md lg:max-w-none">
+                                            Pixelfy is a tool that harnesses bleeding-edge AI models
+                                            to generate professional pixel art images for your
+                                            creative projects
+                                        </p>
+                                        <div className="mt-10 flex items-center gap-x-6">
+                                            <Link
+                                                href="/login"
+                                                className={cn(buttonVariants({ size: "lg" }))}
+                                            >
+                                                Get started
+                                            </Link>
+                                            <Link
+                                                href={siteConfig.links.github}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className={cn(
+                                                    buttonVariants({
+                                                        variant: "outline",
+                                                        size: "lg",
+                                                    })
+                                                )}
+                                            >
+                                                GitHub
+                                            </Link>
+                                        </div>
+                                        {userCount && (
+                                            <div className="inline-flex items-center text-sm gap-2 mt-8">
+                                                <div className="flex">
+                                                    {recentUsers?.map((user) => (
+                                                        <div key={user.id} className="rounded-full border-2 border-background -ml-2">
+                                                            {user?.image && user?.name && (
+                                                                <Image
+
+                                                                    src={user?.image}
+                                                                    alt={user?.name}
+                                                                    width={24}
+                                                                    height={24}
+                                                                    className="rounded-full"
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <span>
+                                                    Loved by {userCount.toLocaleString()} users worldwide!
+                                                </span>
+
+                                            </div>
                                         )}
                                     </div>
-                                ))}
+                                    <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
+                                        <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
+                                            <div className="relative">
+                                                <img
+                                                    src="https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/a5881cef-c30d-41ad-b50c-fb616628121b.png"
+                                                    alt=""
+                                                    className="aspect-[1/1] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                />
+                                                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                                            </div>
+                                        </div>
+                                        <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
+                                            <div className="relative">
+                                                <img
+                                                    src="https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/08c119d8-5053-4f9e-9c92-a3cff27bd3b0.png"
+                                                    alt=""
+                                                    className="aspect-[1/1] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                />
+                                                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                                            </div>
+                                            <div className="relative">
+                                                <img
+                                                    src="https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/01d4a74b-fd5e-403b-97bd-2a7d0f46a434.png"
+                                                    alt=""
+                                                    className="aspect-[1/1] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                />
+                                                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                                            </div>
+                                        </div>
+                                        <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
+                                            <div className="relative">
+                                                <img
+                                                    src="https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/44df07bb-b104-4f2d-9a12-50829d48ec1a.png"
+                                                    alt=""
+                                                    className="aspect-[1/1] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                />
+                                                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                                            </div>
+                                            <div className="relative">
+                                                <img
+                                                    src="https://jpxwqgklwwytoznbpbmn.supabase.co/storage/v1/object/public/pixelated/56312fac-a1bb-490e-a1b9-069f3fc1b88c.png"
+                                                    alt=""
+                                                    className="aspect-[1/1] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                />
+                                                <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <span>
-                                Loved by {userCount.toLocaleString()} users worldwide!
-                            </span>
-
                         </div>
-                    )}
-                </div>
-            </section>
+                    </div>
+                </main>
+            </div>
             <section
                 id="examples"
                 className="container space-y-6 py-8 dark:bg-transparent md:py-12 lg:py-24"
