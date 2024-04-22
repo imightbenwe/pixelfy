@@ -31,8 +31,39 @@ async function getImageGenerations() {
         return null
     }
 }
+
+async function getUserCount() {
+    try {
+        return (await db.user.count()).toLocaleString()
+    } catch (error) {
+        return null
+    }
+}
+
+async function getRecentUsers() {
+    try {
+        return await db.user.findMany({
+            where: {
+                image: {
+                    not: null
+                },
+                name: {
+                    not: null
+                }
+            },
+            take: 5,
+            orderBy: { createdAt: "desc" },
+        })
+    } catch (error) {
+        return null
+    }
+}
 export default async function IndexPage() {
-    const imageGenerations = await getImageGenerations()
+    const [imageGenerations, userCount, recentUsers] = await Promise.all([
+        getImageGenerations(),
+        getUserCount(),
+        getRecentUsers(),
+    ])
 
     const featuredCardData = [
         {
@@ -110,6 +141,30 @@ export default async function IndexPage() {
                             GitHub
                         </Link>
                     </div>
+                    {userCount && (
+                        <div className="inline-flex items-center text-sm gap-2 mt-4">
+                            <div className="flex">
+                                {recentUsers?.map((user) => (
+                                    <div className="rounded-full border-2 border-background -ml-2">
+                                        {user?.image && user?.name && (
+                                            <Image
+                                                key={user.id}
+                                                src={user?.image}
+                                                alt={user?.name}
+                                                width={24}
+                                                height={24}
+                                                className="rounded-full"
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                            <span>
+                                Loved by {userCount.toLocaleString()} users worldwide!
+                            </span>
+
+                        </div>
+                    )}
                 </div>
             </section>
             <section
@@ -167,7 +222,7 @@ export default async function IndexPage() {
                     <h2 className="font-heading text-xl leading-[1.1] sm:text-xl md:text-4xl my-4">
                         And many more
                     </h2>
-                    <Link href="/examples/pixel-background">
+                    <Link href="/examples/pixel-blender">
                         <Button>View more examples</Button>
                     </Link>
                 </div>
