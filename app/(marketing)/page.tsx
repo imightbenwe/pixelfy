@@ -222,7 +222,7 @@ export default async function IndexPage() {
                     <h2 className="font-heading text-xl leading-[1.1] sm:text-xl md:text-4xl my-4">
                         And many more
                     </h2>
-                    <Link href="/examples/pixel-blender">
+                    <Link href="/examples/blocky-cartoon">
                         <Button>View more examples</Button>
                     </Link>
                 </div>
