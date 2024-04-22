@@ -15,9 +15,8 @@ import { cn } from "@/lib/utils"
 import {
     FileInput,
     FileMinus,
-    Save,
-    SlidersHorizontal,
     Palette,
+    SlidersHorizontal
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
