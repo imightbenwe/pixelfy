@@ -275,8 +275,6 @@ export async function GET(
                     },
                 })
 
-                console.log("outputImages", outputImages)
-
                 return new Response(
                     JSON.stringify({
                         ...jobProgress,
