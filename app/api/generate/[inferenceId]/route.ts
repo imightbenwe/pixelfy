@@ -236,6 +236,7 @@ export async function GET(
                             scenarioImageId: assetId,
                             seed: "seed",
                             image: pixelatedImages[index].publicUrl,
+                            url: pixelatedImages[index].publicUrl,
                             pixelated: pixelatedImages[index].publicUrl,
                         }
                     }
