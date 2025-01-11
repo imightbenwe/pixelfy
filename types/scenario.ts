@@ -1,7 +1,36 @@
 import { Generation, OutputImage } from "@prisma/client"
 
 export interface ScenarioInferenceResponse {
-    inference: Inference
+    job: Job
+}
+
+export interface Job {
+    jobId: string
+    jobType: string
+    metadata: JobMetadata
+    ownerId: string
+    authorId: string
+    createdAt: string
+    updatedAt: string
+    status: string
+    statusHistory: StatusHistoryItem[]
+    progress: number
+}
+
+export interface JobMetadata {
+    baseModelId: string
+    inferenceId: string
+    input: any // You might want to type this more specifically
+    modelId: string
+    modelType: string
+    priority: number
+    assetIds: string[]
+}
+
+export interface StatusHistoryItem {
+    // Add specific fields based on your needs
+    status?: string
+    timestamp?: string
 }
 
 export interface Inference {

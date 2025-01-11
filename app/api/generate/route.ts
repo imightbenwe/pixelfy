@@ -74,38 +74,36 @@ export async function POST(req: Request) {
             )
         }
 
-        const generation: ScenarioInferenceResponse = await fetch(
-            `https://api.cloud.scenario.com/v1/models/${parameters.modelId}/inferences`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Basic ${scenarioAuthToken}`,
-                },
-                body: JSON.stringify({
-                    parameters: {
-                        enableSafetyCheck: false,
-                        type: parameters?.referenceImage
-                            ? "img2img"
-                            : "txt2img",
-                        prompt: `${parameters.prompt} ${
-                            supplementalPromptMap[parameters.modelId]
-                        }`,
-                        negativePrompt: "trading cards, cards",
-                        numInferenceSteps: 30,
-                        guidance: parameters.guidance,
-                        width: 512,
-                        height: 512,
-                        numSamples: parameters.numImages,
-                        image: parameters?.referenceImage ?? undefined,
-                        modality: modalityMap[parameters.modelId] ?? undefined,
-                        strength: parameters?.referenceImage
-                            ? (100 - parameters?.influence) / 100
-                            : undefined,
-                    },
+        const endpoint = parameters?.referenceImage
+            ? "https://api.cloud.scenario.com/v1/generate/img2img"
+            : "https://api.cloud.scenario.com/v1/generate/txt2img"
+
+        const generation: ScenarioInferenceResponse = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${scenarioAuthToken}`,
+            },
+            body: JSON.stringify({
+                modelId: parameters.modelId,
+                prompt: `${parameters.prompt} ${supplementalPromptMap[parameters.modelId]
+                    }`,
+                negativePrompt: "trading cards, cards",
+                numInferenceSteps: 30,
+                guidance: parameters.guidance,
+                width: 512,
+                height: 512,
+                numSamples: parameters.numImages,
+                ...(parameters?.referenceImage && {
+                    image: parameters.referenceImage,
+                    strength: (100 - parameters?.influence) / 100,
                 }),
-            }
-        ).then((res) => res.json())
+                ...(modalityMap[parameters.modelId] && {
+                    modality: modalityMap[parameters.modelId],
+                }),
+            }),
+        }).then((res) => res.json())
+
 
         await db.generation.create({
             data: {

@@ -135,9 +135,8 @@ export function GenerationForm({
 
         Base the entire prompt on this context: ${getValues(
             "prompt"
-        )} making sure to keep the style in mind which is: ${
-            supplementalPromptMap[modelId]
-        }`
+        )} making sure to keep the style in mind which is: ${supplementalPromptMap[modelId]
+            }`
 
         const response = await fetch("/api/generate/prompt-generate", {
             method: "POST",
@@ -246,7 +245,7 @@ export function GenerationForm({
                 ...prev,
                 {
                     guidance: guidance[0],
-                    inferenceId: responseData.inference.id,
+                    inferenceId: responseData.job.jobId,
                     modelId,
                     prompt: data.prompt,
                     numImages,
@@ -393,13 +392,13 @@ export function GenerationForm({
                                                                                         key as keyof typeof scenarioGenerators
                                                                                     ]
                                                                                         .featuredArtist && (
-                                                                                        <div className="inline-flex items-center ml-2">
-                                                                                            <Badge variant="secondary">
-                                                                                                Featured
-                                                                                                artist
-                                                                                            </Badge>
-                                                                                        </div>
-                                                                                    )}
+                                                                                            <div className="inline-flex items-center ml-2">
+                                                                                                <Badge variant="secondary">
+                                                                                                    Featured
+                                                                                                    artist
+                                                                                                </Badge>
+                                                                                            </div>
+                                                                                        )}
                                                                                 </SelectItem>
                                                                             )
                                                                         }
