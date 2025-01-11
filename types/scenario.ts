@@ -43,7 +43,7 @@ export interface Inference {
     createdAt: string
     parameters: InferenceParameters
     status: string
-    images: InferenceImage[]
+    images: ScenarioImage[]
     imagesNumber: number
     displayPrompt: string
 }
@@ -81,7 +81,7 @@ export interface ScenarioInferenceProgress {
     authorId: string
     modelId: string
     createdAt: string
-    parameters: Parameters
+    parameters: InferenceParameters
     status: string
     images: ScenarioImage[]
     imagesNumber: number
