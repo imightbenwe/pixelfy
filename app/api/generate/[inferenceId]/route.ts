@@ -39,8 +39,6 @@ export const uploadImage = async (base64String: string) => {
                 upsert: false,
             })
 
-        console.log("upload", upload)
-
         if (error) {
             console.error('Supabase upload error:', error);
             throw new Error(error.message)
@@ -50,8 +48,6 @@ export const uploadImage = async (base64String: string) => {
             .from("pixelated")
             .getPublicUrl(`${uuid}.png`)
 
-
-        console.log("urlData", urlData)
 
         // Return an object with publicUrl property to match expected structure
         return { publicUrl: urlData.publicUrl }
@@ -115,7 +111,6 @@ export const pixelateImageScenario = async ({
 }
 
 async function urlToBase64(url: string) {
-    console.log(url)
     const response = await fetch(url);
     const buffer = await response.arrayBuffer();
     return `data:image/png;base64,${Buffer.from(buffer).toString('base64')}`;
@@ -210,7 +205,6 @@ export async function GET(
                             // If it's a response from scenario API
                             if (imageResponse?.url) {
                                 const base64Data = await urlToBase64(imageResponse.url);
-                                console.log("base64Data", base64Data)
                                 return uploadImage(base64Data);
                             }
                             console.error('Invalid imageResponse:', imageResponse);
