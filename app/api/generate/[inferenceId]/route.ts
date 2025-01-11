@@ -110,7 +110,6 @@ export const pixelateImageScenario = async ({
     const pixelateData: ScenarioPixelateResponse = await pixelateResponse.json()
 
 
-    console.log("pixelate data response", pixelateData)
     // @ts-ignore
     return pixelateData.asset
 }
@@ -153,11 +152,9 @@ export async function GET(
             }
         ).then((res) => res.json())
 
-        console.log(jobProgress)
 
         // If the job was successful, process the images and update credits
         if (jobProgress.job.status === "success") {
-            console.log("Job success")
             // Wrap this in try-catch since findUniqueOrThrow can fail
             try {
                 const generation = await db.generation.findUniqueOrThrow({
@@ -171,8 +168,6 @@ export async function GET(
                         outputImages: true,
                     },
                 })
-
-                console.log("generateion jere", generation)
 
                 // If already processed, return existing output images
                 if (generation.status === "COMPLETE") {
@@ -227,8 +222,6 @@ export async function GET(
                     })
                 )
 
-                console.log("pixelateImages", pixelatedImages)
-                console.log("jobProgress.job.metadata.assetIds", jobProgress.job.metadata.assetIds)
 
                 const imagesWithPixelated = jobProgress.job.metadata.assetIds.map(
                     (assetId, index) => {
@@ -242,8 +235,6 @@ export async function GET(
                     }
                 )
 
-                console.log("imagesWithPixelated", imagesWithPixelated)
-                console.log("generation", generation)
 
                 await db.$transaction([
                     db.user.update({

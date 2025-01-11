@@ -1,6 +1,7 @@
 import { Generation, OutputImage } from "@prisma/client"
 
 export interface ScenarioInferenceResponse {
+    inference: Inference
     job: Job
 }
 
@@ -40,23 +41,32 @@ export interface Inference {
     authorId: string
     modelId: string
     createdAt: string
-    parameters: Parameters
+    parameters: InferenceParameters
     status: string
-    images: any[]
+    images: InferenceImage[]
     imagesNumber: number
     displayPrompt: string
 }
 
-export interface Parameters {
+export interface InferenceParameters {
     numSamples: number
     guidance: number
     numInferenceSteps: number
-    enableSafetyCheck: boolean
     width: number
     height: number
     type: string
     prompt: string
-    strength: number
+    negativePrompt?: string
+    strength?: number
+    modality?: string
+    image?: string
+}
+
+export interface InferenceImage {
+    id: string
+    url: string
+    seed: string
+    pixelated?: string
 }
 
 export interface ScenarioInferenceProgressResponse {

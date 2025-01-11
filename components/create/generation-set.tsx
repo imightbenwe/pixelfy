@@ -85,8 +85,9 @@ export const GenerationSet = ({
                         jsonResponse?.outputImages
                     ) {
                         generatedImages = jsonResponse.outputImages
-
-                        setImages(generatedImages)
+                        if (generatedImages) {
+                            setImages(generatedImages)
+                        }
                     } else if (jsonResponse.job?.status === "failed") {
                         toast({
                             title: "Generation failed",
