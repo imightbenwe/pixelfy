@@ -64,9 +64,9 @@ export const GenerationSet = ({
                 let secondCount = 0
                 let showedPatienceModal = false
                 setIsSaving(true)
+
                 while (!generatedImages) {
-                    // Loop in 1s intervals until the alt text is ready
-                    let finalResponse = await fetch(
+                    const response = await fetch(
                         `/api/generate/${inferenceId}?modelId=${modelId}`,
                         {
                             method: "GET",
@@ -76,19 +76,24 @@ export const GenerationSet = ({
                             signal: controller.signal,
                         }
                     )
-                    let jsonFinalResponse: ScenarioInferenceProgressResponse =
-                        await finalResponse.json()
-                    setProgress(jsonFinalResponse.inference.progress)
+                    const jsonResponse = await response.json()
+
+                    setProgress(jsonResponse.job?.progress || 0)
 
                     if (
-                        jsonFinalResponse.inference.status === "succeeded" &&
-                        jsonFinalResponse?.outputImages
+                        jsonResponse.job?.status === "success" &&
+                        jsonResponse?.outputImages
                     ) {
-                        generatedImages = jsonFinalResponse.outputImages
-                        setImages(generatedImages)
-                    } else if (
-                        jsonFinalResponse.inference.status === "failed"
-                    ) {
+                        generatedImages = jsonResponse.outputImages
+                        if (generatedImages) {
+                            setImages(generatedImages)
+                        }
+                    } else if (jsonResponse.job?.status === "failed") {
+                        toast({
+                            title: "Generation failed",
+                            description: "Please try again",
+                            variant: "destructive",
+                        })
                         break
                     } else {
                         if (secondCount >= 60 && !showedPatienceModal) {
@@ -101,15 +106,18 @@ export const GenerationSet = ({
                             showedPatienceModal = true
                         }
                         secondCount++
-                        await new Promise((resolve) =>
-                            setTimeout(resolve, 1000)
-                        )
+                        await new Promise((resolve) => setTimeout(resolve, 1000))
                     }
                 }
                 setIsSaving(false)
                 router.refresh()
             } catch (e) {
                 console.log(e)
+                toast({
+                    title: "Something went wrong",
+                    description: "Please try again",
+                    variant: "destructive",
+                })
             }
         }
 

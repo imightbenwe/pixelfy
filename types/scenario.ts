@@ -2,6 +2,36 @@ import { Generation, OutputImage } from "@prisma/client"
 
 export interface ScenarioInferenceResponse {
     inference: Inference
+    job: Job
+}
+
+export interface Job {
+    jobId: string
+    jobType: string
+    metadata: JobMetadata
+    ownerId: string
+    authorId: string
+    createdAt: string
+    updatedAt: string
+    status: string
+    statusHistory: StatusHistoryItem[]
+    progress: number
+}
+
+export interface JobMetadata {
+    baseModelId: string
+    inferenceId: string
+    input: any // You might want to type this more specifically
+    modelId: string
+    modelType: string
+    priority: number
+    assetIds: string[]
+}
+
+export interface StatusHistoryItem {
+    // Add specific fields based on your needs
+    status?: string
+    timestamp?: string
 }
 
 export interface Inference {
@@ -11,23 +41,32 @@ export interface Inference {
     authorId: string
     modelId: string
     createdAt: string
-    parameters: Parameters
+    parameters: InferenceParameters
     status: string
-    images: any[]
+    images: ScenarioImage[]
     imagesNumber: number
     displayPrompt: string
 }
 
-export interface Parameters {
+export interface InferenceParameters {
     numSamples: number
     guidance: number
     numInferenceSteps: number
-    enableSafetyCheck: boolean
     width: number
     height: number
     type: string
     prompt: string
-    strength: number
+    negativePrompt?: string
+    strength?: number
+    modality?: string
+    image?: string
+}
+
+export interface InferenceImage {
+    id: string
+    url: string
+    seed: string
+    pixelated?: string
 }
 
 export interface ScenarioInferenceProgressResponse {
@@ -42,7 +81,7 @@ export interface ScenarioInferenceProgress {
     authorId: string
     modelId: string
     createdAt: string
-    parameters: Parameters
+    parameters: InferenceParameters
     status: string
     images: ScenarioImage[]
     imagesNumber: number
