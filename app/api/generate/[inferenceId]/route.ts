@@ -221,7 +221,7 @@ export async function GET(
                     (assetId, index) => {
                         return {
                             scenarioImageId: assetId,
-                            seed: Math.floor(Math.random() * 2147483647),
+                            seed: "image",
                             image: pixelatedImages[index].publicUrl,
                             url: pixelatedImages[index].publicUrl,
                             pixelated: pixelatedImages[index].publicUrl,
