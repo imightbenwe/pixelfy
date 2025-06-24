@@ -99,7 +99,7 @@ export function GenerationForm({
     const [showAdvancedOptions, setShowAdvancedOptions] =
         React.useState<boolean>(false)
     const [modelId, setModelId] = React.useState<string>(
-        scenarioGenerators.cozyCharacter
+        scenarioGenerators.gptImageOne
     )
     const [gridSize, setGridSize] = React.useState<string>("8")
     const [numImages, setNumImages] = React.useState<string>("4")
@@ -515,50 +515,7 @@ export function GenerationForm({
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="grid grid-cols-1 lg:grid-cols-2 w-full items-center gap-4 mt-8">
-                                                <div className="lg:max-w-sm ">
-                                                    <Label htmlFor="picture">
-                                                        Reference image
-                                                        (optional)
-                                                    </Label>
-                                                    <Input
-                                                        accept="image/*"
-                                                        onChange={async (e) => {
-                                                            if (
-                                                                e?.target?.files
-                                                            ) {
-                                                                const file =
-                                                                    e.target
-                                                                        .files[0]
 
-                                                                const base64 =
-                                                                    await convertBase64(
-                                                                        file
-                                                                    )
-
-                                                                setReferenceImage(
-                                                                    base64
-                                                                )
-                                                            }
-                                                        }}
-                                                        id="picture"
-                                                        type="file"
-                                                    />
-                                                </div>
-                                                {referenceImage && (
-                                                    <div>
-                                                        <ImageInfluencerSlider
-                                                            value={
-                                                                referenceImageInfluence
-                                                            }
-                                                            onValueChange={
-                                                                setReferenceImageInfluence
-                                                            }
-                                                            defaultValue={[25]}
-                                                        />
-                                                    </div>
-                                                )}
-                                            </div>
                                             <div className="grid gap-1 mt-8 lg:mt-8 relative">
                                                 <Label htmlFor="name">
                                                     Prompt

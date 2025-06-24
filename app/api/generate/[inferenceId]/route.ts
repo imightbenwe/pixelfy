@@ -97,6 +97,7 @@ export const pixelateImageScenario = async ({
 
 
     if (!pixelateResponse.ok) {
+
         return pixelateImage({
             remoteUrl,
             pixelSize: pixelGridSize,
@@ -111,7 +112,12 @@ export const pixelateImageScenario = async ({
 }
 
 async function urlToBase64(url: string) {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${scenarioAuthToken}`,
+        },
+    });
     const buffer = await response.arrayBuffer();
     return `data:image/png;base64,${Buffer.from(buffer).toString('base64')}`;
 }
@@ -151,11 +157,12 @@ export async function GET(
         // If the job was successful, process the images and update credits
         if (jobProgress.job.status === "success") {
             // Wrap this in try-catch since findUniqueOrThrow can fail
+
             try {
                 const generation = await db.generation.findUniqueOrThrow({
                     where: {
                         uniqueGeneration: {
-                            inferenceId: jobProgress.job.metadata.inferenceId,
+                            inferenceId: params.inferenceId,
                             modelId: modelId,
                         },
                     },
@@ -163,6 +170,7 @@ export async function GET(
                         outputImages: true,
                     },
                 })
+
 
                 // If already processed, return existing output images
                 if (generation.status === "COMPLETE") {

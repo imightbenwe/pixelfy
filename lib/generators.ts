@@ -1,6 +1,7 @@
 import { de } from "date-fns/locale"
 
 export type TScenarioModels =
+    | "gptImageOne"
     | "fantasyRpg"
     | "landscapePortrait"
     | "animeStyle"
@@ -46,6 +47,22 @@ export type TScenarioModelsToIds = {
 }
 
 export const scenarioModelData: TScenarioModelIdsToData = {
+    gptImageOne: {
+        id: "gpt-image-1-high",
+        slug: "gpt-image-one",
+        name: "GPT Image One",
+        description: "GPT Image One Generator",
+        supplementalPrompt: "",
+        sizeLocked: false,
+        disabledSizes: ["32"],
+        placeholderInputText: "Ex. Enter a character or place you would like to see",
+        examples: [
+            "clud21y92000fuglac0cv3s8x",
+            "clud20ba60005ugla0v1mdt6c",
+            "clud22zrw000wuglamwq8q2hn"
+        ]
+
+    },
     blockyCartoon: {
         id: "F2cGg1OYRn-DnHkhhiZViw",
         slug: "blocky-cartoon",
@@ -333,6 +350,7 @@ export const findMatchingStyleFromModelId = (
 
 export const scenarioGenerators: TScenarioModelsToIds = {
     // detailedIcons: "purple-moose",
+    gptImageOne: "gpt-image-1-high",
     blockyCartoon: "F2cGg1OYRn-DnHkhhiZViw",
     cozyCharacter: "WLJaDqYkRha7lOu842K9Rg",
     fantasyRpg: "DkCC2BfCQ8mhxnyFW1tXcw",
@@ -352,6 +370,7 @@ type TNormalizedGeneratorNameMap = {
 }
 
 export const normalizedGeneratorMap = {
+    gptImageOne: "GPT Image One",
     "purple-moose": "Detailed Icons",
     "F2cGg1OYRn-DnHkhhiZViw": "Blocky Cartoon",
     WLJaDqYkRha7lOu842K9Rg: "Cozy Character",
@@ -368,6 +387,7 @@ export const normalizedGeneratorMap = {
 }
 
 export const supplementalPromptMap = {
+    "gpt-image-1-high": ", sRGB, pixel art",
     "purple-moose": ", pixel art, sRGB",
     "F2cGg1OYRn-DnHkhhiZViw": ", pixel art, sRGB",
     WLJaDqYkRha7lOu842K9Rg: " , pixel art, sRGB",

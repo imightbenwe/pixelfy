@@ -28,7 +28,14 @@ export async function pixelateImage({
     remoteUrl,
     pixelSize = 8,
 }: TPixelateImage) {
-    const image = await Jimp.read(remoteUrl).then((image) =>
+    const imageFromScenario = await fetch(remoteUrl, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${scenarioAuthToken}`,
+        },
+    }).then((res) => res.json())
+
+    const image = await Jimp.read(imageFromScenario.asset.url).then((image) =>
         image.pixelate(pixelSize, 0, 0, 512, 512)
     )
 
@@ -38,7 +45,9 @@ export async function pixelateImage({
 const scenarioToken = process.env.SCENARIO_API_TOKEN as string
 const scenarioSecret = process.env.SCENARIO_SECRET as string
 
-export const scenarioAuthToken = `${btoa(`${scenarioToken}:${scenarioSecret}`)}`
+// export const scenarioAuthToken = `${btoa(`${scenarioToken}:${scenarioSecret}`)}`
+
+export const scenarioAuthToken = Buffer.from(`${scenarioToken}:${scenarioSecret}`).toString("base64");
 
 export function cleanSearchParams(urlSearchParams: URLSearchParams) {
     let cleanedParams = urlSearchParams

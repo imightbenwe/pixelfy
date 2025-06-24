@@ -78,6 +78,7 @@ export async function POST(req: Request) {
             ? "https://api.cloud.scenario.com/v1/generate/img2img"
             : "https://api.cloud.scenario.com/v1/generate/txt2img"
 
+
         const generation: ScenarioInferenceResponse = await fetch(endpoint, {
             method: "POST",
             headers: {
@@ -105,11 +106,12 @@ export async function POST(req: Request) {
         }).then((res) => res.json())
 
 
+
         await db.generation.create({
             data: {
                 prompt: parameters.prompt,
                 modelId: parameters.modelId,
-                inferenceId: generation.inference.id,
+                inferenceId: generation.job.jobId,
                 numSamples: generation.inference.parameters.numSamples,
                 numInferenceSteps:
                     generation.inference.parameters.numInferenceSteps,
