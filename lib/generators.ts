@@ -370,7 +370,7 @@ type TNormalizedGeneratorNameMap = {
 }
 
 export const normalizedGeneratorMap = {
-    gptImageOne: "GPT Image One",
+    "gpt-image-1-high": "GPT Image One",
     "purple-moose": "Detailed Icons",
     "F2cGg1OYRn-DnHkhhiZViw": "Blocky Cartoon",
     WLJaDqYkRha7lOu842K9Rg: "Cozy Character",
