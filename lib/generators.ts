@@ -57,9 +57,9 @@ export const scenarioModelData: TScenarioModelIdsToData = {
         disabledSizes: ["32"],
         placeholderInputText: "Ex. Enter a character or place you would like to see",
         examples: [
-            "clud21y92000fuglac0cv3s8x",
-            "clud20ba60005ugla0v1mdt6c",
-            "clud22zrw000wuglamwq8q2hn"
+            "cmc9xim1u000cju07ag1gizvj",
+            "cmc9x3tzu000b2grhkbmh95mt",
+            "cmc9xd74h000gjj07wi180bej"
         ]
 
     },
