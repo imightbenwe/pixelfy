@@ -36,16 +36,16 @@ export async function POST(req: Request) {
             case 1900:
             case 2000:
             case 3000:
-                creditAmount = 100
+                creditAmount = 10
                 break
             case 3500:
             case 5000:
-                creditAmount = 250
+                creditAmount = 25
                 break
             case 7000:
             case 7900:
             case 10000:
-                creditAmount = 750
+                creditAmount = 75
                 break
         }
 
