@@ -1,47 +1,28 @@
 // app/sitemap.ts
-import { db } from "@/lib/db"
-import { scenarioModelData } from "@/lib/generators"
+// Minimal, DB-free sitemap to stop prerender errors.
+// (No database calls, no external fetch — safe for Vercel build.)
+
 import type { MetadataRoute } from "next"
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
+function getBaseUrl() {
+  const raw =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.NEXTAUTH_URL ||
+    process.env.URL ||
+    process.env.VERCEL_URL ||
+    "http://localhost:3000"
+  return raw.startsWith("http") ? raw : `https://${raw}`
+}
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const images = await db.outputImage.findMany({
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  })
-
-  const examplesSitemapEntry = Object.keys(scenarioModelData).map((style) => {
-    return {
-      url: `https://pixelfy.ai/examples/${scenarioModelData[style].slug}`,
-      lastModified: new Date(),
-    }
-  })
-
-  const imageSitemapEntry = images.map((image) => {
-    return {
-      url: `https://pixelfy.ai/i/${image.id}`,
-      lastModified: image.updatedAt,
-    }
-  })
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = getBaseUrl()
+  const now = new Date()
 
   return [
-    {
-      url: "https://pixelfy.ai",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pixelfy.ai/tos",
-      lastModified: new Date(),
-    },
-    {
-      url: "https://pixelfy.ai/privacy-policy",
-      lastModified: new Date(),
-    },
-    ...examplesSitemapEntry,
-    ...imageSitemapEntry,
+    { url: `${base}/`, lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: `${base}/examples`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${base}/dashboard`, lastModified: now, changeFrequency: "weekly", priority: 0.5 },
+    { url: `${base}/tos`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ]
 }
