@@ -11,7 +11,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Account {
   id                String   @id @default(cuid())
   userId            String
@@ -25,14 +24,14 @@ model Account {
   scope             String?
   id_token          String?  @db.Text
   session_state     String?
-  createdAt         DateTime @default(now()) @map(name: "created_at")
-  updatedAt         DateTime @default(now()) @map(name: "updated_at")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
-  @@map(name: "accounts")
+  @@map("accounts")
 }
 
 model Session {
@@ -43,7 +42,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@map(name: "sessions")
+  @@map("sessions")
 }
 
 model User {
@@ -52,8 +51,8 @@ model User {
   email         String?      @unique
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime     @default(now()) @map(name: "created_at")
-  updatedAt     DateTime     @default(now()) @map(name: "updated_at")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @default(now()) @map("updated_at")
   purchases     Purchase[]
   accounts      Account[]
   sessions      Session[]
@@ -68,40 +67,40 @@ model User {
   feedbackCreditsGranted    Int @default(0)
   creditsEarnedViaReferrals Int @default(0)
 
-  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?   @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+  stripeCustomerId       String?   @unique @map("stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
+  stripePriceId          String?   @map("stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
 
   @@index([referredByUserId])
-  @@map(name: "users")
+  @@map("users")
 }
 
 model Generation {
-  id                String              @id @default(cuid())
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  id                String           @id @default(cuid())
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
   userId            String
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   modelId           String
   inferenceId       String
-  prompt            String              @db.LongText
+  prompt            String           @db.Text
   outputImages      OutputImage[]
   image             String?
   mask              String?
-  numInferenceSteps Int                 @default(50)
-  pixelSize         Int                 @default(8)
+  numInferenceSteps Int              @default(50)
+  pixelSize         Int              @default(8)
   modality          String?
   seed              String?
   strength          Float?
   negativePrompt    String?
-  guidance          Float?              @default(7.5)
-  numSamples        Int                 @default(4)
-  width             Int?                @default(512)
-  height            Int?                @default(512)
-  type              String?             @default("txt2img")
-  favorites         Int                 @default(0)
-  status            GENERATIONSTATUS    @default(PROCESSING)
+  guidance          Float?           @default(7.5)
+  numSamples        Int              @default(4)
+  width             Int?             @default(512)
+  height            Int?             @default(512)
+  type              String?          @default("txt2img")
+  favorites         Int              @default(0)
+  status            GENERATIONSTATUS @default(PROCESSING)
   feedback          GenerationFeedback?
 
   colorPaletteEnabled Boolean @default(false)
@@ -118,7 +117,7 @@ model GenerationFeedback {
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
   satisfaction GENERATIONSATISFCATION @default(NOOPINION)
-  comment      String                 @db.LongText
+  comment      String                 @db.Text
 
   generationId String     @unique
   generation   Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
@@ -140,12 +139,12 @@ enum GENERATIONSATISFCATION {
 model OutputImage {
   id              String     @id @default(cuid())
   scenarioImageId String
-  createdAt       DateTime   @default(now()) @map(name: "created_at")
-  updatedAt       DateTime   @default(now()) @map(name: "updated_at")
-  image           String     @db.LongText
-  pixelatedImage  String     @db.LongText
-  upscaledImage   String?    @db.LongText
-  seed            String     @db.LongText
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @default(now()) @map("updated_at")
+  image           String     @db.Text
+  pixelatedImage  String     @db.Text
+  upscaledImage   String?    @db.Text
+  seed            String     @db.Text
   generationId    String
   generation      Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
 
@@ -169,5 +168,5 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-  @@map(name: "verification_tokens")
+  @@map("verification_tokens")
 }
