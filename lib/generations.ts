@@ -4,7 +4,7 @@ import { db } from "./db"
 import { getCurrentUser } from "@/lib/session"
 import { cache } from "react"
 import "server-only"
-import { GenerationStatus } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
 const PAGE_SIZE = 20
 
@@ -22,11 +22,11 @@ export const getGenerationCount = cache(async ({ search }: TGenerationCount) => 
 
   return db.outputImage.count({
     where: {
-      // Filter through the related Generation using a relation filter
+      // relation filter: only images whose related Generation matches
       generation: {
         is: {
-          status: GenerationStatus.COMPLETE,
-          userId: user.id, // or: user: { is: { id: user.id } }
+          status: Prisma.$Enums.GenerationStatus.COMPLETE,
+          userId: user.id,
           ...(search
             ? {
                 prompt: {
@@ -58,8 +58,8 @@ export const getUserGenerations = cache(
       where: {
         generation: {
           is: {
-            status: GenerationStatus.COMPLETE,
-            userId: user.id, // or: user: { is: { id: user.id } }
+            status: Prisma.$Enums.GenerationStatus.COMPLETE,
+            userId: user.id,
             ...(search
               ? {
                   prompt: {
@@ -73,7 +73,7 @@ export const getUserGenerations = cache(
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
       include: {
-        // Only bring what the page needs so TS has `generation.prompt`
+        // Select only what the UI needs so TS knows `generation.prompt` exists
         generation: {
           select: { prompt: true },
         },
