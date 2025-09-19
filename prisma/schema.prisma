@@ -7,9 +7,15 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+
+  // Use POOL for runtime (serverless-friendly)
+  url       = env("DATABASE_URL")
+
+  // Use DIRECT for migrations/introspection (Prisma needs a direct Postgres port)
+  directUrl = env("DIRECT_DATABASE_URL")
 }
+
 
 model Account {
   id                String   @id @default(cuid())
