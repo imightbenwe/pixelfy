@@ -6,15 +6,16 @@
         "name": "David Parks",
         "url": "https://twitter.com/dparksdev"
     },
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "turbo": "next dev --turbo",
-        "start": "next start",
-        "lint": "next lint",
-        "preview": "next build && next start",
-        "postinstall": "prisma generate"
-    },
+"scripts": {
+  "dev": "next dev",
+  "build": "prisma db push && prisma generate && next build",
+  "turbo": "next dev --turbo",
+  "start": "next start",
+  "lint": "next lint",
+  "preview": "next build && next start",
+  "postinstall": "prisma generate"
+}
+
     "dependencies": {
         "@editorjs/code": "^2.8.0",
         "@editorjs/editorjs": "^2.26.5",
