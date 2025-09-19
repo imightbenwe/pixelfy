@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol", "fullTextSearch", "fullTextIndex"]
+  previewFeatures = ["jsonProtocol"] // removed fullText features (MySQL-only)
 }
 
 datasource db {
@@ -61,7 +61,7 @@ model User {
   usersReferred User[] @relation("ReferrerToUser")
 
   referredByUserId String?
-  referredByUser   User?   @relation("ReferrerToUser", fields: [referredByUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  referredByUser   User? @relation("ReferrerToUser", fields: [referredByUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   credits                   Int @default(0)
   feedbackCreditsGranted    Int @default(0)
@@ -109,7 +109,7 @@ model Generation {
   @@unique([inferenceId, modelId], name: "uniqueGeneration")
   @@index([userId])
   @@index([modelId])
-  @@fulltext([prompt])
+  @@index([prompt]) // replaced @@fulltext([prompt]) (MySQL-only) with a normal index
 }
 
 model GenerationFeedback {
