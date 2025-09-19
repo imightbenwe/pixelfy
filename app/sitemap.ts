@@ -1,8 +1,21 @@
 // app/sitemap.ts
-// Minimal, DB-free sitemap to stop prerender errors.
-// (No database calls, no external fetch — safe for Vercel build.)
+// Minimal, DB-free sitemap compatible with Next.js MetadataRoute.Sitemap
+// (Only url + lastModified are allowed here.)
 
 import type { MetadataRoute } from "next"
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = getBaseUrl()
+  const now = new Date()
+
+  return [
+    { url: `${base}/`, lastModified: now },
+    { url: `${base}/examples`, lastModified: now },
+    { url: `${base}/dashboard`, lastModified: now },
+    { url: `${base}/tos`, lastModified: now },
+    { url: `${base}/privacy-policy`, lastModified: now },
+  ]
+}
 
 function getBaseUrl() {
   const raw =
@@ -12,17 +25,4 @@ function getBaseUrl() {
     process.env.VERCEL_URL ||
     "http://localhost:3000"
   return raw.startsWith("http") ? raw : `https://${raw}`
-}
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = getBaseUrl()
-  const now = new Date()
-
-  return [
-    { url: `${base}/`, lastModified: now, changeFrequency: "daily", priority: 1 },
-    { url: `${base}/examples`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
-    { url: `${base}/dashboard`, lastModified: now, changeFrequency: "weekly", priority: 0.5 },
-    { url: `${base}/tos`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-  ]
 }
